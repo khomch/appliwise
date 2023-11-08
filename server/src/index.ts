@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import router from './router';
+import { prisma, prismaMain } from './models';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,5 +21,5 @@ app.get('/', (req: Request, res: Response) => {
 app.use(router);
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`🚀 Server running at http://localhost:${port}`);
 });
