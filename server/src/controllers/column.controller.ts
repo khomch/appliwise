@@ -28,10 +28,22 @@ const columnController = {
     }
   },
 
-  updateColumn: async (req: Request, res: Response) => {
+  addToColumn: async (req: Request, res: Response) => {
     try {
       const data = await columnModel.updateColumn(req.body);
       res.status(201);
+      res.json(data);
+    } catch (err) {
+      res.status(500);
+      res.send(err);
+      throw new Error('Error while posting');
+    }
+  },
+
+  getItemsInColumn: async (req: Request, res: Response) => {
+    try {
+      const data = await columnModel.getItemsInColumn(req.body);
+      res.status(200);
       res.json(data);
     } catch (err) {
       res.status(500);

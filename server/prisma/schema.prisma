@@ -30,9 +30,9 @@ model Board {
 
 model Column {
   id      String  @id @unique @default(cuid())
-  title   String
-  colNum  String
-  status  String
+  title   String  @unique
+  colNum  String  @unique
+  status  String  @unique
   items   Item[]
   Board   Board?  @relation(fields: [boardId], references: [id])
   boardId String?

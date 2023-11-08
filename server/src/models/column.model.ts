@@ -4,12 +4,6 @@ const columnModel = {
   getAll: async () => {
     try {
       const columns = await prisma.column.findMany();
-      const items = await prisma.item.findMany({
-        where: {
-          columnId: columns[0].id,
-        },
-      });
-      console.log('items: ', items);
       return columns;
     } catch (err) {
       console.log('err getAll:>> ', err);
@@ -38,7 +32,7 @@ const columnModel = {
         data: {
           Column: {
             connect: {
-              id: data.columnId,
+              status: data.status,
             },
           },
         },
@@ -47,7 +41,18 @@ const columnModel = {
     } catch (err) {
       console.log('err addToColumn:>> ', err);
     }
-    console.log('err postOne:>> ');
+  },
+  getItemsInColumn: async (data: Record<string, string | undefined>) => {
+    try {
+      const items = await prisma.item.findMany({
+        where: {
+          columnId: data.columnid,
+        },
+      });
+      return items;
+    } catch (err) {
+      console.log('err getItemsInColumn:>> ', err);
+    }
   },
 };
 

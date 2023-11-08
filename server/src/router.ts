@@ -8,11 +8,12 @@ router.get('/users', async (req, res) => {
   const allUsers = await prisma.user.findMany();
   res.send(allUsers);
 });
-router.get('/jobs', jobController.getAll);
-router.post('/jobs', jobController.create);
-router.post('/columns', columnController.create);
-router.get('/columns', columnController.getColumns);
-router.post('/columns/add', columnController.updateColumn);
+router.get('/job', jobController.getAll);
+router.post('/job', jobController.create);
+router.post('/column', columnController.create);
+router.get('/column', columnController.getColumns);
+// router.get('/column/:id', columnController.getItemsInColumn);
+router.post('/column/add', columnController.addToColumn);
 // router.put('/columns/update', columnContoller.updateOrder);
 
 export default router;

@@ -1,4 +1,5 @@
 import { prisma } from './';
+import columnModel from './column.model';
 
 const jobModel = {
   getAll: async () => {
@@ -28,7 +29,11 @@ const jobModel = {
           entries: { create: [] },
         },
       });
-      return writeJob;
+      const updatedColumn = await columnModel.updateColumn({
+        id: writeJob.id,
+        status: 'backlog',
+      });
+      return { ...writeJob, columnId: updatedColumn!.id };
     } catch (err) {
       console.log('err postOne:>> ', err);
     }
