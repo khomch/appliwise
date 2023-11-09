@@ -16,6 +16,8 @@ export type TJob = {
   industries?: string;
   notes?: string;
   entries?: [];
+  prevId: string | null;
+  nextId: string | null;
 };
 
 export type TColumn = {

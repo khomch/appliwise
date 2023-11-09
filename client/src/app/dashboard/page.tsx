@@ -8,6 +8,7 @@ export default function Dashboard() {
   const [items, setItems] = useState<TJob[]>([]);
   const [columns, setColumns] = useState<any>([]);
   const [columnsWithJobs, setColumnsWithJobs] = useState<any>();
+  const [orders, setOrders] = useState<any>({});
 
   const getData = async () => {
     const columnsRes = await fetch('http://localhost:3000/column', {
@@ -30,7 +31,22 @@ export default function Dashboard() {
   useEffect(() => {
     const obj: { [key: string]: any[] } = {};
     columns.map((col: any) => {
-      obj[col.id] = items.filter((item) => item.columnId === col.id);
+      const arr: TJob[] = [];
+      let orderHead = items
+        .filter((item) => item.columnId === col.id)
+        .find((item) => item.prevId === null);
+      let i = 0;
+      while (orderHead !== undefined && i < items.length) {
+        orderHead && arr.push(orderHead);
+        orderHead =
+          items
+            .filter((item) => item.columnId === col.id)
+            .find((item) => item.id === orderHead?.nextId) || undefined;
+        // console.log('orderHead: ', orderHead?.position);
+        i++;
+      }
+      obj[col.id] = arr;
+      // console.log(arr);
     });
     setColumnsWithJobs(obj);
   }, [items]);
@@ -51,9 +67,23 @@ export default function Dashboard() {
     const finish = columnsWithJobs[destination.droppableId];
 
     if (start === finish) {
+      console.log('start: ', start);
+      console.log('finish: ', finish);
       const itemToInsert = start.find((item: TJob) => item.id === draggableId);
+      console.log('itemToInsert: ', itemToInsert);
       const newColumn = start.slice();
+      console.log('newColumn: ', newColumn);
       newColumn.splice(source.index, 1);
+      const savePrev = newColumn[destination.index];
+      console.log('destination: ', destination);
+      const droppableNewPointers = {
+        prevId: savePrev.prevId,
+        nextId: savePrev.nextId,
+        currentId: itemToInsert.id,
+        columnId: destination.droppableId,
+      };
+      console.log('droppableNewPointers: ', droppableNewPointers);
+      console.log('savePrev: ', savePrev);
       newColumn.splice(destination.index, 0, itemToInsert);
       const newColumnState = {
         ...columnsWithJobs,

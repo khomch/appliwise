@@ -28,6 +28,18 @@ const jobController = {
       throw new Error('Error while posting');
     }
   },
+
+  updateOrder: async (req: Request, res: Response) => {
+    try {
+      res.status(200);
+      const result = await jobModel.updateJobPosition(req.body);
+      res.json(result);
+    } catch (err) {
+      res.status(500);
+      res.send(err);
+      throw new Error('Error while posting');
+    }
+  },
 };
 
 export default jobController;
