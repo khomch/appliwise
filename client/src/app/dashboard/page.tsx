@@ -1,11 +1,32 @@
 'use client';
+import {
+  DndContext,
+  DragOverlay,
+  KeyboardSensor,
+  MouseSensor,
+  PointerSensor,
+  TouchSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { useEffect, useState } from 'react';
 import Column from './components/column';
 import { TColumn, TJob } from './types';
+import Job from './components/job';
 
 export default function Dashboard() {
   const [jobs, setJobs] = useState<any>([]);
-  const [columns, setColumn] = useState<any>();
+  const [items, setItems] = useState<TJob[]>([]);
+  const [columns, setColumns] = useState<any>();
+  const [columnsWithJobs, setColumnWithJobs] = useState<any>({});
+  const [activeItem, setActiveItem] = useState<TJob | null>(null);
 
   useEffect(() => {
     fetch('http://localhost:3000/job', {
@@ -14,6 +35,7 @@ export default function Dashboard() {
       .then((data: any) => data.json())
       .then((res) => {
         setJobs(res);
+        setItems(res);
         console.log('jobs: ', res);
       });
   }, []);
@@ -24,24 +46,96 @@ export default function Dashboard() {
     })
       .then((data: any) => data.json())
       .then((res) => {
-        setColumn(res);
+        setColumns(res);
         console.log('columns: ', res);
       });
   }, []);
 
+  useEffect(() => {
+    const obj: { [key: string]: any[] } = {};
+    console.log('columns: ', columns);
+    columns &&
+      columns.map((col: any) => {
+        obj[col.id] = items.filter((item) => item.columnId === col.id);
+      });
+    setColumnWithJobs(obj);
+  }, [columns, items]);
+
+  console.log('columnsWithJobs', columnsWithJobs);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(MouseSensor),
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  function handleDragStart(event: any) {
+    const { active } = event;
+    const activeJob = items.find((item: TJob) => item.id === active.id);
+    setActiveItem(activeJob || null);
+  }
+
+  function handleDragOver(event: any) {
+    console.log('OVER');
+  }
+
+  function handleDragEnd(event: any) {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setColumnWithJobs((items) => {
+        const oldIndex = items
+          .map(function (x) {
+            return x.id;
+          })
+          .indexOf(active.id);
+        const newIndex = items
+          .map(function (x) {
+            return x.id;
+          })
+          .indexOf(over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  }
+
   return (
     <section className="flex min-h-screen justify-between max-w-[1320px] self-center w-full">
-      {columns &&
-        columns.length > 0 &&
-        columns.map((column: TColumn) => (
-          <Column
-            key={column.id}
-            jobsInColumn={jobs.filter(
-              (job: TJob) => job.columnId === column.id
-            )}
-            title={column.title}
-          />
-        ))}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+      >
+        {columns &&
+          columnsWithJobs &&
+          columns.length > 0 &&
+          columns.map((column: TColumn) => {
+            const jscol = columnsWithJobs[column.id];
+            jscol && console.log('jscol: ', jscol);
+
+            return (
+              <Column
+                key={column.id}
+                id={column.id}
+                jobsInColumn={columnsWithJobs[column.id]}
+                // jobsInColumn={items.filter(
+                //   (job: TJob) => job.columnId === column.id
+                // )}
+                title={column.title}
+              />
+            );
+          })}
+        <DragOverlay>
+          {activeItem ? (
+            <Job key={activeItem.id} job={activeItem} id={activeItem.id} />
+          ) : null}
+        </DragOverlay>
+      </DndContext>
     </section>
   );
 }
