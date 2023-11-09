@@ -29,13 +29,14 @@ model Board {
 }
 
 model Column {
-  id      String  @id @unique @default(cuid())
-  title   String  @unique
-  colNum  String  @unique
-  status  String  @unique
-  items   Item[]
-  Board   Board?  @relation(fields: [boardId], references: [id])
-  boardId String?
+  id         String   @id @unique @default(cuid())
+  title      String   @unique
+  colNum     String   @unique
+  status     String   @unique
+  orderOfIds String[]
+  items      Item[]
+  Board      Board?   @relation(fields: [boardId], references: [id])
+  boardId    String?
 }
 
 model Item {
@@ -57,6 +58,8 @@ model Item {
   entries        Entry[]
   Column         Column?  @relation(fields: [columnId], references: [id])
   columnId       String?
+  nextId         String?
+  prevId         String?
 }
 
 model Entry {

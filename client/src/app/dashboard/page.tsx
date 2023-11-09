@@ -1,159 +1,105 @@
 'use client';
-import {
-  DndContext,
-  DragOverlay,
-  KeyboardSensor,
-  MouseSensor,
-  PointerSensor,
-  TouchSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import {
-  SortableContext,
-  arrayMove,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+import { DragDropContext } from '@hello-pangea/dnd';
 import { useEffect, useState } from 'react';
 import Column from './components/column';
 import { TColumn, TJob } from './types';
-import Job from './components/job';
 
 export default function Dashboard() {
-  const [jobs, setJobs] = useState<any>([]);
   const [items, setItems] = useState<TJob[]>([]);
-  const [columns, setColumns] = useState<any>();
-  const [columnsWithJobs, setColumnWithJobs] = useState<any>({});
-  const [activeItem, setActiveItem] = useState<TJob | null>(null);
+  const [columns, setColumns] = useState<any>([]);
+  const [columnsWithJobs, setColumnsWithJobs] = useState<any>();
+
+  const getData = async () => {
+    const columnsRes = await fetch('http://localhost:3000/column', {
+      method: 'GET',
+    });
+    const jobsRes = await fetch('http://localhost:3000/job', {
+      method: 'GET',
+    });
+    const columns = await columnsRes.json();
+    const jobs = await jobsRes.json();
+
+    setItems(jobs);
+    setColumns(columns);
+  };
 
   useEffect(() => {
-    fetch('http://localhost:3000/job', {
-      method: 'GET',
-    })
-      .then((data: any) => data.json())
-      .then((res) => {
-        setJobs(res);
-        setItems(res);
-        console.log('jobs: ', res);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch('http://localhost:3000/column', {
-      method: 'GET',
-    })
-      .then((data: any) => data.json())
-      .then((res) => {
-        setColumns(res);
-        console.log('columns: ', res);
-      });
+    getData();
   }, []);
 
   useEffect(() => {
     const obj: { [key: string]: any[] } = {};
-    console.log('columns: ', columns);
-    columns &&
-      columns.map((col: any) => {
-        obj[col.id] = items.filter((item) => item.columnId === col.id);
-      });
-    setColumnWithJobs(obj);
-  }, [columns, items]);
+    columns.map((col: any) => {
+      obj[col.id] = items.filter((item) => item.columnId === col.id);
+    });
+    setColumnsWithJobs(obj);
+  }, [items]);
 
-  console.log('columnsWithJobs', columnsWithJobs);
+  const onDragEnd = (result: any) => {
+    const { destination, source, draggableId } = result;
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(MouseSensor),
-    useSensor(TouchSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+    if (!destination) return;
 
-  function handleDragStart(event: any) {
-    const { active } = event;
-    const activeJob = items.find((item: TJob) => item.id === active.id);
-    setActiveItem(activeJob || null);
-  }
-
-  function handleDragOver(event: any) {
-    console.log('OVER');
-  }
-
-  function handleDragEnd(event: any) {
-    const { active, over } = event;
-    const itemCol = items.find((item) => item.id === active.id)?.columnId;
-    if (over && active.id !== over.id) {
-      console.log('GO!');
-
-      setColumnWithJobs((columnsWithJobs: any) => {
-        const oldIndex = columnsWithJobs[itemCol!]
-          .map(function (x: TJob) {
-            return x.id;
-          })
-          .indexOf(active.id);
-        const newIndex = columnsWithJobs[itemCol!]
-          .map(function (x: TJob) {
-            return x.id;
-          })
-          .indexOf(over.id);
-        return {
-          ...columnsWithJobs,
-          [itemCol!]: arrayMove(columnsWithJobs[itemCol!], oldIndex, newIndex),
-        };
-      });
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
     }
 
-    // if (over && active.id !== over.id) {
-    //   setItems((items) => {
-    //     const oldIndex = items
-    //       .map(function (x) {
-    //         return x.id;
-    //       })
-    //       .indexOf(active.id);
-    //     const newIndex = items
-    //       .map(function (x) {
-    //         return x.id;
-    //       })
-    //       .indexOf(over.id);
-    //     return arrayMove(items, oldIndex, newIndex);
-    //   });
-    // }
-  }
+    const start = columnsWithJobs[source.droppableId];
+    const finish = columnsWithJobs[destination.droppableId];
+
+    if (start === finish) {
+      const itemToInsert = start.find((item: TJob) => item.id === draggableId);
+      const newColumn = start.slice();
+      newColumn.splice(source.index, 1);
+      newColumn.splice(destination.index, 0, itemToInsert);
+      const newColumnState = {
+        ...columnsWithJobs,
+        [source.droppableId]: newColumn,
+      };
+      setColumnsWithJobs(newColumnState);
+      return;
+    }
+
+    // Moving from one list to another
+    const startColumn = start.slice();
+    startColumn.splice(source.index, 1);
+
+    console.log(columnsWithJobs);
+
+    console.log('source: ', source);
+    const finishColumn = finish.slice();
+    const itemToInsert = columnsWithJobs[source.droppableId].find(
+      (item: TJob) => item.id === draggableId
+    );
+    finishColumn.splice(destination.index, 0, itemToInsert);
+    const newColumnsState = {
+      ...columnsWithJobs,
+      [source.droppableId]: startColumn,
+      [destination.droppableId]: finishColumn,
+    };
+
+    setColumnsWithJobs(newColumnsState);
+  };
 
   return (
     <section className="flex min-h-screen justify-between max-w-[1320px] self-center w-full">
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-      >
+      <DragDropContext onDragEnd={onDragEnd}>
         {columns &&
           columnsWithJobs &&
-          columns.length > 0 &&
           columns.map((column: TColumn) => {
             return (
               <Column
                 key={column.id}
                 id={column.id}
                 jobsInColumn={columnsWithJobs[column.id]}
-                // jobsInColumn={items.filter(
-                //   (job: TJob) => job.columnId === column.id
-                // )}
                 title={column.title}
               />
             );
           })}
-        <DragOverlay>
-          {activeItem ? (
-            <Job key={activeItem.id} job={activeItem} id={activeItem.id} />
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+      </DragDropContext>
     </section>
   );
 }

@@ -15,5 +15,6 @@ router.get('/column', columnController.getColumns);
 // router.get('/column/:id', columnController.getItemsInColumn);
 router.post('/column/add', columnController.addToColumn);
 // router.put('/columns/update', columnContoller.updateOrder);
+router.put('/column/ids', columnController.updateIds);
 
 export default router;

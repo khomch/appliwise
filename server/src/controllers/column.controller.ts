@@ -40,6 +40,18 @@ const columnController = {
     }
   },
 
+  updateIds: async (req: Request, res: Response) => {
+    try {
+      const data = await columnModel.updateIds(req.body);
+      res.status(201);
+      res.json(data);
+    } catch (err) {
+      res.status(500);
+      res.send(err);
+      throw new Error('Error while posting');
+    }
+  },
+
   getItemsInColumn: async (req: Request, res: Response) => {
     try {
       const data = await columnModel.getItemsInColumn(req.body);

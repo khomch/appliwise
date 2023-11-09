@@ -21,7 +21,8 @@ const config: Config = {
         apptsecondary: '#767F8C',
         appcardinactive: '#D9D9D9',
         appcolbg: '#F2F2F7',
-
+        appprimary50: "#CDE5FF",
+        appprimary30: "#E4F1FF"
       },
     },
   },
