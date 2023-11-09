@@ -84,22 +84,43 @@ export default function Dashboard() {
 
   function handleDragEnd(event: any) {
     const { active, over } = event;
-
+    const itemCol = items.find((item) => item.id === active.id)?.columnId;
     if (over && active.id !== over.id) {
-      setColumnWithJobs((items) => {
-        const oldIndex = items
-          .map(function (x) {
+      console.log('GO!');
+
+      setColumnWithJobs((columnsWithJobs: any) => {
+        const oldIndex = columnsWithJobs[itemCol!]
+          .map(function (x: TJob) {
             return x.id;
           })
           .indexOf(active.id);
-        const newIndex = items
-          .map(function (x) {
+        const newIndex = columnsWithJobs[itemCol!]
+          .map(function (x: TJob) {
             return x.id;
           })
           .indexOf(over.id);
-        return arrayMove(items, oldIndex, newIndex);
+        return {
+          ...columnsWithJobs,
+          [itemCol!]: arrayMove(columnsWithJobs[itemCol!], oldIndex, newIndex),
+        };
       });
     }
+
+    // if (over && active.id !== over.id) {
+    //   setItems((items) => {
+    //     const oldIndex = items
+    //       .map(function (x) {
+    //         return x.id;
+    //       })
+    //       .indexOf(active.id);
+    //     const newIndex = items
+    //       .map(function (x) {
+    //         return x.id;
+    //       })
+    //       .indexOf(over.id);
+    //     return arrayMove(items, oldIndex, newIndex);
+    //   });
+    // }
   }
 
   return (
@@ -115,9 +136,6 @@ export default function Dashboard() {
           columnsWithJobs &&
           columns.length > 0 &&
           columns.map((column: TColumn) => {
-            const jscol = columnsWithJobs[column.id];
-            jscol && console.log('jscol: ', jscol);
-
             return (
               <Column
                 key={column.id}
