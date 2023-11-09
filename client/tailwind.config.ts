@@ -20,6 +20,7 @@ const config: Config = {
         apptprimary: '#18191C',
         apptsecondary: '#767F8C',
         appcardinactive: '#D9D9D9',
+        appcolbg: '#F2F2F7',
 
       },
     },

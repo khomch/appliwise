@@ -30,7 +30,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <section className="flex min-h-screen justify-between max-w-7xl self-center w-full">
+    <section className="flex min-h-screen justify-between max-w-[1320px] self-center w-full">
       {columns &&
         columns.length > 0 &&
         columns.map((column: TColumn) => (

@@ -10,8 +10,10 @@ type JobProps = {
 function Job(props: JobProps) {
   const { job } = props;
   return (
-    <div className="max-w-[296px] p-4 border border-appborder rounded-lg my-2 bg-appbg">
-      <h3 className="font-medium text-lg truncate py-2 text-apptprimary">{job.position}</h3>
+    <div className="w-[296px] p-4 border border-appborder rounded-lg my-1 bg-appbg">
+      <h3 className="font-medium text-lg truncate py-2 text-apptprimary">
+        {job.position}
+      </h3>
       <div className="flex w-full mt-2">
         <Image
           src={job.img}
