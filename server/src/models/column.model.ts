@@ -42,31 +42,36 @@ const columnModel = {
       console.log('err addToColumn:>> ', err);
     }
   },
-  updateIds: async (data: Record<string, string | undefined>) => {
+  addToColumn: async (data: Record<string, string | undefined>) => {
+    try {
+      const column = await prisma.column.update({
+        where: {
+          status: data.status,
+        },
+        data: {
+          orderOfIds: {
+            push: data.jobId,
+          },
+        },
+      });
+      return column;
+    } catch (err) {
+      console.log('err addToColumn:>> ', err);
+    }
+  },
+  updateIds: async (data: any) => {
     try {
       const updateItem = await prisma.column.update({
         where: {
           id: data.id,
         },
         data: {
-          orderOfIds: data.orderOfIds ? [data.orderOfIds] : undefined,
+          orderOfIds: data!.orderOfIds,
         },
       });
       return updateItem;
     } catch (err) {
       console.log('err addToColumn:>> ', err);
-    }
-  },
-  getItemsInColumn: async (data: Record<string, string | undefined>) => {
-    try {
-      const items = await prisma.item.findMany({
-        where: {
-          columnId: data.columnid,
-        },
-      });
-      return items;
-    } catch (err) {
-      console.log('err getItemsInColumn:>> ', err);
     }
   },
 };

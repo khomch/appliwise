@@ -25,5 +25,6 @@ export type TColumn = {
   title: string;
   colNum: string;
   status: string;
+  orderOfIds: string[];
   items: [];
 };

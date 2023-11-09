@@ -38,32 +38,6 @@ const jobModel = {
       console.log('err postOne:>> ', err);
     }
   },
-  updateJobPosition: async (orderInfo: Record<string, string>) => {
-    const updateCurrentJob = await prisma.item.update({
-      where: {
-        id: orderInfo.currentId,
-      },
-      data: {
-        prevId: orderInfo.prevId,
-        nextId: orderInfo.nextId,
-        columnId: orderInfo.columnId,
-      },
-    });
-    const updatePrevJob = await prisma.item.update({
-      where: {
-        id: orderInfo.prevId,
-      },
-      data: {
-        nextId: orderInfo.currentId,
-        columnId: orderInfo.columnId,
-      },
-    });
-    const result = await {
-      updateCurrent: updateCurrentJob,
-      updatePrev: updatePrevJob,
-    };
-    return result;
-  },
 };
 
 export default jobModel;

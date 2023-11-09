@@ -1,0 +1,42 @@
+const BASE_URL = 'http://localhost:3000';
+
+export async function fetchColumns() {
+  try {
+    const res = await fetch(BASE_URL + '/column', {
+      method: 'GET',
+    });
+    const columns = await res.json();
+    return columns;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function fetchJobs() {
+  try {
+    const res = await fetch(BASE_URL + '/job', {
+      method: 'GET',
+    });
+    const jobs = await res.json();
+    return jobs;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function updateColumn(columnId: string, orderOfIds: string[]) {
+  try {
+    const res = await fetch(BASE_URL + '/column/ids', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: columnId,
+        orderOfIds: orderOfIds,
+      }),
+    });
+    const jobs = await res.json();
+    return jobs;
+  } catch (error) {
+    console.error(error);
+  }
+}

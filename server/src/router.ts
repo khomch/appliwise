@@ -10,7 +10,6 @@ router.get('/users', async (req, res) => {
 });
 router.get('/job', jobController.getAll);
 router.post('/job', jobController.create);
-router.put('/job', jobController.updateOrder);
 router.post('/column', columnController.create);
 router.get('/column', columnController.getColumns);
 // router.get('/column/:id', columnController.getItemsInColumn);
