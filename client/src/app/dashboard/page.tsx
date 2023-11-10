@@ -59,7 +59,7 @@ export default function Dashboard() {
   };
 
   return (
-    <section className="flex min-h-screen justify-between max-w-[1320px] self-center w-full">
+    <section className="flex min-h-screen justify-between max-w-[1320px] self-center w-full gap-4">
       <DragDropContext onDragEnd={onDragEnd}>
         {columns &&
           columns &&

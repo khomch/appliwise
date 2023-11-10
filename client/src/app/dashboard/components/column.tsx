@@ -13,7 +13,7 @@ function Column({ jobsInColumn, title, id }: ColumnProps) {
     <Droppable droppableId={id}>
       {(provided, snapshot) => (
         <div
-          className={`flex flex-col m-w-[312px] min-h-[204px] w-full px-2 border rounded-lg mx-2 bg-appcolbg h-min my-4 py-4 ${
+          className={`flex flex-col m-w-[312px] min-h-[204px] w-full px-2 border rounded-lg bg-appcolbg h-min my-4 py-4 ${
             snapshot.isDraggingOver && 'bg-appprimary30'
           }`}
         >
