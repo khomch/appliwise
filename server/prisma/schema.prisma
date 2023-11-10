@@ -44,7 +44,7 @@ model Item {
   id             String   @id @unique @default(cuid())
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now()) @updatedAt
-  url            String
+  url            String   @unique
   img            String?
   position       String?
   company        String?

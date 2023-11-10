@@ -29,8 +29,8 @@ const jobModel = {
           entries: { create: [] },
         },
       });
-      const updatedColumn = await columnModel.updateColumn({
-        id: writeJob.id,
+      const updatedColumn = await columnModel.addToColumn({
+        jobId: writeJob.id,
         status: 'backlog',
       });
       return { ...writeJob, columnId: updatedColumn!.id };

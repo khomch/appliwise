@@ -14,7 +14,7 @@ const Navbar = () => {
     <>
       <div className="w-full h-20 bg-white border-b border-appborder">
         <div className="flex h-full justify-center w-full">
-          <div className="w-full max-w-[1320px] flex items-center justify-between h-full">
+          <div className="w-full max-w-[1320px] flex items-center justify-between h-full mx-4">
             <div className="flex items-center">
               <h2 className="text-apptprimary text-xl font-medium">
                 <Link href={'/'}>Appliwise</Link>
@@ -23,10 +23,10 @@ const Navbar = () => {
                 {links.map(({ path, label }) => (
                   <Link key={path} href={path}>
                     <div
-                      className={`text-sm font-medium ${
+                      className={`text-m ${
                         pathname === path
                           ? 'py-2 border-b-2 border-appprimary text-appprimary'
-                          : 'py-2'
+                          : 'py-2 hover:border-b-2'
                       }`}
                     >
                       {label}

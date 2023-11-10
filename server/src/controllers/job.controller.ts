@@ -21,11 +21,6 @@ const jobController = {
       res.status(201);
       const jobInfo = await parseFromUrl(req.body.url);
       const result = await jobModel.postOne(jobInfo);
-      result &&
-        (await columnModel.addToColumn({
-          status: 'backlog',
-          jobId: result.id,
-        }));
       res.json(result);
     } catch (err) {
       res.status(500);
