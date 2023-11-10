@@ -1,17 +1,5 @@
 const BASE_URL = 'http://localhost:3000';
 
-export async function fetchColumns() {
-  try {
-    const res = await fetch(BASE_URL + '/column', {
-      method: 'GET',
-    });
-    const columns = await res.json();
-    return columns;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 export async function fetchJobs() {
   try {
     const res = await fetch(BASE_URL + '/job', {
@@ -19,6 +7,18 @@ export async function fetchJobs() {
     });
     const jobs = await res.json();
     return jobs;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function fetchColumns() {
+  try {
+    const res = await fetch(BASE_URL + '/column', {
+      method: 'GET',
+    });
+    const columns = await res.json();
+    return columns;
   } catch (error) {
     console.error(error);
   }

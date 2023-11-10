@@ -20,11 +20,20 @@ export type TJob = {
   nextId: string | null;
 };
 
+export type TJobs = {
+  [key: string]: TJob;
+};
+
 export type TColumn = {
   id: string;
   title: string;
   colNum: string;
   status: string;
   orderOfIds: string[];
+  index: number;
   items: [];
+};
+
+export type TColumns = {
+  [key: string]: TColumn;
 };

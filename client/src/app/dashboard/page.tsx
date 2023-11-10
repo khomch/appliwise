@@ -1,96 +1,61 @@
 'use client';
+import type { DropResult } from '@hello-pangea/dnd';
 import { DragDropContext } from '@hello-pangea/dnd';
 import { useEffect, useState } from 'react';
+import { updateColumn } from '../../../services/api';
 import Column from './components/column';
-import { TColumn, TJob } from './types';
-import { fetchColumns, fetchJobs, updateColumn } from '../../../services/api';
+import { getInitialData } from './getInitialData';
+import { TColumns, TJobs } from './types';
+import { getDropParams, dndInsideColumn, dndBetweenColumns } from './handleDnD';
 
 export default function Dashboard() {
-  const [jobs, setJobs] = useState<TJob[]>();
-  const [columns, setColumns] = useState<TColumn[]>([]);
-
-  const getData = async () => {
-    const jobsArr = await fetchJobs();
-    const columnsArr = await fetchColumns();
-    const cols: any = {};
-    columnsArr
-      .sort((a: any, b: any) => {
-        return a.index - b.index;
-      })
-      .forEach((el: any) => {
-        cols[el.id] = el;
-      });
-    const jobs: any = {};
-    jobsArr.forEach((el: any) => {
-      jobs[el.id] = el;
-    });
-    setColumns(cols);
-    setJobs(jobs);
-  };
+  const [jobs, setJobs] = useState<TJobs>({});
+  const [columns, setColumns] = useState<TColumns>({});
 
   useEffect(() => {
-    getData();
+    getInitialData().then(([jobs, cols]) => {
+      setJobs(jobs);
+      setColumns(cols);
+    });
   }, []);
 
-  const onDragEnd = (result: any) => {
-    const { destination, source, draggableId } = result;
-
-    if (!destination) return;
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
+  const onDragEnd = (result: DropResult) => {
+    const dropParams = getDropParams(result);
+    if (!Array.isArray(dropParams)) return;
+    const [source, destination, draggableId] = dropParams;
 
     const start = columns[source.droppableId];
     const finish = columns[destination.droppableId];
 
     if (start === finish) {
-      const newJobIds = Array.from(start.orderOfIds);
-      newJobIds.splice(source.index, 1);
-      newJobIds.splice(destination.index, 0, draggableId);
-
-      const newColumn = {
-        ...start,
-        orderOfIds: newJobIds,
-      };
-
-      const newState = {
-        ...columns,
-        [newColumn.id]: newColumn,
-      };
-
-      updateColumn(newColumn.id, newColumn.orderOfIds);
-      setColumns(newState);
+      const updatedColumn = dndInsideColumn(
+        start,
+        source,
+        destination,
+        draggableId
+      );
+      updateColumn(updatedColumn.id, updatedColumn.orderOfIds);
+      setColumns((prev) => ({ ...prev, [updatedColumn.id]: updatedColumn }));
       return;
     }
 
     // Moving from one list to another
-    const startJobIds = Array.from(start.orderOfIds);
-    startJobIds.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      orderOfIds: startJobIds,
-    };
+    const [updatedStart, updatedFinish] = dndBetweenColumns(
+      start,
+      finish,
+      source,
+      destination,
+      draggableId
+    );
 
-    const finishJobIds = Array.from(finish.orderOfIds);
-    finishJobIds.splice(destination.index, 0, draggableId);
-    const newFinish = {
-      ...finish,
-      orderOfIds: finishJobIds,
-    };
+    updateColumn(updatedStart.id, updatedStart.orderOfIds);
+    updateColumn(updatedFinish.id, updatedFinish.orderOfIds);
 
-    const newState = {
-      ...columns,
-      [newStart.id]: newStart,
-      [newFinish.id]: newFinish,
-    };
-    updateColumn(newStart.id, newStart.orderOfIds);
-    updateColumn(newFinish.id, newFinish.orderOfIds);
-
-    setColumns(newState);
+    setColumns((prev) => ({
+      ...prev,
+      [updatedStart.id]: updatedStart,
+      [updatedFinish.id]: updatedFinish,
+    }));
   };
 
   return (

@@ -1,5 +1,4 @@
 import { Droppable } from '@hello-pangea/dnd';
-import { useEffect, useState } from 'react';
 import { TJob } from '../types';
 import Job from './job';
 
