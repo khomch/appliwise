@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useRef, useEffect } from 'react';
-import iconClose from '../../../public/icon-close.svg';
+import iconClose from '../../../../public/icon-close.svg';
 import Image from 'next/image';
 
 const SHOW_DIALOG = 'showDialog';
@@ -56,7 +56,7 @@ export default function Dialog({ title, onClose, onOk, children }: Props) {
               src={iconClose}
               alt="close modal"
               className=" hover:cursor-pointer"
-              onClick={clickOk}
+              onClick={closeDialog}
             />
           </div>
           <div className="px-5 pb-6">

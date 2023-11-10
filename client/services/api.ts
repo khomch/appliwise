@@ -1,3 +1,5 @@
+import { TJob } from '@/app/dashboard/types';
+
 const BASE_URL = 'http://localhost:3000';
 
 export async function fetchJobs() {
@@ -47,6 +49,20 @@ export async function addJob(link: string) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: link }),
+    });
+    const job = await res.json();
+    return job;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function toggleFavJob(id: string): Promise<TJob | undefined> {
+  try {
+    const res = await fetch(BASE_URL + '/job/fav', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: id }),
     });
     const job = await res.json();
     return job;

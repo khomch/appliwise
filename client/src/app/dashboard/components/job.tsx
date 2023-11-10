@@ -1,19 +1,20 @@
 import { Draggable } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import iconFav from '../../../../public/icon-fav.svg';
-import { TJob } from '../types';
-import { MouseEvent } from 'react';
+import { Dispatch } from 'react';
+import { toggleFavJob } from '../../../../services/api';
+import { TJob, TJobs } from '../types';
 
 type JobProps = {
   job: TJob;
   id: string;
   index: number;
   setOpenedJob: (job: TJob) => void;
+  setJobs: Dispatch<React.SetStateAction<TJobs>>;
 };
 
 function Job(props: JobProps) {
-  const { job, id, index, setOpenedJob } = props;
+  const { job, id, index, setOpenedJob, setJobs } = props;
   const router = useRouter();
 
   const handleClick = () => {
@@ -22,8 +23,11 @@ function Job(props: JobProps) {
     router.push('/dashboard?showDialog=y');
   };
 
-  const handleFavClick = (event: MouseEvent<HTMLElement>) => {
-    console.log('FAVOURITES');
+  const handleFavClick = async () => {
+    const newState = await toggleFavJob(job.id);
+    if (newState !== undefined) {
+      setJobs((prev: TJobs) => ({ ...prev, [job.id]: newState }));
+    }
   };
 
   return (
@@ -63,7 +67,9 @@ function Job(props: JobProps) {
               <div className="flex w-full justify-end items-center">
                 <div className="hover:cursor-pointer" onClick={handleFavClick}>
                   <svg
-                    className={`${job.isFavourite} hover:fill-appprimary`}
+                    className={`${
+                      job.isFavourite && 'fill-appprimary'
+                    } hover:fill-appprimary`}
                     width="14"
                     height="20"
                     viewBox="0 0 14 20"

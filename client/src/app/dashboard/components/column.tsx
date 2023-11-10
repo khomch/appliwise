@@ -1,5 +1,5 @@
 import { Droppable } from '@hello-pangea/dnd';
-import { TJob } from '../types';
+import { TJob, TJobs } from '../types';
 import Job from './job';
 
 type ColumnProps = {
@@ -7,9 +7,16 @@ type ColumnProps = {
   title: string;
   id: string;
   setOpenedJob: (job: TJob) => void;
+  setJobs: (jobs: TJobs) => void;
 };
 
-function Column({ jobsInColumn, title, id, setOpenedJob }: ColumnProps) {
+function Column({
+  jobsInColumn,
+  title,
+  id,
+  setOpenedJob,
+  setJobs,
+}: ColumnProps) {
   return (
     <Droppable droppableId={id}>
       {(provided, snapshot) => (
@@ -33,6 +40,7 @@ function Column({ jobsInColumn, title, id, setOpenedJob }: ColumnProps) {
                     id={job.id}
                     index={index}
                     setOpenedJob={setOpenedJob}
+                    setJobs={setJobs}
                   />
                 ))
               : ''}

@@ -28,6 +28,18 @@ const jobController = {
       throw new Error('Error while posting');
     }
   },
+
+  handleFavs: async (req: Request, res: Response) => {
+    try {
+      res.status(200);
+      const result = await jobModel.toggleFav(req.body.id);
+      res.json(result);
+    } catch (err) {
+      res.status(500);
+      res.send(err);
+      throw new Error('Error while posting');
+    }
+  },
 };
 
 export default jobController;

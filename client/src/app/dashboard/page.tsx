@@ -4,7 +4,7 @@ import { DragDropContext } from '@hello-pangea/dnd';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { updateColumn } from '../../../services/api';
-import Dialog from '../components/Dialog';
+import Dialog from '../components/dialog/dialog';
 import { JobExtended } from '../components/job-extended';
 import Column from './components/column';
 import { getInitialData } from './getInitialData';
@@ -141,6 +141,7 @@ export default function Dashboard() {
                 jobsInColumn={columnJobs}
                 title={column.title}
                 setOpenedJob={setOpenedJob}
+                setJobs={setJobs}
               />
             );
           })}

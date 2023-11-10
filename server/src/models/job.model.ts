@@ -38,6 +38,29 @@ const jobModel = {
       console.log('err postOne:>> ', err);
     }
   },
+  toggleFav: async (id: string) => {
+    try {
+      const job = await prisma.item.findFirst({
+        where: {
+          id: id,
+        },
+      });
+      if (job) {
+        const updatedJob = await prisma.item.update({
+          where: {
+            id: id,
+          },
+          data: {
+            isFavourite: !job?.isFavourite,
+          },
+        });
+        return updatedJob;
+      }
+      return false;
+    } catch (err) {
+      console.log('err postOne:>> ', err);
+    }
+  },
 };
 
 export default jobModel;
