@@ -13,6 +13,7 @@ export type TJob = {
   seniorityLevel?: string;
   jobFunction?: string;
   employmentType?: string;
+  isFavourite?: boolean;
   industries?: string;
   notes?: string;
   entries?: [];

@@ -1,18 +1,22 @@
 'use client';
 import type { DropResult } from '@hello-pangea/dnd';
 import { DragDropContext } from '@hello-pangea/dnd';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { updateColumn } from '../../../services/api';
+import Dialog from '../components/Dialog';
+import { JobExtended } from '../components/job-extended';
 import Column from './components/column';
 import { getInitialData } from './getInitialData';
+import { dndBetweenColumns, dndInsideColumn, getDropParams } from './handleDnD';
 import { TColumns, TJob, TJobs } from './types';
-import { getDropParams, dndInsideColumn, dndBetweenColumns } from './handleDnD';
 
 export default function Dashboard() {
   const [link, setLink] = useState<string>('');
   const [jobs, setJobs] = useState<TJobs>({});
   const [columns, setColumns] = useState<TColumns>({});
-  console.log('columns: ', columns);
+  const [openedJob, setOpenedJob] = useState<TJob | null>(null);
+  console.log('openedJob: ', openedJob);
 
   useEffect(() => {
     getInitialData().then(([jobs, cols]) => {
@@ -25,6 +29,7 @@ export default function Dashboard() {
     const text = await navigator.clipboard.readText();
     setLink(text);
   }
+
   useEffect(() => {
     const handleKeyDown = async (event: any) => {
       const code = event.which || event.keyCode;
@@ -102,8 +107,26 @@ export default function Dashboard() {
     }));
   };
 
+  function handleClose() {
+    console.log('MODAL HAS CLOSED');
+    setOpenedJob(null);
+  }
+
+  function handleOk() {
+    console.log('OK CLICKED');
+  }
+
   return (
     <section className="flex min-h-screen justify-between max-w-[1320px] self-center w-full">
+      {openedJob && (
+        <Dialog
+          title={openedJob!.position}
+          onClose={handleClose}
+          onOk={handleOk}
+        >
+          <JobExtended job={openedJob} closeModal={handleClose} />
+        </Dialog>
+      )}
       <DragDropContext onDragEnd={onDragEnd}>
         {columns &&
           columns &&
@@ -117,6 +140,7 @@ export default function Dashboard() {
                 id={column.id}
                 jobsInColumn={columnJobs}
                 title={column.title}
+                setOpenedJob={setOpenedJob}
               />
             );
           })}

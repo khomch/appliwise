@@ -40,3 +40,17 @@ export async function updateColumn(columnId: string, orderOfIds: string[]) {
     console.error(error);
   }
 }
+
+export async function addJob(link: string) {
+  try {
+    const res = await fetch(BASE_URL + '/column/job', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: link }),
+    });
+    const job = await res.json();
+    return job;
+  } catch (error) {
+    console.error(error);
+  }
+}

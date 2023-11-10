@@ -51,6 +51,7 @@ model Item {
   description    String?
   location       String?
   salary         String?
+  isFavourite    Boolean?
   seniorityLevel String?
   jobFunction    String?
   employmentType String?

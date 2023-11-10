@@ -1,8 +1,19 @@
 import { load } from 'cheerio';
 import fetch from 'node-fetch';
 
-export const parseFromUrl = async (URL: string) => {
+function removeQueryParameters(url: string) {
+  const questionMarkIndex = url.indexOf('?');
+  if (questionMarkIndex !== -1) {
+    return url.substring(0, questionMarkIndex);
+  }
+
+  return url;
+}
+
+export const parseFromUrl = async (initialUrl: string) => {
   console.log('PARSING STARTED');
+  const URL = removeQueryParameters(initialUrl);
+  console.log('URL: ', URL);
   const res = await fetch(URL);
   const html = await res.text();
 

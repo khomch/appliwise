@@ -6,9 +6,10 @@ type ColumnProps = {
   jobsInColumn: TJob[];
   title: string;
   id: string;
+  setOpenedJob: (job: TJob) => void;
 };
 
-function Column({ jobsInColumn, title, id }: ColumnProps) {
+function Column({ jobsInColumn, title, id, setOpenedJob }: ColumnProps) {
   return (
     <Droppable droppableId={id}>
       {(provided, snapshot) => (
@@ -26,7 +27,13 @@ function Column({ jobsInColumn, title, id }: ColumnProps) {
           >
             {jobsInColumn
               ? jobsInColumn.map((job: TJob, index: number) => (
-                  <Job key={job.id} job={job} id={job.id} index={index} />
+                  <Job
+                    key={job.id}
+                    job={job}
+                    id={job.id}
+                    index={index}
+                    setOpenedJob={setOpenedJob}
+                  />
                 ))
               : ''}
             {provided.placeholder}

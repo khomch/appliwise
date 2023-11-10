@@ -22,7 +22,9 @@ const config: Config = {
         appcardinactive: '#D9D9D9',
         appcolbg: '#F2F2F7',
         appprimary50: "#CDE5FF",
-        appprimary30: "#E4F1FF"
+        appprimary30: "#E4F1FF",
+        appmodalbg: "#F8F8FA",
+        appdanger: "#FF6961"
       },
     },
   },
