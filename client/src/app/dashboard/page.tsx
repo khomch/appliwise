@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { updateColumn } from '../../../services/api';
 import Column from './components/column';
 import { getInitialData } from './getInitialData';
-import { TColumns, TJobs } from './types';
+import { TColumns, TJob, TJobs } from './types';
 import { getDropParams, dndInsideColumn, dndBetweenColumns } from './handleDnD';
 
 export default function Dashboard() {
@@ -39,6 +39,18 @@ export default function Dashboard() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  const handleAddNewJob = (newJob: TJob) => {
+    const targetColumn = columns[newJob.columnId];
+    setColumns((prev) => ({
+      ...prev,
+      [newJob.columnId]: {
+        ...targetColumn,
+        orderOfIds: [...targetColumn.orderOfIds, newJob.id],
+      },
+    }));
+    setJobs((prev) => ({ ...prev, [newJob.id]: newJob }));
+  };
+
   useEffect(() => {
     if (link.startsWith('https://www.linkedin.com/jobs/')) {
       fetch('http://localhost:3000/job', {
@@ -47,22 +59,7 @@ export default function Dashboard() {
         body: JSON.stringify({ url: link }),
       })
         .then((data: any) => data.json())
-        .then((res) => {
-          console.log('res: ', res);
-          console.log('res.columnId: ', res.columnId);
-          const newColumn = columns[res.columnId];
-          // newColumn.orderOfIds.push(res.id);
-          // console.log('newColumn: ', newColumn);
-          setColumns((prev) => ({
-            ...prev,
-            [res.columnId]: {
-              ...newColumn,
-              orderOfIds: [...newColumn.orderOfIds, res.id],
-            },
-          }));
-
-          setJobs((prev) => ({ ...prev, [res.id]: res }));
-        });
+        .then((res) => handleAddNewJob(res));
     }
   }, [link]);
 
