@@ -1,10 +1,9 @@
-import { TJob } from '@/app/dashboard/types';
-import { Input } from '../ui/input/input';
-import { FormEvent, useState } from 'react';
-import { Button } from '../ui/button/button';
-import iconNewTab from '../../../../public/icon-opentab.svg';
+import { TJob } from '@/utils/types';
 import Image from 'next/image';
-import Link from 'next/link';
+import { FormEvent, useState } from 'react';
+import iconNewTab from '../../../public/icon-opentab.svg';
+import { Button } from '../ui/button/button';
+import { Input } from '../ui/input/input';
 
 type JobExtendedProps = {
   job: TJob;

@@ -2,8 +2,8 @@ import { Draggable } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Dispatch } from 'react';
-import { toggleFavJob } from '../../../../services/api';
-import { TJob, TJobs } from '../types';
+import { toggleFavJob } from '../../../services/api';
+import { TJob, TJobs } from '../../../utils/types';
 
 type JobProps = {
   job: TJob;
@@ -20,7 +20,7 @@ function Job(props: JobProps) {
   const handleClick = () => {
     console.log('CLICKED');
     setOpenedJob(job);
-    router.push('/dashboard?showDialog=y');
+    router.push('/info');
   };
 
   const handleFavClick = async () => {

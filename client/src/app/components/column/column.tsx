@@ -1,6 +1,6 @@
 import { Droppable } from '@hello-pangea/dnd';
-import { TJob, TJobs } from '../types';
-import Job from './job';
+import { TJob, TJobs } from '../../../utils/types';
+import Job from '../job/job';
 
 type ColumnProps = {
   jobsInColumn: TJob[];

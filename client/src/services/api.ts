@@ -1,4 +1,4 @@
-import { TJob } from '@/app/dashboard/types';
+import { TJob } from '@/utils/types';
 
 const BASE_URL = 'http://localhost:3000';
 

@@ -1,4 +1,4 @@
-import { TColumn, TColumns } from '@/app/dashboard/types';
+import { TColumn, TColumns } from '@/utils/types';
 import { DraggableLocation, DropResult } from '@hello-pangea/dnd';
 
 export const getDropParams = (
