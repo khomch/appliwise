@@ -1,0 +1,1 @@
+export const LINKEDIN_JOBS = 'https://www.linkedin.com/jobs/';

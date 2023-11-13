@@ -1,12 +1,11 @@
-import { Draggable } from '@hello-pangea/dnd';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Dispatch } from 'react';
-import { toggleFavJob } from '../../../services/api';
-import { TJob, TJobs } from '../../../utils/types';
 import { useAppDispatch } from '@/app/hooks/hooks';
 import { setFavourite } from '@/app/store/slices/jobSlice';
+import { Draggable } from '@hello-pangea/dnd';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toggleFavJob } from '../../../services/api';
+import { TJob } from '../../../utils/types';
 
 type JobProps = {
   job: TJob;
@@ -20,7 +19,7 @@ function Job(props: JobProps) {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/info/entries/${job.id}`);
+    router.push(`/job/entries/${job.id}`);
   };
 
   const handleFavClick = async () => {
@@ -66,7 +65,7 @@ function Job(props: JobProps) {
               </div>
               <div className="flex w-full gap-2 justify-end items-center">
                 <Link
-                  href={`/info/details/${job.id}`}
+                  href={`/job/details/${job.id}`}
                   className="hidden group-hover:block"
                 >
                   <svg

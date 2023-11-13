@@ -17,10 +17,12 @@ import {
   updateTwoColumns,
 } from './store/slices/columnSlice';
 import { addNewJob, getJobData } from './store/slices/jobSlice';
-
-const LINKEDIN_JOBS = 'https://www.linkedin.com/jobs/';
+import { LINKEDIN_JOBS } from '@/utils/constants';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Home() {
+  const pathname = usePathname();
+  console.log('pathname: ', pathname);
   const dispatch = useAppDispatch();
   const { jobs } = useAppSelector((state) => state.job);
   const { columns } = useAppSelector((state) => state.column);
@@ -52,7 +54,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (link.startsWith(LINKEDIN_JOBS)) {
+    if (pathname === '/' && link.startsWith(LINKEDIN_JOBS)) {
       handleLinkedInParsing(link).then((res) => {
         console.log('res: ', res);
         dispatch(handleAddNewJobToColumn(res));
@@ -112,6 +114,7 @@ export default function Home() {
                   id={column.id}
                   jobsInColumn={columnJobs}
                   title={column.title}
+                  status={column.status}
                 />
               );
             })}

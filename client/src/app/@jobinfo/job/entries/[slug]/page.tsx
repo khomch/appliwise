@@ -13,8 +13,6 @@ export default function EntriesModal() {
   const params = useParams();
   const router = useRouter();
 
-  console.log('HERE');
-
   useEffect(() => {
     if (typeof params.slug === 'string') {
       fetchOneJob(params.slug)

@@ -1,14 +1,22 @@
 import { Droppable } from '@hello-pangea/dnd';
 import { TJob } from '../../../utils/types';
 import Job from '../job/job';
+import { Button } from '../ui/button/button';
+import { useRouter } from 'next/navigation';
 
 type ColumnProps = {
   jobsInColumn: TJob[];
   title: string;
   id: string;
+  status: string;
 };
 
-function Column({ jobsInColumn, title, id }: ColumnProps) {
+function Column({ jobsInColumn, title, id, status }: ColumnProps) {
+  const router = useRouter();
+  const handleAddNewJobClick = () => {
+    router.push(`/job/add?status=${status}`);
+  };
+
   return (
     <Droppable droppableId={id}>
       {(provided, snapshot) => (
@@ -33,6 +41,16 @@ function Column({ jobsInColumn, title, id }: ColumnProps) {
               : ''}
             {provided.placeholder}
           </ul>
+          <Button
+            value="+"
+            type="button"
+            variant="secondary"
+            style="border"
+            size="xl"
+            customStyle={'my-2'}
+            dashed
+            onClick={handleAddNewJobClick}
+          />
         </div>
       )}
     </Droppable>

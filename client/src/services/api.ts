@@ -162,12 +162,12 @@ export async function deleteEntry(id: string) {
   }
 }
 
-export async function handleLinkedInParsing(link: string) {
+export async function handleLinkedInParsing(link: string, status?: string) {
   try {
     const res = await fetch(BASE_URL + '/job', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: link }),
+      body: JSON.stringify({ url: link, status }),
     });
     const newJob = await res.json();
     return newJob;

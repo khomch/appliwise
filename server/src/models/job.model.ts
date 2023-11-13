@@ -83,7 +83,7 @@ const jobModel = {
 
       const updatedColumn = await columnModel.addToColumn({
         jobId: createJob.id,
-        status: 'backlog',
+        status: jobInfo.status || 'backlog',
       });
       return { ...createJob, columnId: updatedColumn!.id };
     } catch (err) {

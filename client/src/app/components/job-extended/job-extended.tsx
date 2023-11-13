@@ -1,21 +1,31 @@
 import { useAppDispatch } from '@/app/hooks/hooks';
-import { deleteJobFromState } from '@/app/store/slices/jobSlice';
-import { deleteJob } from '@/services/api';
+import { addNewJob, deleteJobFromState } from '@/app/store/slices/jobSlice';
+import { deleteJob, handleLinkedInParsing } from '@/services/api';
 import { TJob } from '@/utils/types';
 import Image from 'next/image';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import iconNewTab from '../../../../public/icon-opentab.svg';
 import { Button } from '../ui/button/button';
 import { Input } from '../ui/input/input';
+import { LINKEDIN_JOBS } from '@/utils/constants';
+import { handleAddNewJobToColumn } from '@/app/store/slices/columnSlice';
 
 type JobExtendedProps = {
   job: TJob;
   closeModal: () => void;
+  isNew?: boolean;
+  status?: string;
 };
 
-export function JobExtended({ job, closeModal }: JobExtendedProps) {
+export function JobExtended({
+  job,
+  closeModal,
+  isNew = false,
+  status,
+}: JobExtendedProps) {
   const dispatch = useAppDispatch();
-
+  const [isParsable, setIsParsable] = useState<boolean>(false);
+  const [isParsed, setIsParsed] = useState<boolean>(false);
   const [url, setUrl] = useState<string>(job.url);
   const [position, setPosition] = useState<string>(job.position);
   const [company, setCompany] = useState<string>(job.company);
@@ -25,8 +35,32 @@ export function JobExtended({ job, closeModal }: JobExtendedProps) {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('SUBMIT');
   };
+
+  useEffect(() => {
+    if (isNew && url.startsWith(LINKEDIN_JOBS)) {
+      setIsParsable(true);
+    } else {
+      setIsParsable(false);
+    }
+  }, [url]);
+
+  const handleParsing = () => {
+    if (isNew && url.startsWith(LINKEDIN_JOBS)) {
+      handleLinkedInParsing(url, status).then((res) => {
+        setUrl(res.url);
+        setPosition(res.position);
+        setCompany(res.company);
+        setDescription(res.description);
+        setSalary(res.salary || '');
+        setLocation(res.location);
+        dispatch(handleAddNewJobToColumn(res));
+        dispatch(addNewJob(res));
+        setIsParsed(true);
+      });
+    }
+  };
+
   const handleReset = (event: FormEvent) => {
     event.preventDefault();
     closeModal();
@@ -41,28 +75,55 @@ export function JobExtended({ job, closeModal }: JobExtendedProps) {
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-      <h1 className="text-xl font-medium truncate mt-2">{job.position}</h1>
-      <div className="flex self-end w-[88px]">
-        <Button
-          value={'Delete'}
-          style={'border'}
-          variant={'danger'}
-          size={'m'}
-          type="button"
-          onClick={handleDelete}
-        />
-      </div>
+      {!isNew && (
+        <>
+          <h1 className="text-xl font-medium truncate mt-2">{job.position}</h1>
+          <div className="flex self-end w-[88px]">
+            <Button
+              value={'Delete'}
+              style={'border'}
+              variant={'danger'}
+              size={'m'}
+              type="button"
+              onClick={handleDelete}
+            />
+          </div>
+        </>
+      )}
       <div className="flex justify-evenly gap-6">
         <Input value={url} inputName="URL" type={'text'} setValue={setUrl} />
-        <a target="_blank" href={url} className="mt-4 self-center">
-          <Image
-            src={iconNewTab}
-            alt="open in new tab"
-            className=" hover:cursor-pointer"
-            width={20}
-            height={20}
+        {!isNew ? (
+          <a target="_blank" href={url} className="mt-4 self-center">
+            <Image
+              src={iconNewTab}
+              alt="open in new tab"
+              className=" hover:cursor-pointer"
+              width={20}
+              height={20}
+            />
+          </a>
+        ) : (
+          <Button
+            value={
+              (!isParsed && url && isParsable && 'Start parsing') ||
+              (!isParsed &&
+                url &&
+                !isParsable &&
+                "Can't parse, fill in the form") ||
+              (isParsed && 'Successfully parsed') ||
+              'Enter a link'
+            }
+            style={'border'}
+            variant={
+              (!isParsed && url && isParsable && 'primary') || 'secondary'
+            }
+            size={'s'}
+            type="button"
+            onClick={handleParsing}
+            customStyle="self-end"
+            disabled={((isParsed || (url && isParsable)) && true) || false}
           />
-        </a>
+        )}
       </div>
 
       <div className="flex justify-evenly gap-6">
@@ -79,7 +140,7 @@ export function JobExtended({ job, closeModal }: JobExtendedProps) {
           setValue={setCompany}
         />
       </div>
-      {description && (
+      {(description || isNew) && (
         <Input
           value={description}
           inputName="Description"

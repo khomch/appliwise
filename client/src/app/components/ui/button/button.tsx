@@ -19,6 +19,7 @@ export function Button({
   customStyle,
   dashed = false,
   onClick,
+  ...props
 }: ButtonProps) {
   return (
     <button
@@ -54,11 +55,13 @@ export function Button({
           variant === 'danger' &&
           'bg-none border-appdanger border text-appdanger'
         }
-        ${dashed && `border-0 outline-dashed  outline-appcardinactive`}
         hover:shadow-lg
+        ${dashed && `border-0 outline-dashed  outline-appcardinactive`}
+
         ${customStyle}
       `}
       onClick={onClick}
+      {...props}
     >
       {value}
     </button>

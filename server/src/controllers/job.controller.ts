@@ -33,7 +33,10 @@ const jobController = {
     try {
       res.status(201);
       const jobInfo = await parseFromUrl(req.body.url);
-      const result = await jobModel.createOne(jobInfo);
+      const result = await jobModel.createOne({
+        ...jobInfo,
+        status: req.body.status,
+      });
       res.json(result);
     } catch (err) {
       res.status(500);
