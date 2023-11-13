@@ -51,7 +51,7 @@ export function Input({
           onChange={handleChange}
           value={value}
           className="text-s bg-white border border-appborder text-apptsecondary rounded-md py-2 px-4"
-          rows={2}
+          rows={3}
           {...props}
         ></textarea>
       )}

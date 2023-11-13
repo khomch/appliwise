@@ -104,7 +104,9 @@ export function Entry({ entry, jobId, setEntries, setNewEntry }: EntryProps) {
   return (
     <form className="flex flex-col gap-4 my-8">
       {!entry.createdAt && (
-        <div className=" border-t border-appprimary border-dashed"></div>
+        <div className=" border-t border-appprimary border-dashed text-center pt-4 text-xs text-apptsecondary">
+          New entry
+        </div>
       )}
       <div className="flex justify-evenly gap-6">
         <Input
