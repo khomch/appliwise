@@ -1,8 +1,7 @@
 'use client';
 
-import { Entries } from '@/components/entries/entries';
-import { JobExtended } from '@/components/job-extended/job-extended';
-import Modal from '@/components/modal/modal';
+import { Entries } from '@/app/components/entries/entries';
+import Modal from '@/app/components/modal/modal';
 import { fetchEntries, fetchOneJob } from '@/services/api';
 import { TEntry, TJob } from '@/utils/types';
 import { useParams, useRouter } from 'next/navigation';
@@ -13,6 +12,8 @@ export default function EntriesModal() {
   const [entries, setEntries] = useState<TEntry[] | null>(null);
   const params = useParams();
   const router = useRouter();
+
+  console.log('HERE');
 
   useEffect(() => {
     if (typeof params.slug === 'string') {

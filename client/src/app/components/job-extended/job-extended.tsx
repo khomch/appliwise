@@ -1,10 +1,12 @@
-import { TColumn, TJob } from '@/utils/types';
+import { useAppDispatch } from '@/app/hooks/hooks';
+import { deleteJobFromState } from '@/app/store/slices/jobSlice';
+import { deleteJob } from '@/services/api';
+import { TJob } from '@/utils/types';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
-import iconNewTab from '../../../public/icon-opentab.svg';
+import iconNewTab from '../../../../public/icon-opentab.svg';
 import { Button } from '../ui/button/button';
 import { Input } from '../ui/input/input';
-import { deleteJob } from '@/services/api';
 
 type JobExtendedProps = {
   job: TJob;
@@ -12,6 +14,8 @@ type JobExtendedProps = {
 };
 
 export function JobExtended({ job, closeModal }: JobExtendedProps) {
+  const dispatch = useAppDispatch();
+
   const [url, setUrl] = useState<string>(job.url);
   const [position, setPosition] = useState<string>(job.position);
   const [company, setCompany] = useState<string>(job.company);
@@ -29,8 +33,9 @@ export function JobExtended({ job, closeModal }: JobExtendedProps) {
   };
   const handleDelete = (event: FormEvent) => {
     event.preventDefault();
-    deleteJob(job.id, job.columnId).then((res) => console.log(res));
-    console.log('DELETE');
+    deleteJob(job.id).then((res) => {
+      if (res?.ok) dispatch(deleteJobFromState(job.id));
+    });
     closeModal();
   };
 

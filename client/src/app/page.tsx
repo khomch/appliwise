@@ -2,26 +2,34 @@
 import type { DropResult } from '@hello-pangea/dnd';
 import { DragDropContext } from '@hello-pangea/dnd';
 import { useEffect, useState } from 'react';
-import { updateColumn } from '../services/api';
-import { getInitialData } from '../utils/getInitialData';
+import { handleLinkedInParsing, updateColumn } from '../services/api';
 import {
   dndBetweenColumns,
   dndInsideColumn,
   getDropParams,
 } from '../utils/handleDnD';
-import { TColumns, TJob, TJobs } from '../utils/types';
 import Column from './components/column/column';
+import { useAppDispatch, useAppSelector } from './hooks/hooks';
+import {
+  getColumnData,
+  handleAddNewJobToColumn,
+  updateOneColumn,
+  updateTwoColumns,
+} from './store/slices/columnSlice';
+import { addNewJob, getJobData } from './store/slices/jobSlice';
+
+const LINKEDIN_JOBS = 'https://www.linkedin.com/jobs/';
 
 export default function Home() {
+  const dispatch = useAppDispatch();
+  const { jobs } = useAppSelector((state) => state.job);
+  const { columns } = useAppSelector((state) => state.column);
+
   const [link, setLink] = useState<string>('');
-  const [jobs, setJobs] = useState<TJobs>({});
-  const [columns, setColumns] = useState<TColumns>({});
 
   useEffect(() => {
-    getInitialData().then(([jobs, cols]) => {
-      setJobs(jobs);
-      setColumns(cols);
-    });
+    dispatch(getJobData());
+    dispatch(getColumnData());
   }, []);
 
   async function readTextFromClipboard() {
@@ -43,27 +51,13 @@ export default function Home() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const handleAddNewJob = (newJob: TJob) => {
-    const targetColumn = columns[newJob.columnId];
-    setColumns((prev) => ({
-      ...prev,
-      [newJob.columnId]: {
-        ...targetColumn,
-        orderOfIds: [...targetColumn.orderOfIds, newJob.id],
-      },
-    }));
-    setJobs((prev) => ({ ...prev, [newJob.id]: newJob }));
-  };
-
   useEffect(() => {
-    if (link.startsWith('https://www.linkedin.com/jobs/')) {
-      fetch('http://localhost:3000/job', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: link }),
-      })
-        .then((data: any) => data.json())
-        .then((res) => handleAddNewJob(res));
+    if (link.startsWith(LINKEDIN_JOBS)) {
+      handleLinkedInParsing(link).then((res) => {
+        console.log('res: ', res);
+        dispatch(handleAddNewJobToColumn(res));
+        dispatch(addNewJob(res));
+      });
     }
   }, [link]);
 
@@ -83,7 +77,7 @@ export default function Home() {
         draggableId
       );
       updateColumn(updatedColumn.id, updatedColumn.orderOfIds);
-      setColumns((prev) => ({ ...prev, [updatedColumn.id]: updatedColumn }));
+      dispatch(updateOneColumn(updatedColumn));
       return;
     }
 
@@ -98,12 +92,7 @@ export default function Home() {
 
     updateColumn(updatedStart.id, updatedStart.orderOfIds);
     updateColumn(updatedFinish.id, updatedFinish.orderOfIds);
-
-    setColumns((prev) => ({
-      ...prev,
-      [updatedStart.id]: updatedStart,
-      [updatedFinish.id]: updatedFinish,
-    }));
+    dispatch(updateTwoColumns({ updatedStart, updatedFinish }));
   };
 
   return (
@@ -112,6 +101,7 @@ export default function Home() {
         <DragDropContext onDragEnd={onDragEnd}>
           {columns &&
             columns &&
+            jobs &&
             Object.keys(columns).length > 0 &&
             Object.values(columns).map((column: any) => {
               const columnJobs =
@@ -122,7 +112,6 @@ export default function Home() {
                   id={column.id}
                   jobsInColumn={columnJobs}
                   title={column.title}
-                  setJobs={setJobs}
                 />
               );
             })}

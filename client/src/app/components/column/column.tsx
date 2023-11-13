@@ -1,16 +1,14 @@
 import { Droppable } from '@hello-pangea/dnd';
-import { TJob, TJobs } from '../../../utils/types';
+import { TJob } from '../../../utils/types';
 import Job from '../job/job';
-import { Dispatch } from 'react';
 
 type ColumnProps = {
   jobsInColumn: TJob[];
   title: string;
   id: string;
-  setJobs: Dispatch<React.SetStateAction<TJobs>>;
 };
 
-function Column({ jobsInColumn, title, id, setJobs }: ColumnProps) {
+function Column({ jobsInColumn, title, id }: ColumnProps) {
   return (
     <Droppable droppableId={id}>
       {(provided, snapshot) => (
@@ -26,15 +24,12 @@ function Column({ jobsInColumn, title, id, setJobs }: ColumnProps) {
             {...provided.droppableProps}
           >
             {jobsInColumn
-              ? jobsInColumn.map((job: TJob, index: number) => (
-                  <Job
-                    key={job.id}
-                    job={job}
-                    id={job.id}
-                    index={index}
-                    setJobs={setJobs}
-                  />
-                ))
+              ? jobsInColumn.map(
+                  (job: TJob, index: number) =>
+                    job && (
+                      <Job key={job.id} job={job} id={job.id} index={index} />
+                    )
+                )
               : ''}
             {provided.placeholder}
           </ul>

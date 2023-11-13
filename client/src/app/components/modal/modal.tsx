@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
-import iconClose from '../../../public/icon-close.svg';
+import iconClose from '../../../../public/icon-close.svg';
 
 type Props = {
   onClose: () => void;

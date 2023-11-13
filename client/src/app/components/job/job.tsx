@@ -4,17 +4,19 @@ import { useRouter } from 'next/navigation';
 import { Dispatch } from 'react';
 import { toggleFavJob } from '../../../services/api';
 import { TJob, TJobs } from '../../../utils/types';
+import { useAppDispatch } from '@/app/hooks/hooks';
+import { setFavourite } from '@/app/store/slices/jobSlice';
 import Link from 'next/link';
 
 type JobProps = {
   job: TJob;
   id: string;
   index: number;
-  setJobs: Dispatch<React.SetStateAction<TJobs>>;
 };
 
 function Job(props: JobProps) {
-  const { job, id, index, setJobs } = props;
+  const dispatch = useAppDispatch();
+  const { job, id, index } = props;
   const router = useRouter();
 
   const handleClick = () => {
@@ -24,7 +26,7 @@ function Job(props: JobProps) {
   const handleFavClick = async () => {
     const newState = await toggleFavJob(job.id);
     if (newState !== undefined) {
-      setJobs((prev: TJobs) => ({ ...prev, [job.id]: newState }));
+      dispatch(setFavourite({ id: job.id, newState }));
     }
   };
 

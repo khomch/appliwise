@@ -1,6 +1,6 @@
 import { TJob } from '@/utils/types';
 
-const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'http://localhost:3000';
 
 export async function fetchJobs() {
   try {
@@ -26,13 +26,12 @@ export async function fetchOneJob(id: string) {
   }
 }
 
-export async function deleteJob(id: string, columnId: string) {
-  console.log('id: ', id);
+export async function deleteJob(id: string) {
   try {
     const res = await fetch(BASE_URL + '/job', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: id, columnId }),
+      body: JSON.stringify({ id }),
     });
 
     return res;
@@ -158,6 +157,20 @@ export async function deleteEntry(id: string) {
     });
 
     return res;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function handleLinkedInParsing(link: string) {
+  try {
+    const res = await fetch(BASE_URL + '/job', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: link }),
+    });
+    const newJob = await res.json();
+    return newJob;
   } catch (error) {
     console.error(error);
   }
