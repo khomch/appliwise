@@ -6,16 +6,18 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toggleFavJob } from '../../../services/api';
 import { TJob } from '../../../utils/types';
+import iconNoImage from '../../../../public/icon-noimage.svg';
 
 type JobProps = {
   job: TJob;
   id: string;
   index: number;
+  status: string;
 };
 
 function Job(props: JobProps) {
   const dispatch = useAppDispatch();
-  const { job, id, index } = props;
+  const { job, id, index, status } = props;
   const router = useRouter();
 
   const handleClick = () => {
@@ -49,7 +51,7 @@ function Job(props: JobProps) {
             </h3>
             <div className="flex w-full mt-2">
               <Image
-                src={job.img}
+                src={job.img || iconNoImage}
                 alt={`Logo of ${job.company}`}
                 width={48}
                 height={48}
@@ -65,7 +67,7 @@ function Job(props: JobProps) {
               </div>
               <div className="flex w-full gap-2 justify-end items-center">
                 <Link
-                  href={`/job/details/${job.id}`}
+                  href={`/job/details/${job.id}?status=${status}`}
                   className="hidden group-hover:block"
                 >
                   <svg

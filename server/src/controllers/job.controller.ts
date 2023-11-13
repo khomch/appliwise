@@ -32,6 +32,34 @@ const jobController = {
   create: async (req: Request, res: Response) => {
     try {
       res.status(201);
+      const result = await jobModel.createOne({
+        ...req.body.jobInfo,
+        status: req.body.status,
+      });
+
+      res.json(result);
+    } catch (err) {
+      res.status(500);
+      res.send(err);
+      throw new Error('Error while posting');
+    }
+  },
+
+  update: async (req: Request, res: Response) => {
+    try {
+      res.status(200);
+      const result = await jobModel.update(req.body);
+      res.json(result);
+    } catch (err) {
+      res.status(500);
+      res.send(err);
+      throw new Error('Error while posting');
+    }
+  },
+
+  parse: async (req: Request, res: Response) => {
+    try {
+      res.status(201);
       const jobInfo = await parseFromUrl(req.body.url);
       const result = await jobModel.createOne({
         ...jobInfo,

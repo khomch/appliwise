@@ -13,6 +13,8 @@ router.get('/job', jobController.getAll);
 router.get('/job/:id', jobController.getOneJob);
 router.delete('/job', jobController.delete);
 router.post('/job', jobController.create);
+router.put('/job', jobController.update);
+router.post('/job/parse', jobController.parse);
 router.put('/job/fav', jobController.handleFavs);
 router.post('/column', columnController.create);
 router.get('/column', columnController.getColumns);

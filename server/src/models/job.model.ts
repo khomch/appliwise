@@ -18,7 +18,6 @@ const jobModel = {
           id: id,
         },
       });
-      console.log('job: ', job);
       return job;
     } catch (err) {
       console.log('err getOne:>> ', err);
@@ -26,8 +25,6 @@ const jobModel = {
   },
   delete: async (id: string) => {
     try {
-      console.log('id: ', id);
-
       const column = await prisma.column.findFirst({
         where: {
           orderOfIds: {
@@ -86,6 +83,33 @@ const jobModel = {
         status: jobInfo.status || 'backlog',
       });
       return { ...createJob, columnId: updatedColumn!.id };
+    } catch (err) {
+      console.log('err postOne:>> ', err);
+    }
+  },
+  update: async (jobInfo: Record<string, string | undefined>) => {
+    try {
+      const updatedJob = await prisma.item.update({
+        where: {
+          id: jobInfo.id,
+        },
+        data: {
+          url: jobInfo.url || '',
+          img: jobInfo.img,
+          position: jobInfo.position,
+          company: jobInfo.company,
+          location: jobInfo.location,
+          description: jobInfo.description,
+          salary: jobInfo.salary,
+          seniorityLevel: jobInfo.seniority_level,
+          jobFunction: jobInfo.job_function,
+          employmentType: jobInfo.employment_type,
+          industries: jobInfo.industries,
+          notes: '',
+          entries: { create: [] },
+        },
+      });
+      return updatedJob;
     } catch (err) {
       console.log('err postOne:>> ', err);
     }

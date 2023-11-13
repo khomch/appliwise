@@ -23,6 +23,7 @@ const config: Config = {
         appcolbg: '#F2F2F7',
         appprimary50: "#CDE5FF",
         appprimary30: "#E4F1FF",
+        appprimary80: "#51A4FF",
         appmodalbg: "#F8F8FA",
         appdanger: "#FF6961"
       },

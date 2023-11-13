@@ -1,6 +1,11 @@
 import { useAppDispatch } from '@/app/hooks/hooks';
 import { addNewJob, deleteJobFromState } from '@/app/store/slices/jobSlice';
-import { deleteJob, handleLinkedInParsing } from '@/services/api';
+import {
+  deleteJob,
+  handleLinkedInParsing,
+  postJob,
+  updateJob,
+} from '@/services/api';
 import { TJob } from '@/utils/types';
 import Image from 'next/image';
 import { FormEvent, useEffect, useState } from 'react';
@@ -24,8 +29,11 @@ export function JobExtended({
   status,
 }: JobExtendedProps) {
   const dispatch = useAppDispatch();
+  const [jobId, setJobId] = useState<string>(job.id);
+  const [isNewJob, setIsNewJob] = useState<boolean>(isNew);
   const [isParsable, setIsParsable] = useState<boolean>(false);
   const [isParsed, setIsParsed] = useState<boolean>(false);
+  const [isUpdated, setIsUdated] = useState<boolean>(false);
   const [url, setUrl] = useState<string>(job.url);
   const [position, setPosition] = useState<string>(job.position);
   const [company, setCompany] = useState<string>(job.company);
@@ -35,10 +43,52 @@ export function JobExtended({
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isNewJob) {
+      const jobInfo = {
+        url,
+        position,
+        company,
+        description,
+        salary,
+        location,
+      };
+      postJob(jobInfo, status).then((res) => {
+        if (res.id) {
+          dispatch(handleAddNewJobToColumn(res));
+          dispatch(addNewJob(res));
+          console.log('ALL GOOD!, JOB ADDED');
+          closeModal();
+        } else {
+          console.log('Error while adding a job');
+        }
+      });
+    } else {
+      const jobInfo = {
+        url,
+        position,
+        company,
+        description,
+        salary,
+        location,
+        id: jobId,
+        status: status!,
+      };
+      updateJob(jobInfo).then((res) => {
+        console.log('res: ', res);
+        if (res.id) {
+          dispatch(addNewJob(res));
+          setIsParsed(false);
+          setIsUdated(true);
+          console.log('ALL GOOD!, JOB UPDATED');
+        } else {
+          console.log('Error while updating a job');
+        }
+      });
+    }
   };
 
   useEffect(() => {
-    if (isNew && url.startsWith(LINKEDIN_JOBS)) {
+    if (isNewJob && url.startsWith(LINKEDIN_JOBS)) {
       setIsParsable(true);
     } else {
       setIsParsable(false);
@@ -46,7 +96,7 @@ export function JobExtended({
   }, [url]);
 
   const handleParsing = () => {
-    if (isNew && url.startsWith(LINKEDIN_JOBS)) {
+    if (isNewJob && url.startsWith(LINKEDIN_JOBS)) {
       handleLinkedInParsing(url, status).then((res) => {
         setUrl(res.url);
         setPosition(res.position);
@@ -56,7 +106,9 @@ export function JobExtended({
         setLocation(res.location);
         dispatch(handleAddNewJobToColumn(res));
         dispatch(addNewJob(res));
+        setJobId(res.id);
         setIsParsed(true);
+        setIsNewJob(false);
       });
     }
   };
@@ -75,24 +127,30 @@ export function JobExtended({
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-      {!isNew && (
+      {!isNewJob && (
         <>
-          <h1 className="text-xl font-medium truncate mt-2">{job.position}</h1>
-          <div className="flex self-end w-[88px]">
-            <Button
-              value={'Delete'}
-              style={'border'}
-              variant={'danger'}
-              size={'m'}
-              type="button"
-              onClick={handleDelete}
-            />
+          <h1 className="text-xl font-medium truncate mt-2">{position}</h1>
+          <div className="flex w-full justify-between items-center">
+            <p className="text-appprimary80 text-xs">
+              {isParsed && 'Successfully parsed'}
+              {isUpdated && 'Successfully updated'}
+            </p>
+            <div className=" w-[88px]">
+              <Button
+                value={'Delete'}
+                style={'border'}
+                variant={'danger'}
+                size={'m'}
+                type="button"
+                onClick={handleDelete}
+              />
+            </div>
           </div>
         </>
       )}
       <div className="flex justify-evenly gap-6">
         <Input value={url} inputName="URL" type={'text'} setValue={setUrl} />
-        {!isNew ? (
+        {!isNewJob ? (
           <a target="_blank" href={url} className="mt-4 self-center">
             <Image
               src={iconNewTab}
@@ -110,8 +168,7 @@ export function JobExtended({
                 url &&
                 !isParsable &&
                 "Can't parse, fill in the form") ||
-              (isParsed && 'Successfully parsed') ||
-              'Enter a link'
+              'Paste link to Job on LinkedIn'
             }
             style={'border'}
             variant={
@@ -121,7 +178,6 @@ export function JobExtended({
             type="button"
             onClick={handleParsing}
             customStyle="self-end"
-            disabled={((isParsed || (url && isParsable)) && true) || false}
           />
         )}
       </div>
@@ -140,7 +196,7 @@ export function JobExtended({
           setValue={setCompany}
         />
       </div>
-      {(description || isNew) && (
+      {(description || isNewJob) && (
         <Input
           value={description}
           inputName="Description"
@@ -164,7 +220,11 @@ export function JobExtended({
         />
       </div>
       <div className="flex justify-evenly gap-6">
-        <Button type="submit" variant="primary" value="Save" />
+        <Button
+          type="submit"
+          variant="primary"
+          value={isNewJob ? 'Save' : 'Update'}
+        />
         <Button
           type="reset"
           variant="secondary"

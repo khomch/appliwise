@@ -22,7 +22,6 @@ import { usePathname, useRouter } from 'next/navigation';
 
 export default function Home() {
   const pathname = usePathname();
-  console.log('pathname: ', pathname);
   const dispatch = useAppDispatch();
   const { jobs } = useAppSelector((state) => state.job);
   const { columns } = useAppSelector((state) => state.column);

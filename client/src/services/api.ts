@@ -164,13 +164,44 @@ export async function deleteEntry(id: string) {
 
 export async function handleLinkedInParsing(link: string, status?: string) {
   try {
-    const res = await fetch(BASE_URL + '/job', {
+    const res = await fetch(BASE_URL + '/job/parse', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: link, status }),
     });
     const newJob = await res.json();
     return newJob;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function postJob(
+  jobInfo: Record<string, string>,
+  status?: string
+) {
+  try {
+    const res = await fetch(BASE_URL + '/job', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jobInfo, status }),
+    });
+    const newJob = await res.json();
+    return newJob;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function updateJob(jobInfo: Record<string, string>) {
+  try {
+    const res = await fetch(BASE_URL + '/job', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(jobInfo),
+    });
+    const updatedJob = await res.json();
+    return updatedJob;
   } catch (error) {
     console.error(error);
   }

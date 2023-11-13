@@ -35,7 +35,13 @@ function Column({ jobsInColumn, title, id, status }: ColumnProps) {
               ? jobsInColumn.map(
                   (job: TJob, index: number) =>
                     job && (
-                      <Job key={job.id} job={job} id={job.id} index={index} />
+                      <Job
+                        key={job.id}
+                        job={job}
+                        id={job.id}
+                        index={index}
+                        status={status}
+                      />
                     )
                 )
               : ''}
