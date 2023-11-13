@@ -1,12 +1,17 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 
-type InputProps = {
-  value: string;
-  type: string;
-  inputName: string;
-  textarea?: boolean;
-  setValue: Dispatch<SetStateAction<string>>;
-};
+interface InputGroupPropsInput
+  extends React.ComponentPropsWithoutRef<'input'> {}
+interface InputGroupPropsTextArea
+  extends React.ComponentPropsWithoutRef<'textarea'> {}
+
+type InputProps = InputGroupPropsInput &
+  InputGroupPropsTextArea & {
+    inputName: string;
+    textarea?: boolean;
+    customClasses?: string;
+    setValue: Dispatch<SetStateAction<string>>;
+  };
 
 export function Input({
   value,
@@ -14,6 +19,8 @@ export function Input({
   inputName,
   setValue,
   textarea = false,
+  customClasses,
+  ...props
 }: InputProps) {
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -35,7 +42,8 @@ export function Input({
           onChange={handleChange}
           value={value}
           type={type}
-          className="text-s bg-white border border-appborder text-apptsecondary rounded-md h-11 px-4"
+          className={`text-s bg-white border border-appborder text-apptsecondary rounded-md h-11 px-4 ${customClasses}`}
+          {...props}
         ></input>
       ) : (
         <textarea
@@ -43,7 +51,8 @@ export function Input({
           onChange={handleChange}
           value={value}
           className="text-s bg-white border border-appborder text-apptsecondary rounded-md py-2 px-4"
-          rows={5}
+          rows={2}
+          {...props}
         ></textarea>
       )}
     </div>

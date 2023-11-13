@@ -1,9 +1,7 @@
 'use client';
 import type { DropResult } from '@hello-pangea/dnd';
 import { DragDropContext } from '@hello-pangea/dnd';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { JobExtended } from '../components/job-extended/job-extended';
 import { updateColumn } from '../services/api';
 import { getInitialData } from '../utils/getInitialData';
 import {
@@ -12,15 +10,12 @@ import {
   getDropParams,
 } from '../utils/handleDnD';
 import { TColumns, TJob, TJobs } from '../utils/types';
-import InfoModal from './@modal/info/page';
 import Column from './components/column/column';
 
 export default function Home() {
   const [link, setLink] = useState<string>('');
   const [jobs, setJobs] = useState<TJobs>({});
   const [columns, setColumns] = useState<TColumns>({});
-  const [openedJob, setOpenedJob] = useState<TJob | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
     getInitialData().then(([jobs, cols]) => {
@@ -111,28 +106,9 @@ export default function Home() {
     }));
   };
 
-  function handleClose() {
-    console.log('MODAL HAS CLOSED');
-    router.back();
-    setOpenedJob(null);
-  }
-
-  function handleOk() {
-    console.log('OK CLICKED');
-  }
-
   return (
     <main className="flex w-full justify-center items-center align-middle">
       <section className="flex min-h-screen justify-between max-w-[1320px] self-center w-full">
-        {openedJob && (
-          <InfoModal
-            title={openedJob!.position}
-            onClose={handleClose}
-            onOk={handleOk}
-          >
-            <JobExtended job={openedJob} closeModal={handleClose} />
-          </InfoModal>
-        )}
         <DragDropContext onDragEnd={onDragEnd}>
           {columns &&
             columns &&
@@ -146,7 +122,6 @@ export default function Home() {
                   id={column.id}
                   jobsInColumn={columnJobs}
                   title={column.title}
-                  setOpenedJob={setOpenedJob}
                   setJobs={setJobs}
                 />
               );

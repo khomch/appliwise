@@ -38,3 +38,13 @@ export type TColumn = {
 export type TColumns = {
   [key: string]: TColumn;
 };
+
+export type TEntry = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  title: string;
+  notes: string;
+  status: string;
+  itemId: string;
+};

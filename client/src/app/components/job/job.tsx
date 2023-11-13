@@ -9,18 +9,15 @@ type JobProps = {
   job: TJob;
   id: string;
   index: number;
-  setOpenedJob: (job: TJob) => void;
   setJobs: Dispatch<React.SetStateAction<TJobs>>;
 };
 
 function Job(props: JobProps) {
-  const { job, id, index, setOpenedJob, setJobs } = props;
+  const { job, id, index, setJobs } = props;
   const router = useRouter();
 
   const handleClick = () => {
-    console.log('CLICKED');
-    setOpenedJob(job);
-    router.push('/info');
+    router.push(`/entries/${job.id}`);
   };
 
   const handleFavClick = async () => {
@@ -85,12 +82,6 @@ function Job(props: JobProps) {
                     />
                   </svg>
                 </div>
-                {/* <Image
-                  src={iconFav}
-                  alt="make favoutite"
-                  className="hover:cursor-pointer"
-                  onClick={handleFavClick}
-                /> */}
               </div>
             </div>
           </div>

@@ -16,11 +16,24 @@ const jobController = {
     }
   },
 
+  getOneJob: async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id;
+      const oneJob = await jobModel.getOne(id);
+      res.status(200);
+      res.json(oneJob);
+    } catch (err) {
+      res.status(500);
+      res.send(err);
+      throw new Error('Error while posting');
+    }
+  },
+
   create: async (req: Request, res: Response) => {
     try {
       res.status(201);
       const jobInfo = await parseFromUrl(req.body.url);
-      const result = await jobModel.postOne(jobInfo);
+      const result = await jobModel.createOne(jobInfo);
       res.json(result);
     } catch (err) {
       res.status(500);

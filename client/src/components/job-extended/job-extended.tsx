@@ -7,7 +7,7 @@ import { Input } from '../ui/input/input';
 
 type JobExtendedProps = {
   job: TJob;
-  closeModal?: () => void;
+  closeModal: () => void;
 };
 
 export function JobExtended({ job, closeModal }: JobExtendedProps) {
@@ -24,11 +24,12 @@ export function JobExtended({ job, closeModal }: JobExtendedProps) {
   };
   const handleReset = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    closeModal && closeModal();
+    closeModal();
   };
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      <h1 className="text-xl font-medium truncate mt-2">{job.position}</h1>
       <div className="flex justify-evenly gap-6">
         <Input value={url} inputName="URL" type={'text'} setValue={setUrl} />
         <a target="_blank" href={url} className="mt-4 self-center">
@@ -80,9 +81,9 @@ export function JobExtended({ job, closeModal }: JobExtendedProps) {
         />
       </div>
       <div className="flex justify-evenly gap-6">
-        <Button type="submit" variant="primary" value="Save" />
+        <Button size="submit" variant="primary" value="Save" />
         <Button
-          type="reset"
+          size="reset"
           variant="secondary"
           value="Cancel"
           onClick={handleReset}

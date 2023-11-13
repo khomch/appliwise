@@ -1,5 +1,6 @@
 import { prisma } from './';
 import columnModel from './column.model';
+import entryModel from './entry.model';
 
 const jobModel = {
   getAll: async () => {
@@ -10,9 +11,21 @@ const jobModel = {
       console.log('err getAll:>> ', err);
     }
   },
-  postOne: async (jobInfo: Record<string, string | undefined>) => {
+  getOne: async (id: string) => {
     try {
-      const writeJob = await prisma.item.create({
+      const job = await prisma.item.findFirst({
+        where: {
+          id: id,
+        },
+      });
+      return job;
+    } catch (err) {
+      console.log('err getOne:>> ', err);
+    }
+  },
+  createOne: async (jobInfo: Record<string, string | undefined>) => {
+    try {
+      const createJob = await prisma.item.create({
         data: {
           url: jobInfo.url || '',
           img: jobInfo.img,
@@ -29,11 +42,18 @@ const jobModel = {
           entries: { create: [] },
         },
       });
+
+      entryModel.create({
+        title: 'Job added',
+        notes: '',
+        itemId: createJob.id,
+      });
+
       const updatedColumn = await columnModel.addToColumn({
-        jobId: writeJob.id,
+        jobId: createJob.id,
         status: 'backlog',
       });
-      return { ...writeJob, columnId: updatedColumn!.id };
+      return { ...createJob, columnId: updatedColumn!.id };
     } catch (err) {
       console.log('err postOne:>> ', err);
     }

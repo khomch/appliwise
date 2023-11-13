@@ -12,14 +12,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout(props: {
   children: React.ReactNode;
-  modal: React.ReactNode;
+  jobinfo: React.ReactNode;
 }) {
   return (
     <html lang="en">
       <body className="flex flex-col center bg-appbg">
         <Navbar />
         <main>{props.children}</main>
-        {props.modal}
+        {props.jobinfo}
       </body>
     </html>
   );
