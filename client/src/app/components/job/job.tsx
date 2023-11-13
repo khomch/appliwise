@@ -49,6 +49,9 @@ function Job(props: JobProps) {
             >
               {job.position}
             </h3>
+            {job.salary && (
+              <p className="text-xs text-apptsecondary">$: {job.salary}</p>
+            )}
             <div className="flex w-full mt-2">
               <Image
                 src={job.img || iconNoImage}

@@ -9,6 +9,8 @@ import {
 } from 'react';
 import { Button } from '../ui/button/button';
 import { Input } from '../ui/input/input';
+import { Select } from '../ui/select/select';
+import { STATUS_OPTIONS } from '@/utils/constants';
 
 type EntryProps = {
   entry: TEntry;
@@ -65,7 +67,6 @@ export function Entry({ entry, jobId, setEntries, setNewEntry }: EntryProps) {
     }
   };
 
-  //WIP
   const handleReset = (event: FormEvent) => {
     event.preventDefault();
     if (!entry.createdAt) {
@@ -93,6 +94,11 @@ export function Entry({ entry, jobId, setEntries, setNewEntry }: EntryProps) {
         // TODO: handleError
       }
     });
+  };
+
+  const handleSelectStatus = (event: any) => {
+    setStatus(event.target.value);
+    console.log(event.target.value);
   };
 
   const toggleDisabled = (event: FormEvent) => {
@@ -159,21 +165,30 @@ export function Entry({ entry, jobId, setEntries, setNewEntry }: EntryProps) {
           )}
         </div>
       </div>
-      <div className="flex justify-evenly gap-6">
+      <div className="flex space-between">
         <Input
           value={created}
           inputName="Date"
           type={'datetime-local'}
           setValue={setCreated}
           disabled={isDisabled}
+          customClasses="max-w-[312px]"
         />
-        <Input
-          value={status}
-          inputName="Status"
-          type={'text'}
-          setValue={setStatus}
-          disabled={isDisabled}
-        />
+        <div className="flex flex-col w-full max-w-[312px]">
+          <label
+            className="text-s text-apptextprimary font-regular"
+            htmlFor={'status'}
+          >
+            Status
+          </label>
+          <Select
+            id="status"
+            selectedStatus={status}
+            options={STATUS_OPTIONS}
+            handleSelectStatus={handleSelectStatus}
+            isDisabled={isDisabled}
+          />
+        </div>
       </div>
       <Input
         value={notes}

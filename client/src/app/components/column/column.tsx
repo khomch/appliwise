@@ -21,11 +21,24 @@ function Column({ jobsInColumn, title, id, status }: ColumnProps) {
     <Droppable droppableId={id}>
       {(provided, snapshot) => (
         <div
-          className={`flex flex-col m-w-[312px] min-w-[312px] min-h-[204px] w-full px-2 border rounded-lg bg-appcolbg h-min my-4 py-4 mx-2 ${
+          className={`flex flex-col m-w-[312px] min-w-[312px] min-h-[204px] w-full px-2 border rounded-lg bg-appcolbg h-min my-4 mx-2 ${
             snapshot.isDraggingOver && 'bg-appprimary30'
           }`}
         >
-          <h2 className="text-lg font-semibold">{title}</h2>
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-semibold py-4">{title}</h2>
+            <div className="w-full max-w-[40px]">
+              <Button
+                value="+"
+                type="button"
+                variant="secondary"
+                style="border"
+                size="s"
+                customStyle={'border-0'}
+                onClick={handleAddNewJobClick}
+              />
+            </div>
+          </div>
           <ul
             className={`flex flex-col `}
             ref={provided.innerRef}
