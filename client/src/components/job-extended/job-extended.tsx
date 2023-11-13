@@ -1,9 +1,10 @@
-import { TJob } from '@/utils/types';
+import { TColumn, TJob } from '@/utils/types';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
 import iconNewTab from '../../../public/icon-opentab.svg';
 import { Button } from '../ui/button/button';
 import { Input } from '../ui/input/input';
+import { deleteJob } from '@/services/api';
 
 type JobExtendedProps = {
   job: TJob;
@@ -22,14 +23,30 @@ export function JobExtended({ job, closeModal }: JobExtendedProps) {
     event.preventDefault();
     console.log('SUBMIT');
   };
-  const handleReset = (event: FormEvent<HTMLFormElement>) => {
+  const handleReset = (event: FormEvent) => {
     event.preventDefault();
+    closeModal();
+  };
+  const handleDelete = (event: FormEvent) => {
+    event.preventDefault();
+    deleteJob(job.id, job.columnId).then((res) => console.log(res));
+    console.log('DELETE');
     closeModal();
   };
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
       <h1 className="text-xl font-medium truncate mt-2">{job.position}</h1>
+      <div className="flex self-end w-[88px]">
+        <Button
+          value={'Delete'}
+          style={'border'}
+          variant={'danger'}
+          size={'m'}
+          type="button"
+          onClick={handleDelete}
+        />
+      </div>
       <div className="flex justify-evenly gap-6">
         <Input value={url} inputName="URL" type={'text'} setValue={setUrl} />
         <a target="_blank" href={url} className="mt-4 self-center">
@@ -81,9 +98,9 @@ export function JobExtended({ job, closeModal }: JobExtendedProps) {
         />
       </div>
       <div className="flex justify-evenly gap-6">
-        <Button size="submit" variant="primary" value="Save" />
+        <Button type="submit" variant="primary" value="Save" />
         <Button
-          size="reset"
+          type="reset"
           variant="secondary"
           value="Cancel"
           onClick={handleReset}

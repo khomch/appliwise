@@ -33,7 +33,7 @@ export default function EntriesModal() {
   return (
     entries &&
     job && (
-      <Modal title={'SSA'} onClose={handleClose}>
+      <Modal onClose={handleClose}>
         <Entries entries={entries} job={job} setEntries={setEntries} />
       </Modal>
     )

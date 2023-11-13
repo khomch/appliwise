@@ -3,12 +3,11 @@ import { useEffect, useRef } from 'react';
 import iconClose from '../../../public/icon-close.svg';
 
 type Props = {
-  title: string;
   onClose: () => void;
   children: React.ReactNode;
 };
 
-export default function Modal({ title, onClose, children }: Props) {
+export default function Modal({ onClose, children }: Props) {
   const modalRef = useRef<null | HTMLDialogElement>(null);
 
   useEffect(() => {

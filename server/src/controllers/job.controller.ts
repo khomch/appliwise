@@ -53,6 +53,18 @@ const jobController = {
       throw new Error('Error while posting');
     }
   },
+
+  delete: async (req: Request, res: Response) => {
+    try {
+      res.status(200);
+      const deletedJob = await jobModel.delete(req.body.id);
+      res.json(deletedJob);
+    } catch (err) {
+      res.status(500);
+      res.send(err);
+      throw new Error('Error while deleteJob');
+    }
+  },
 };
 
 export default jobController;

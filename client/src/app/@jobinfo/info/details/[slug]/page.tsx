@@ -27,7 +27,7 @@ export default function DetailsModal() {
 
   return (
     jobToRender && (
-      <Modal title={jobToRender.position} onClose={handleClose}>
+      <Modal onClose={handleClose}>
         <JobExtended job={jobToRender} closeModal={handleClose} />
       </Modal>
     )

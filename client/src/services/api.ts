@@ -26,6 +26,21 @@ export async function fetchOneJob(id: string) {
   }
 }
 
+export async function deleteJob(id: string, columnId: string) {
+  console.log('id: ', id);
+  try {
+    const res = await fetch(BASE_URL + '/job', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: id, columnId }),
+    });
+
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function fetchColumns() {
   try {
     const res = await fetch(BASE_URL + '/column', {
@@ -141,7 +156,7 @@ export async function deleteEntry(id: string) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: id }),
     });
-    
+
     return res;
   } catch (error) {
     console.error(error);

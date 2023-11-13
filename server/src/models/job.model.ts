@@ -18,7 +18,39 @@ const jobModel = {
           id: id,
         },
       });
+      console.log('job: ', job);
       return job;
+    } catch (err) {
+      console.log('err getOne:>> ', err);
+    }
+  },
+  delete: async (id: string) => {
+    try {
+      console.log('id: ', id);
+
+      const column = await prisma.column.findFirst({
+        where: {
+          orderOfIds: {
+            has: id,
+          },
+        },
+      });
+      await prisma.column.update({
+        where: {
+          id: column!.id,
+        },
+        data: {
+          orderOfIds: {
+            set: column?.orderOfIds.filter((itemId: string) => itemId !== id),
+          },
+        },
+      });
+      const deletedJob = await prisma.item.delete({
+        where: {
+          id: id,
+        },
+      });
+      return deletedJob;
     } catch (err) {
       console.log('err getOne:>> ', err);
     }

@@ -1,7 +1,9 @@
 import { TEntry, TJob } from '@/utils/types';
+import Image from 'next/image';
+import { Dispatch, SetStateAction, useState } from 'react';
+import iconNewTab from '../../../public/icon-opentab.svg';
 import { Entry } from '../entry/entry';
 import { Button } from '../ui/button/button';
-import { Dispatch, SetStateAction, useState } from 'react';
 
 type EntriesProps = {
   entries: TEntry[];
@@ -26,7 +28,21 @@ export function Entries({ entries, job, setEntries }: EntriesProps) {
 
   return (
     <>
-      <h1 className="text-xl font-medium truncate mt-2">{job.position}</h1>
+      <div className="flex items-center gap-6 ">
+        <h1 className="text-xl font-medium truncate mt-2 max-w-xl">
+          {job.position}
+        </h1>
+        <a target="_blank" href={job.url} className="mt-2 self-center">
+          <Image
+            src={iconNewTab}
+            alt="open in new tab"
+            className=" hover:cursor-pointer"
+            width={20}
+            height={20}
+          />
+        </a>
+      </div>
+      {/* </Link> */}
       {!newEntry && (
         <Button
           value="Add entry"

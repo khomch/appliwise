@@ -11,6 +11,7 @@ router.get('/users', async (req, res) => {
 });
 router.get('/job', jobController.getAll);
 router.get('/job/:id', jobController.getOneJob);
+router.delete('/job', jobController.delete);
 router.post('/job', jobController.create);
 router.put('/job/fav', jobController.handleFavs);
 router.post('/column', columnController.create);
