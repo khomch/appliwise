@@ -60,6 +60,7 @@ model Item {
   entries        Entry[]
   Column         Column?  @relation(fields: [columnId], references: [id])
   columnId       String?
+  lastStatus     String?
 }
 
 model Entry {

@@ -1,8 +1,9 @@
 import { data } from 'cheerio/lib/api/attributes';
 import { prisma } from '.';
+import jobModel from './job.model';
 
 const entryModel = {
-  create: async (entryInfo: Record<string, string | undefined>) => {
+  create: async (entryInfo: Record<string, string>) => {
     try {
       const newEntry = await prisma.entry.create({
         data: {
@@ -12,6 +13,9 @@ const entryModel = {
           status: entryInfo.status,
         },
       });
+      if (newEntry) {
+        jobModel.updateLastStatus(entryInfo.itemId, entryInfo.status);
+      }
       return newEntry;
     } catch (err) {
       console.log('err createEntry:>> ', err);
@@ -29,7 +33,7 @@ const entryModel = {
       console.log('err getAllEntries:>> ', err);
     }
   },
-  update: async (entryInfo: Record<string, string | undefined>) => {
+  update: async (entryInfo: Record<string, string>) => {
     try {
       const updatedEntry = await prisma.entry.update({
         where: {
@@ -42,6 +46,9 @@ const entryModel = {
           status: entryInfo.status,
         },
       });
+      if (updatedEntry) {
+        jobModel.updateLastStatus(entryInfo.itemId, entryInfo.status);
+      }
       return updatedEntry;
     } catch (err) {
       console.log('err updateEntry:>> ', err);

@@ -137,6 +137,29 @@ const jobModel = {
       console.log('err postOne:>> ', err);
     }
   },
+  updateLastStatus: async (id: string, lastStatus: string) => {
+    try {
+      const job = await prisma.item.findFirst({
+        where: {
+          id: id,
+        },
+      });
+      if (job) {
+        const updatedJob = await prisma.item.update({
+          where: {
+            id: id,
+          },
+          data: {
+            lastStatus: lastStatus,
+          },
+        });
+        return updatedJob;
+      }
+      return false;
+    } catch (err) {
+      console.log('err postOne:>> ', err);
+    }
+  },
 };
 
 export default jobModel;

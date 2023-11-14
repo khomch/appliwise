@@ -12,6 +12,7 @@ export type TJob = {
   salary?: string;
   seniorityLevel?: string;
   jobFunction?: string;
+  lastStatus?: string;
   employmentType?: string;
   isFavourite?: boolean;
   industries?: string;
