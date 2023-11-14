@@ -36,8 +36,8 @@ const Navbar = () => {
               </ul>
             </div>
             <div className="flex gap-2">
-              <Link href={'/login'}>Login</Link>
-              <Link href={'/signup'}>Register</Link>
+              <Link href={'/profile'}>Profile</Link>
+              {/* <Link href={'/signup'}>Register</Link> */}
             </div>
           </div>
         </div>

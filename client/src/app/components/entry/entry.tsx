@@ -11,6 +11,8 @@ import { Button } from '../ui/button/button';
 import { Input } from '../ui/input/input';
 import { Select } from '../ui/select/select';
 import { STATUS_OPTIONS } from '@/utils/constants';
+import { useAppDispatch } from '@/app/hooks/hooks';
+import { updateJobState } from '@/app/store/slices/jobSlice';
 
 type EntryProps = {
   entry: TEntry;
@@ -20,6 +22,7 @@ type EntryProps = {
 };
 
 export function Entry({ entry, jobId, setEntries, setNewEntry }: EntryProps) {
+  const dispatch = useAppDispatch();
   const [title, setTitle] = useState<string>(entry.title);
   const [created, setCreated] = useState<string>(entry.createdAt.slice(0, -8));
   const [notes, setNotes] = useState<string>(entry.notes);
@@ -98,7 +101,9 @@ export function Entry({ entry, jobId, setEntries, setNewEntry }: EntryProps) {
 
   const handleSelectStatus = (event: any) => {
     setStatus(event.target.value);
-    console.log(event.target.value);
+    dispatch(
+      updateJobState({ jobId, key: 'lastStatus', value: event.target.value })
+    );
   };
 
   const toggleDisabled = (event: FormEvent) => {

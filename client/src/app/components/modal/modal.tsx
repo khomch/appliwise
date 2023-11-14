@@ -22,7 +22,8 @@ export default function Modal({ onClose, children }: Props) {
 
   useEffect(() => {
     if (children) {
-      modalRef.current?.showModal();
+      modalRef.current?.close();
+      modalRef.current && modalRef.current?.showModal();
     } else {
       closeModal();
     }

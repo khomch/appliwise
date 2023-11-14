@@ -8,6 +8,7 @@ import { toggleFavJob } from '../../../services/api';
 import { TJob } from '../../../utils/types';
 import iconNoImage from '../../../../public/icon-noimage.svg';
 import { useState } from 'react';
+import { STATUS_OPTIONS } from '@/utils/constants';
 
 type JobProps = {
   job: TJob;
@@ -21,8 +22,14 @@ function Job(props: JobProps) {
   const { job, id, index, status } = props;
 
   const archived =
-    job.lastStatus === ('not-consider' || 'archive' || 'cancelled') ||
-    job.lastStatus?.startsWith('reject');
+    job.lastStatus === 'archive' ||
+    job.lastStatus === 'cancelled' ||
+    job.lastStatus === 'not-consider' ||
+    (job.lastStatus && job.lastStatus?.startsWith('reject'));
+
+  const lastStatusValue: any | undefined =
+    job.lastStatus &&
+    STATUS_OPTIONS.find((option) => option.value === job.lastStatus);
 
   const router = useRouter();
 
@@ -58,7 +65,12 @@ function Job(props: JobProps) {
               {job.position}
             </h3>
             {job.salary && !archived && (
-              <p className="text-xs text-apptsecondary">$: {job.salary}</p>
+              <p className="text-xs text-apptsecondary">Salary: {job.salary}</p>
+            )}
+            {archived && (
+              <p className="text-xs text-apptsecondary">
+                {job.company} — {lastStatusValue.text}
+              </p>
             )}
             {!archived && (
               <div className="flex w-full mt-2">

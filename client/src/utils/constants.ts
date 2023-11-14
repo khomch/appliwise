@@ -27,7 +27,7 @@ export const STATUS_OPTIONS = [
   {
     id: '8',
     value: 'reject-after-interview-1',
-    text: 'Reject after interview#1',
+    text: 'Reject after interview #1',
   },
   {
     id: '9',
@@ -47,7 +47,7 @@ export const STATUS_OPTIONS = [
   {
     id: '12',
     value: 'reject-after-interview-2',
-    text: 'Reject after interview#2',
+    text: 'Reject after interview #2',
   },
   {
     id: '13',
@@ -61,8 +61,8 @@ export const STATUS_OPTIONS = [
   },
   {
     id: '15',
-    value: 'reject-after-test-task',
-    text: 'Reject after Test Task',
+    value: 'reject-after-test-task-2',
+    text: 'Reject after Test Task #2',
   },
   {
     id: '16',
