@@ -7,6 +7,9 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    fontFamily: {
+      sans: ['"Inter var", sans-serif'],
+    },
     extend: {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -21,11 +24,11 @@ const config: Config = {
         apptsecondary: '#767F8C',
         appcardinactive: '#D9D9D9',
         appcolbg: '#F2F2F7',
-        appprimary50: "#CDE5FF",
-        appprimary30: "#E4F1FF",
-        appprimary80: "#51A4FF",
-        appmodalbg: "#F8F8FA",
-        appdanger: "#FF6961"
+        appprimary50: '#CDE5FF',
+        appprimary30: '#E4F1FF',
+        appprimary80: '#51A4FF',
+        appmodalbg: '#F8F8FA',
+        appdanger: '#FF6961',
       },
     },
   },

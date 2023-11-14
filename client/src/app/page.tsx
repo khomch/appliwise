@@ -1,6 +1,8 @@
 'use client';
+import { LINKEDIN_JOBS } from '@/utils/constants';
 import type { DropResult } from '@hello-pangea/dnd';
 import { DragDropContext } from '@hello-pangea/dnd';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { handleLinkedInParsing, updateColumn } from '../services/api';
 import {
@@ -17,8 +19,6 @@ import {
   updateTwoColumns,
 } from './store/slices/columnSlice';
 import { addNewJob, getJobData } from './store/slices/jobSlice';
-import { LINKEDIN_JOBS } from '@/utils/constants';
-import { usePathname, useRouter } from 'next/navigation';
 
 export default function Home() {
   const pathname = usePathname();
