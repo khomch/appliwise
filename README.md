@@ -1,4 +1,3 @@
-# appliwise
 # Appliwise — Job application tracker
 Current version: 0.1.
 
