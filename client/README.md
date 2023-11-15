@@ -1,24 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Appliwise — Job application tracker
+Current version: 0.1.
 
-## Getting Started
+## Running local
 
-First, run the development server:
+1. Setup and run the server:
 
+- Install and run `PostgreSQL` process;
+- Create `Database` for the project;
+- To connect to the database create `.env` file in `/server` folder with `DATABASE_URL="postgresql://your-connection-string"`;
+- Install dependencies:
+```bash
+cd server
+npm i
+```
+- Run the server:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Setup and run the client:
+- Install dependencies:
+```bash
+cd client
+npm i
+```
+- Run the client:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
 ## Learn More
 

@@ -1,5 +1,12 @@
 import { prisma } from './';
 
+type TColumnInput = {
+  title: string;
+  colNum: string;
+  status: string;
+  boardId: string;
+};
+
 const columnModel = {
   getAll: async () => {
     try {
@@ -9,13 +16,14 @@ const columnModel = {
       console.log('err getAll:>> ', err);
     }
   },
-  create: async (columnInfo: Record<string, string | undefined>) => {
+  create: async (columnInfo: TColumnInput) => {
     try {
       const writeJob = await prisma.column.create({
         data: {
-          title: columnInfo.title || '',
-          colNum: columnInfo.colNum || '',
-          status: columnInfo.status || '',
+          title: columnInfo.title,
+          colNum: columnInfo.colNum,
+          status: columnInfo.status,
+          boardId: columnInfo.boardId,
         },
       });
       return writeJob;

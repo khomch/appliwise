@@ -68,6 +68,7 @@ const jobModel = {
           employmentType: jobInfo.employment_type,
           industries: jobInfo.industries,
           notes: '',
+          columnId: jobInfo.columnId || '',
           entries: { create: [] },
         },
       });

@@ -1,4 +1,3 @@
-import { data } from 'cheerio/lib/api/attributes';
 import { prisma } from '.';
 import jobModel from './job.model';
 
@@ -11,6 +10,7 @@ const entryModel = {
           notes: entryInfo.notes,
           itemId: entryInfo.itemId,
           status: entryInfo.status,
+          
         },
       });
       if (newEntry) {

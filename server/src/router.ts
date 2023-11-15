@@ -3,6 +3,7 @@ import { prisma } from './models';
 import jobController from './controllers/job.controller';
 import columnController from './controllers/column.controller';
 import entryController from './controllers/entry.controller';
+import userController from './controllers/user.controller';
 const router = express.Router();
 
 router.get('/users', async (req, res) => {
@@ -24,5 +25,6 @@ router.post('/entry', entryController.create);
 router.get('/entry/:id', entryController.getEntries);
 router.delete('/entry', entryController.delete);
 router.put('/entry', entryController.update);
+router.post('/user', userController.create);
 
 export default router;
