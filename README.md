@@ -55,7 +55,7 @@ Open [http://localhost:3001](http://localhost:3001) with your browser to see the
 * [Typescript](https://www.typescriptlang.org/) - Strongly typed programming language that builds on JavaScript.
 * [Next.JS](https://nextjs.org/) - The React Framework for the Web.
 * [Redux-Toolkit](https://redux-toolkit.js.org/) - Storage to share data inside the app.
-* [Taiwlind CSS](https://tailwindcss.com/) - Utility-first CSS framework.
+* [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework.
 * [Figma](https://www.figma.com/) - UI design tool entirely focused on user interface design.
 
 #### Backend
