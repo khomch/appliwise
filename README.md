@@ -16,8 +16,8 @@ Appliwise is an app designed to streamline your job application process.
 1. Clone the repo
 
 ```
-git clone https://github.com/junagao/woofie.git
-cd woofie
+git clone https://github.com/khomch/appliwise.git
+cd appliwise
 ```
 
 2. Setup and run the server:
