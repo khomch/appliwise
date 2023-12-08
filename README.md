@@ -1,5 +1,5 @@
 # Appliwise — Job application tracker
-Actual version: 0.1.
+Current version: 0.1.
 
 Appliwise is an app designed to streamline your job application process.
 
