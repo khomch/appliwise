@@ -6,7 +6,7 @@ import {
   postJob,
   updateJob,
 } from '@/services/api';
-import { TJob } from '@/utils/types';
+import { TJob } from '@/types/types';
 import Image from 'next/image';
 import { FormEvent, useEffect, useState } from 'react';
 import iconNewTab from '../../../../public/icon-opentab.svg';

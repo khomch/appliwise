@@ -1,5 +1,5 @@
 import { BASE_URL, fetchColumns, fetchJobs } from '@/services/api';
-import { TColumn, TColumns, TJob, TJobs } from '@/utils/types';
+import { TColumn, TColumns, TJob, TJobs } from '@/types/types';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const getColumnData = createAsyncThunk(

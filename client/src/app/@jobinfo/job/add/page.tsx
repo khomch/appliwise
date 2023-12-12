@@ -2,7 +2,7 @@
 
 import { JobExtended } from '@/app/components/job-extended/job-extended';
 import Modal from '@/app/components/modal/modal';
-import { TJob } from '@/utils/types';
+import { TJob } from '@/types/types';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function AddJob() {

@@ -13,14 +13,15 @@ type TUserInput = {
 };
 
 const userModel = {
-  create: async (userInfo: TUserInput) => {
+  register: async (userInfo: TUserInput) => {
+    const { email, passwordHash, firstName, lastName } = userInfo;
     try {
       const newUser = await prisma.user.create({
         data: {
-          email: userInfo.email,
-          passwordHash: userInfo.passwordHash,
-          firstName: userInfo.firstName,
-          lastName: userInfo.lastName,
+          email,
+          passwordHash,
+          firstName,
+          lastName,
         },
       });
       if (newUser) {
@@ -28,7 +29,7 @@ const userModel = {
       }
       return newUser;
     } catch (err) {
-      console.log('err createEntry:>> ', err);
+      console.log('err createUser:>> ', err);
     }
   },
 };

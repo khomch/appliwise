@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import columnModel from '../models/column.model';
+import { RequestWithUser } from '../middlewares/auth';
 
 const columnController = {
   getColumns: async (req: Request, res: Response) => {
@@ -27,7 +28,7 @@ const columnController = {
     }
   },
 
-  addToColumn: async (req: Request, res: Response) => {
+  addToColumn: async (req: RequestWithUser, res: Response) => {
     try {
       const data = await columnModel.updateColumn(req.body);
       res.status(201);

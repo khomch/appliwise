@@ -3,7 +3,7 @@
 import { JobExtended } from '@/app/components/job-extended/job-extended';
 import Modal from '@/app/components/modal/modal';
 import { fetchOneJob } from '@/services/api';
-import { TJob } from '@/utils/types';
+import { TJob } from '@/types/types';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';

@@ -63,7 +63,7 @@ const jobController = {
       const jobInfo = await parseFromUrl(req.body.url);
       const result = await jobModel.createOne({
         ...jobInfo,
-        status: req.body.status,
+        columnId: req.body.columnId,
       });
       res.json(result);
     } catch (err) {

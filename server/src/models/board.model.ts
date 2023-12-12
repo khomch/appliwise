@@ -5,22 +5,18 @@ const newColumns = [
   {
     colNum: 'column-1',
     title: 'Backlog',
-    status: 'backlog',
   },
   {
     colNum: 'column-2',
     title: 'Applied',
-    status: 'applied',
   },
   {
     colNum: 'column-3',
     title: 'Interviews',
-    status: 'interviews',
   },
   {
     colNum: 'column-4',
     title: 'Offer',
-    status: 'offer',
   },
 ];
 
@@ -39,11 +35,34 @@ const boardModel = {
         },
       });
       if (newBoard) {
+        console.log('newBoard: ', newBoard);
         newColumns.forEach((column) =>
           columnModel.create({ ...column, boardId: newBoard.id })
         );
       }
       return newBoard;
+    } catch (err) {
+      console.log('err createEntry:>> ', err);
+    }
+  },
+  getBoards: async (userId: string) => {
+    try {
+      const boards = await prisma.board.findMany({
+        where: {
+          userId,
+        },
+        include: {
+          columns: {
+            include: {
+              jobs: true,
+            },
+          },
+        },
+      });
+      if (boards) {
+        console.log('boards: ', boards);
+      }
+      return boards;
     } catch (err) {
       console.log('err createEntry:>> ', err);
     }

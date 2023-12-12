@@ -5,7 +5,7 @@ import entryModel from './entry.model';
 const jobModel = {
   getAll: async () => {
     try {
-      const jobs = await prisma.item.findMany();
+      const jobs = await prisma.job.findMany();
       return jobs;
     } catch (err) {
       console.log('err getAll:>> ', err);
@@ -13,7 +13,7 @@ const jobModel = {
   },
   getOne: async (id: string) => {
     try {
-      const job = await prisma.item.findFirst({
+      const job = await prisma.job.findFirst({
         where: {
           id: id,
         },
@@ -38,11 +38,11 @@ const jobModel = {
         },
         data: {
           orderOfIds: {
-            set: column?.orderOfIds.filter((itemId: string) => itemId !== id),
+            set: column?.orderOfIds.filter((jobId: string) => jobId !== id),
           },
         },
       });
-      const deletedJob = await prisma.item.delete({
+      const deletedJob = await prisma.job.delete({
         where: {
           id: id,
         },
@@ -52,9 +52,9 @@ const jobModel = {
       console.log('err getOne:>> ', err);
     }
   },
-  createOne: async (jobInfo: Record<string, string | undefined>) => {
+  createOne: async (jobInfo: Record<string, string>) => {
     try {
-      const createJob = await prisma.item.create({
+      const createJob = await prisma.job.create({
         data: {
           url: jobInfo.url || '',
           img: jobInfo.img,
@@ -68,7 +68,7 @@ const jobModel = {
           employmentType: jobInfo.employment_type,
           industries: jobInfo.industries,
           notes: '',
-          // columnId: jobInfo.columnId || '',
+          columnId: jobInfo.columnId,
           entries: { create: [] },
         },
       });
@@ -76,12 +76,12 @@ const jobModel = {
       entryModel.create({
         title: 'Job added',
         notes: '',
-        itemId: createJob.id,
+        jobId: createJob.id,
       });
 
       const updatedColumn = await columnModel.addToColumn({
+        columnId: createJob.columnId,
         jobId: createJob.id,
-        status: jobInfo.status || 'backlog',
       });
       return { ...createJob, columnId: updatedColumn!.id };
     } catch (err) {
@@ -90,7 +90,7 @@ const jobModel = {
   },
   update: async (jobInfo: Record<string, string | undefined>) => {
     try {
-      const updatedJob = await prisma.item.update({
+      const updatedJob = await prisma.job.update({
         where: {
           id: jobInfo.id,
         },
@@ -117,13 +117,13 @@ const jobModel = {
   },
   toggleFav: async (id: string) => {
     try {
-      const job = await prisma.item.findFirst({
+      const job = await prisma.job.findFirst({
         where: {
           id: id,
         },
       });
       if (job) {
-        const updatedJob = await prisma.item.update({
+        const updatedJob = await prisma.job.update({
           where: {
             id: id,
           },
@@ -140,13 +140,13 @@ const jobModel = {
   },
   updateLastStatus: async (id: string, lastStatus: string) => {
     try {
-      const job = await prisma.item.findFirst({
+      const job = await prisma.job.findFirst({
         where: {
           id: id,
         },
       });
       if (job) {
-        const updatedJob = await prisma.item.update({
+        const updatedJob = await prisma.job.update({
           where: {
             id: id,
           },

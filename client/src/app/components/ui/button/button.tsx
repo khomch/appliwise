@@ -16,6 +16,7 @@ export function Button({
   style = 'fill',
   variant,
   type,
+  disabled,
   customStyle,
   dashed = false,
   onClick,
@@ -57,10 +58,11 @@ export function Button({
         }
         hover:shadow-lg
         ${dashed && `border-0 outline-dashed  outline-appcardinactive`}
-
         ${customStyle}
+        ${disabled && 'bg-appcardinactive border text-apptsecondary hover:shadow-none cursor-default'}
       `}
       onClick={onClick}
+      disabled={disabled}
       {...props}
     >
       {value}

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toggleFavJob } from '../../../services/api';
-import { TJob } from '../../../utils/types';
+import { TJob } from '../../../types/types';
 import iconNoImage from '../../../../public/icon-noimage.svg';
 import { useState } from 'react';
 import { STATUS_OPTIONS } from '@/utils/constants';

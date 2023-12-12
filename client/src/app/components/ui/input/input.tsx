@@ -39,6 +39,7 @@ export function Input({
       {!textarea ? (
         <input
           id={inputName}
+          name={inputName}
           onChange={handleChange}
           value={value}
           type={type}

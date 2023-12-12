@@ -49,3 +49,10 @@ export type TEntry = {
   status: string;
   itemId: string;
 };
+
+export type TUser = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+};

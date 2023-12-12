@@ -1,4 +1,4 @@
-import { TEntry, TJob } from '@/utils/types';
+import { TEntry, TJob } from '@/types/types';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
 import iconNewTab from '../../../../public/icon-opentab.svg';

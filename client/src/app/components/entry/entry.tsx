@@ -1,5 +1,5 @@
 import { deleteEntry, postEntry, updateEntry } from '@/services/api';
-import { TEntry } from '@/utils/types';
+import { TEntry } from '@/types/types';
 import {
   Dispatch,
   FormEvent,

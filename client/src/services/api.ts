@@ -1,6 +1,5 @@
-import { TJob } from '@/utils/types';
-
-export const BASE_URL = 'http://localhost:3000';
+import { TJob } from '@/types/types';
+import { BASE_URL } from '.';
 
 export async function fetchJobs() {
   try {

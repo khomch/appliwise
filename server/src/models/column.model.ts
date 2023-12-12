@@ -3,7 +3,6 @@ import { prisma } from './';
 type TColumnInput = {
   title: string;
   colNum: string;
-  status: string;
   boardId: string;
 };
 
@@ -18,34 +17,33 @@ const columnModel = {
   },
   create: async (columnInfo: TColumnInput) => {
     try {
-      const writeJob = await prisma.column.create({
+      const createColumn = await prisma.column.create({
         data: {
           title: columnInfo.title,
           colNum: columnInfo.colNum,
-          status: columnInfo.status,
           boardId: columnInfo.boardId,
         },
       });
-      return writeJob;
+      return createColumn;
     } catch (err) {
       console.log('err postOne:>> ', err);
     }
   },
   updateColumn: async (data: Record<string, string | undefined>) => {
     try {
-      const updateItem = await prisma.item.update({
+      const updateJob = await prisma.job.update({
         where: {
           id: data.id,
         },
         data: {
           Column: {
             connect: {
-              status: data.status,
+              id: data.id,
             },
           },
         },
       });
-      return updateItem;
+      return updateJob;
     } catch (err) {
       console.log('err addToColumn:>> ', err);
     }
@@ -54,7 +52,7 @@ const columnModel = {
     try {
       const column = await prisma.column.update({
         where: {
-          status: data.status,
+          id: data.columnId,
         },
         data: {
           orderOfIds: {
@@ -69,7 +67,7 @@ const columnModel = {
   },
   updateIds: async (data: any) => {
     try {
-      const updateItem = await prisma.column.update({
+      const updateJob = await prisma.column.update({
         where: {
           id: data.id,
         },
@@ -77,7 +75,7 @@ const columnModel = {
           orderOfIds: data!.orderOfIds,
         },
       });
-      return updateItem;
+      return updateJob;
     } catch (err) {
       console.log('err addToColumn:>> ', err);
     }

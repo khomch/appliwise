@@ -8,13 +8,13 @@ const entryModel = {
         data: {
           title: entryInfo.title,
           notes: entryInfo.notes,
-          itemId: entryInfo.itemId,
+          jobId: entryInfo.jobId,
           status: entryInfo.status,
           
         },
       });
       if (newEntry) {
-        jobModel.updateLastStatus(entryInfo.itemId, entryInfo.status);
+        jobModel.updateLastStatus(entryInfo.jobId, entryInfo.status);
       }
       return newEntry;
     } catch (err) {
@@ -25,7 +25,7 @@ const entryModel = {
     try {
       const entries = await prisma.entry.findMany({
         where: {
-          itemId: id,
+          jobId: id,
         },
       });
       return entries;
@@ -42,12 +42,12 @@ const entryModel = {
         data: {
           title: entryInfo.title,
           notes: entryInfo.notes,
-          itemId: entryInfo.itemId,
+          jobId: entryInfo.jobId,
           status: entryInfo.status,
         },
       });
       if (updatedEntry) {
-        jobModel.updateLastStatus(entryInfo.itemId, entryInfo.status);
+        jobModel.updateLastStatus(entryInfo.jobId, entryInfo.status);
       }
       return updatedEntry;
     } catch (err) {
