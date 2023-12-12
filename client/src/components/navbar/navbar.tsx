@@ -7,7 +7,8 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const links = [
-    { path: '/', label: 'Dashboard' },
+    { path: '/', label: 'Home' },
+    { path: '/dashboard', label: 'Dashboard' },
     { path: '/statistics', label: 'Statistics' },
   ];
   return (
@@ -19,7 +20,7 @@ const Navbar = () => {
               <h2 className="text-apptprimary text-xl font-medium">
                 <Link href={'/'}>Appliwise</Link>
               </h2>
-              <ul className="list-none mx-16 flex gap-2">
+              <ul className="list-none mx-16 flex gap-4">
                 {links.map(({ path, label }) => (
                   <Link key={path} href={path}>
                     <div

@@ -1,5 +1,5 @@
 import { Droppable } from '@hello-pangea/dnd';
-import { TJob } from '../../../types/types';
+import { TJob } from '../../types/types';
 import Job from '../job/job';
 import { Button } from '../ui/button/button';
 import { useRouter } from 'next/navigation';

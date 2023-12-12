@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '../../hooks/hooks';
-import { registerUser } from '@/services/user.service';
+import { register } from '@/services/user.service';
 import { Input } from '../../components/ui/input/input';
 import { Button } from '../../components/ui/button/button';
 import Link from 'next/link';
@@ -15,20 +15,14 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const isFormValid =
-    firstName && lastName && email && password && password === repeatPassword;
+  const isPasswordValid = password && password === repeatPassword;
   const router = useRouter();
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const response = await registerUser({
-      email,
-      firstName,
-      lastName,
-      password,
-    });
+    const response = await register({ email, firstName, lastName, password });
     if (response.token) {
       dispatch(fetchUserDetails());
       router.push('/dashboard');
@@ -37,7 +31,7 @@ export default function Register() {
 
   return (
     <section className="flex flex-col items-center">
-      <h1 className="mt-12 font-regular text-xl">Register</h1>
+      <h1 className="mt-12 font-semibold text-xl">Register</h1>
       <form
         className="flex flex-col w-full max-w-sm mt-4 gap-4 p-4 border border-appborder shadow-sm rounded-lg my-1  bg-white"
         onSubmit={handleSubmit}
@@ -82,7 +76,7 @@ export default function Register() {
           type="submit"
           size="xl"
           value={'Register'}
-          disabled={!isFormValid}
+          disabled={!isPasswordValid}
         />
         <div className="text-center text-xs text-apptprimary">
           Already have and account?&nbsp;

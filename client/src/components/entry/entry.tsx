@@ -11,8 +11,8 @@ import { Button } from '../ui/button/button';
 import { Input } from '../ui/input/input';
 import { Select } from '../ui/select/select';
 import { STATUS_OPTIONS } from '@/utils/constants';
-import { useAppDispatch } from '@/app/hooks/hooks';
-import { updateJobState } from '@/app/store/slices/jobSlice';
+import { useAppDispatch } from '@/hooks/hooks';
+import { updateJobState } from '@/store/slices/jobSlice';
 
 type EntryProps = {
   entry: TEntry;

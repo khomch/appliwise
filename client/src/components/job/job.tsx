@@ -1,14 +1,13 @@
-import { useAppDispatch } from '@/app/hooks/hooks';
-import { setFavourite } from '@/app/store/slices/jobSlice';
+import { useAppDispatch } from '@/hooks/hooks';
+import { setFavourite } from '@/store/slices/jobSlice';
+import { STATUS_OPTIONS } from '@/utils/constants';
 import { Draggable } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { toggleFavJob } from '../../../services/api';
-import { TJob } from '../../../types/types';
-import iconNoImage from '../../../../public/icon-noimage.svg';
-import { useState } from 'react';
-import { STATUS_OPTIONS } from '@/utils/constants';
+import iconNoImage from '../../../public/icon-noimage.svg';
+import { toggleFavJob } from '../../services/api';
+import { TJob } from '../../types/types';
 
 type JobProps = {
   job: TJob;

@@ -1,4 +1,4 @@
-import { BASE_URL, fetchJobs } from '@/services/api';
+import { fetchJobs } from '@/services/api';
 import { TJob, TJobs } from '@/types/types';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 

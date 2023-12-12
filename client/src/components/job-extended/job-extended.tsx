@@ -1,5 +1,5 @@
-import { useAppDispatch } from '@/app/hooks/hooks';
-import { addNewJob, deleteJobFromState } from '@/app/store/slices/jobSlice';
+import { useAppDispatch } from '@/hooks/hooks';
+import { addNewJob, deleteJobFromState } from '@/store/slices/jobSlice';
 import {
   deleteJob,
   handleLinkedInParsing,
@@ -13,7 +13,7 @@ import iconNewTab from '../../../../public/icon-opentab.svg';
 import { Button } from '../ui/button/button';
 import { Input } from '../ui/input/input';
 import { LINKEDIN_JOBS } from '@/utils/constants';
-import { handleAddNewJobToColumn } from '@/app/store/slices/columnSlice';
+import { handleAddNewJobToColumn } from '@/store/slices/columnSlice';
 
 type JobExtendedProps = {
   job: TJob;

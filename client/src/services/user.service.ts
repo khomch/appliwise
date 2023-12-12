@@ -7,7 +7,7 @@ type TUserRegister = {
   password: string;
 };
 
-export const register = async (user: TUserRegister) => {
+export const registerUser = async (user: TUserRegister) => {
   try {
     const response = await fetch(`${BASE_URL}/user/register`, {
       method: 'POST',
@@ -26,6 +26,32 @@ export const register = async (user: TUserRegister) => {
     return err;
   }
 };
+
+type TUserLogin = {
+    email: string;
+    password: string;
+  };
+
+export const loginUser = async (user: TUserLogin) => {
+    try {
+      const response = await fetch(`${BASE_URL}/user/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+      const responseData = await response.json();
+      if (!response.ok) {
+        throw new Error(responseData.errorMsg);
+      }
+      localStorage.setItem('accessToken', responseData.token);
+      return responseData;
+    } catch (err) {
+      return err;
+    }
+  };
+  
 
 export const getUserProfile = async () => {
     const token = localStorage.getItem("accessToken");

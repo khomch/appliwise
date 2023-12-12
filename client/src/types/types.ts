@@ -40,6 +40,13 @@ export type TColumns = {
   [key: string]: TColumn;
 };
 
+export type TBoards = {
+  id: string;
+  title: string;
+  userId: string;
+  columns: TColumn[];
+};
+
 export type TEntry = {
   id: string;
   createdAt: string;

@@ -1,7 +1,7 @@
 'use client';
 
-import { JobExtended } from '@/app/components/job-extended/job-extended';
-import Modal from '@/app/components/modal/modal';
+import { JobExtended } from '@/components/job-extended/job-extended';
+import Modal from '@/components/modal/modal';
 import { TJob } from '@/types/types';
 import { useRouter, useSearchParams } from 'next/navigation';
 
