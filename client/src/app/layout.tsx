@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import ReduxProvider from './ReduxProvider';
 import './globals.css';
 import Navbar from '../components/navbar/navbar';
+import AuthProvider from '@/components/auth-provider/auth-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,9 +21,9 @@ export default function RootLayout(props: {
     <html lang="en">
       <body className="flex flex-col center bg-appbg">
         <ReduxProvider>
-          <Navbar />
-          <main>{props.children}</main>
-          {props.jobinfo}
+            <Navbar />
+            <main>{props.children}</main>
+            {props.jobinfo}
         </ReduxProvider>
       </body>
     </html>

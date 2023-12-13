@@ -7,7 +7,6 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const links = [
-    { path: '/', label: 'Home' },
     { path: '/dashboard', label: 'Dashboard' },
     { path: '/statistics', label: 'Statistics' },
   ];
@@ -27,7 +26,7 @@ const Navbar = () => {
                       className={`text-m ${
                         pathname === path
                           ? 'py-2 border-b-2 border-appprimary text-appprimary'
-                          : 'py-2 text-apptprimary hover:border-b-2'
+                          : 'py-2 border-b-2 border-transparent text-apptprimary hover:border-b-2 hover:border-appborder'
                       }`}
                     >
                       {label}
@@ -38,7 +37,6 @@ const Navbar = () => {
             </div>
             <div className="flex gap-2">
               <Link href={'/profile'}>Profile</Link>
-              {/* <Link href={'/signup'}>Register</Link> */}
             </div>
           </div>
         </div>

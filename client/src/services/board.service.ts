@@ -1,15 +1,11 @@
-import { BASE_URL } from '.';
+import { BASE_URL, addHeaders } from '.';
 
 export async function fetchBoards() {
-  const token = localStorage.getItem('accessToken');
   try {
     const bords = await fetch(`${BASE_URL}/board`, {
       method: 'GET',
       mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
+      headers: addHeaders(),
     });
 
     if (bords.ok) {
@@ -19,6 +15,6 @@ export async function fetchBoards() {
       return { status: 400, error: 'Error editing project' };
     }
   } catch (error) {
-    console.error(error);
+    // console.error(error);
   }
 }
