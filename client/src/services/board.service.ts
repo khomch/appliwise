@@ -2,7 +2,6 @@ import { BASE_URL } from '.';
 
 export async function fetchBoards() {
   const token = localStorage.getItem('accessToken');
-  console.log('token: ', token);
   try {
     const bords = await fetch(`${BASE_URL}/board`, {
       method: 'GET',

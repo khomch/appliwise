@@ -3,19 +3,19 @@ import columnModel from './column.model';
 
 const newColumns = [
   {
-    colNum: 'column-1',
+    colNum: 0,
     title: 'Backlog',
   },
   {
-    colNum: 'column-2',
+    colNum: 1,
     title: 'Applied',
   },
   {
-    colNum: 'column-3',
+    colNum: 2,
     title: 'Interviews',
   },
   {
-    colNum: 'column-4',
+    colNum: 3,
     title: 'Offer',
   },
 ];
@@ -35,7 +35,6 @@ const boardModel = {
         },
       });
       if (newBoard) {
-        console.log('newBoard: ', newBoard);
         newColumns.forEach((column) =>
           columnModel.create({ ...column, boardId: newBoard.id })
         );
@@ -59,9 +58,6 @@ const boardModel = {
           },
         },
       });
-      if (boards) {
-        console.log('boards: ', boards);
-      }
       return boards;
     } catch (err) {
       console.log('err createEntry:>> ', err);

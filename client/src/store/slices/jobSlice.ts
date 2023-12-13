@@ -33,6 +33,9 @@ export const jobSlice = createSlice({
   name: 'job',
   initialState,
   reducers: {
+    setJobs: (state, { payload }) => {
+      state.jobs = payload;
+    },
     addNewJob: (state, { payload }) => {
       const job = payload;
       state.jobs = { ...state.jobs, [job.id]: payload };
@@ -73,7 +76,12 @@ export const jobSlice = createSlice({
   },
 });
 
-export const { addNewJob, setFavourite, deleteJobFromState, updateJobState } =
-  jobSlice.actions;
+export const {
+  setJobs,
+  addNewJob,
+  setFavourite,
+  deleteJobFromState,
+  updateJobState,
+} = jobSlice.actions;
 
 export default jobSlice.reducer;

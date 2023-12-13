@@ -8,13 +8,12 @@ type ColumnProps = {
   jobsInColumn: TJob[];
   title: string;
   id: string;
-  status: string;
 };
 
-function Column({ jobsInColumn, title, id, status }: ColumnProps) {
+function Column({ jobsInColumn, title, id }: ColumnProps) {
   const router = useRouter();
   const handleAddNewJobClick = () => {
-    router.push(`/job/add?status=${status}`);
+    router.push(`/job/add?columnId=${id}`);
   };
 
   return (

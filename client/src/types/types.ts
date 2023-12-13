@@ -29,11 +29,10 @@ export type TJobs = {
 export type TColumn = {
   id: string;
   title: string;
-  colNum: string;
-  status: string;
+  colNum: number;
   orderOfIds: string[];
-  index: number;
   items: [];
+  jobs: TJob[];
 };
 
 export type TColumns = {

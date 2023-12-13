@@ -4,7 +4,11 @@ import type { DropResult } from '@hello-pangea/dnd';
 import { DragDropContext } from '@hello-pangea/dnd';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { handleLinkedInParsing, updateColumn } from '../../services/api';
+import {
+  handleLinkedInParsing,
+  sendUpdateTwoColumns,
+  updateColumn,
+} from '../../services/api';
 import {
   dndBetweenColumns,
   dndInsideColumn,
@@ -15,31 +19,38 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
   getColumnData,
   handleAddNewJobToColumn,
+  setColumns,
   updateOneColumn,
   updateTwoColumns,
 } from '../../store/slices/columnSlice';
-import { addNewJob, getJobData } from '../../store/slices/jobSlice';
+import { addNewJob, getJobData, setJobs } from '../../store/slices/jobSlice';
 import { getBoardData } from '@/store/slices/boardSlice';
+import { TColumn, TJob, TJobs } from '@/types/types';
 
 export default function Dashboard() {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   const { jobs } = useAppSelector((state) => state.job);
-  const { columns } = useAppSelector((state) => state.column);
+  const { columns, defaultColumnId } = useAppSelector((state) => state.column);
   const { boards } = useAppSelector((state) => state.board);
-  console.log('boards: ', boards && boards[0]);
+  // console.log('columns: ', columns);
 
-  const [link, setLink] = useState<string>('');
+  const [urlToParse, setUrlToParse] = useState<string>('');
 
   useEffect(() => {
     dispatch(getBoardData());
+    boards && dispatch(setColumns(boards[0].columns));
     // dispatch(getJobData());
     // dispatch(getColumnData());
   }, []);
 
+  useEffect(() => {
+    boards && dispatch(setColumns(boards[0].columns));
+  }, [boards]);
+
   async function readTextFromClipboard() {
     const text = await navigator.clipboard.readText();
-    setLink(text);
+    setUrlToParse(text);
   }
 
   useEffect(() => {
@@ -57,14 +68,15 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    if (pathname === '/' && link.startsWith(LINKEDIN_JOBS)) {
-      handleLinkedInParsing(link).then((res) => {
-        console.log('res: ', res);
-        dispatch(handleAddNewJobToColumn(res));
-        dispatch(addNewJob(res));
-      });
+    if (pathname === '/dashboard' && urlToParse.startsWith(LINKEDIN_JOBS)) {
+      defaultColumnId &&
+        handleLinkedInParsing(urlToParse, defaultColumnId).then((res) => {
+          console.log('res: ', res);
+          dispatch(handleAddNewJobToColumn(res));
+          // dispatch(addNewJob(res));
+        });
     }
-  }, [link]);
+  }, [urlToParse]);
 
   const onDragEnd = (result: DropResult) => {
     const dropParams = getDropParams(result);
@@ -95,8 +107,14 @@ export default function Dashboard() {
       draggableId
     );
 
-    updateColumn(updatedStart.id, updatedStart.orderOfIds);
-    updateColumn(updatedFinish.id, updatedFinish.orderOfIds);
+    const updateTwoColumnsData = {
+      columnFromId: updatedStart.id,
+      columnToId: updatedFinish.id,
+      jobId: draggableId,
+      columnToOrderOfIds: updatedFinish.orderOfIds,
+    };
+    console.log('updateTwoColumnsData: ', updateTwoColumnsData);
+    sendUpdateTwoColumns(updateTwoColumnsData);
     dispatch(updateTwoColumns({ updatedStart, updatedFinish }));
   };
 
@@ -108,16 +126,21 @@ export default function Dashboard() {
             columns &&
             jobs &&
             Object.keys(columns).length > 0 &&
-            Object.values(columns).map((column: any) => {
-              const columnJobs =
-                column!.orderOfIds.map((jobId: any) => jobs![jobId]) || [];
+            Object.values(columns).map((column: TColumn) => {
+              const jobsObject: TJobs = {};
+              column.jobs &&
+                column.jobs.forEach((job: TJob) => {
+                  jobsObject[job.id] = job;
+                });
+              const jobsInUsersOrder = column.orderOfIds.map(
+                (jobId: string) => jobsObject[jobId]
+              );
               return (
                 <Column
                   key={column.id}
                   id={column.id}
-                  jobsInColumn={columnJobs}
+                  jobsInColumn={jobsInUsersOrder}
                   title={column.title}
-                  status={column.status}
                 />
               );
             })}

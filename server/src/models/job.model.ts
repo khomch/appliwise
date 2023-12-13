@@ -79,10 +79,10 @@ const jobModel = {
         jobId: createJob.id,
       });
 
-      const updatedColumn = await columnModel.addToColumn({
-        columnId: createJob.columnId,
-        jobId: createJob.id,
-      });
+      const updatedColumn = await columnModel.addToColumn(
+        createJob.id,
+        createJob.columnId
+      );
       return { ...createJob, columnId: updatedColumn!.id };
     } catch (err) {
       console.log('err postOne:>> ', err);
@@ -140,7 +140,7 @@ const jobModel = {
   },
   updateLastStatus: async (id: string, lastStatus: string) => {
     try {
-      const job = await prisma.job.findFirst({
+      const job = await prisma.job.findUnique({
         where: {
           id: id,
         },
@@ -159,6 +159,29 @@ const jobModel = {
       return false;
     } catch (err) {
       console.log('err postOne:>> ', err);
+    }
+  },
+  updateJobColumn: async (id: string, columnId: string) => {
+    try {
+      const job = await prisma.job.findUnique({
+        where: {
+          id: id,
+        },
+      });
+      if (job) {
+        const updatedJob = await prisma.job.update({
+          where: {
+            id: id,
+          },
+          data: {
+            columnId: columnId,
+          },
+        });
+        return updatedJob;
+      }
+      return false;
+    } catch (err) {
+      console.log('err updateJobColumn:>> ', err);
     }
   },
 };

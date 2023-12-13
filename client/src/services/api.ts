@@ -53,9 +53,13 @@ export async function fetchColumns() {
 
 export async function updateColumn(columnId: string, orderOfIds: string[]) {
   try {
-    const res = await fetch(BASE_URL + '/column/ids', {
+    const token = localStorage.getItem('accessToken');
+    const res = await fetch(BASE_URL + '/column/one', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         id: columnId,
         orderOfIds: orderOfIds,
@@ -68,11 +72,41 @@ export async function updateColumn(columnId: string, orderOfIds: string[]) {
   }
 }
 
+type TUpdateTwoColumns = {
+  columnFromId: string;
+  columnToId: string;
+  jobId: string;
+  columnToOrderOfIds: string[];
+};
+
+export async function sendUpdateTwoColumns(data: TUpdateTwoColumns) {
+  console.log('data: ', data);
+  try {
+    const token = localStorage.getItem('accessToken');
+    const res = await fetch(BASE_URL + '/column/two', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    const jobs = await res.json();
+    return jobs;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function addJob(link: string) {
   try {
+    const token = localStorage.getItem('accessToken');
     const res = await fetch(BASE_URL + '/column/job', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ url: link }),
     });
     const job = await res.json();
@@ -109,8 +143,6 @@ export async function fetchEntries(id: string) {
 }
 export async function postEntry(entryInfo: Record<string, string>) {
   try {
-    console.log('entryInfo: ', entryInfo);
-
     const res = await fetch(BASE_URL + '/entry', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -161,12 +193,17 @@ export async function deleteEntry(id: string) {
   }
 }
 
-export async function handleLinkedInParsing(link: string, status?: string) {
+export async function handleLinkedInParsing(url: string, columnId: string) {
   try {
+    const token = localStorage.getItem('accessToken');
     const res = await fetch(BASE_URL + '/job/parse', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: link, status }),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ url, columnId }),
     });
     const newJob = await res.json();
     return newJob;

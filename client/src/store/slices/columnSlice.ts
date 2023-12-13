@@ -1,5 +1,5 @@
-import { BASE_URL, fetchColumns, fetchJobs } from '@/services/api';
-import { TColumn, TColumns, TJob, TJobs } from '@/types/types';
+import { fetchColumns } from '@/services/api';
+import { TColumn, TColumns, TJob } from '@/types/types';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const getColumnData = createAsyncThunk(
@@ -10,34 +10,36 @@ export const getColumnData = createAsyncThunk(
 
 type TColumnStateType = {
   columns: TColumns;
+  defaultColumnId: string | null;
   loading: boolean;
 };
 
 export const initialState: TColumnStateType = {
   columns: {},
   loading: false,
+  defaultColumnId: null,
 };
 
 export const columnSlice = createSlice({
   name: 'column',
   initialState,
   reducers: {
-    addColumn: (state, action) => {},
+    setColumns: (state, { payload }) => {
+      const columnsArr = payload.slice();
+      const colsObj: TColumns = {};
+      columnsArr
+        .sort((a: TColumn, b: TColumn) => a.colNum - b.colNum)
+        .forEach((column: TColumn) => {
+          colsObj[column.id] = column;
+        });
+      state.defaultColumnId = columnsArr[0].id;
+      state.columns = colsObj;
+    },
     updateOneColumn: (state, { payload }) => {
       const updatedColumn: TColumn = payload;
       state.columns = { ...state.columns, [updatedColumn.id]: updatedColumn };
     },
     updateTwoColumns: (state, { payload }) => {
-      const updatedStart: TColumn = payload.updatedStart;
-      const updatedFinish: TColumn = payload.updatedFinish;
-
-      state.columns = {
-        ...state.columns,
-        [updatedStart.id]: updatedStart,
-        [updatedFinish.id]: updatedFinish,
-      };
-    },
-    updateColumnsState: (state, { payload }) => {
       const updatedStart: TColumn = payload.updatedStart;
       const updatedFinish: TColumn = payload.updatedFinish;
 
@@ -55,6 +57,7 @@ export const columnSlice = createSlice({
         [newJob.columnId]: {
           ...targetColumn,
           orderOfIds: [...targetColumn.orderOfIds, newJob.id],
+          jobs: [...targetColumn.jobs, newJob],
         },
       };
     },
@@ -69,7 +72,7 @@ export const columnSlice = createSlice({
         const cols: TColumns = {};
         columnsArr
           .sort((a: TColumn, b: TColumn) => {
-            return a.index - b.index;
+            return a.colNum - b.colNum;
           })
           .forEach((el: TColumn) => {
             cols[el.id] = el;
@@ -83,7 +86,7 @@ export const columnSlice = createSlice({
 });
 
 export const {
-  addColumn,
+  setColumns,
   updateOneColumn,
   updateTwoColumns,
   handleAddNewJobToColumn,

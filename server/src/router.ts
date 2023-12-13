@@ -13,7 +13,8 @@ router.post('/user/login', userController.login);
 router.get('/column', auth, columnController.getColumns);
 router.post('/column', auth, columnController.create);
 router.post('/column/add', auth, columnController.addToColumn);
-router.put('/column/ids', auth, columnController.updateIds);
+router.put('/column/one', auth, columnController.updateOneColumn);
+router.put('/column/two', auth, columnController.updateTwoColumns);
 
 router.get('/board', auth, boardController.getBoards);
 
