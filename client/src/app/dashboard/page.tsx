@@ -14,7 +14,7 @@ import {
   dndInsideColumn,
   getDropParams,
 } from '../../utils/handleDnD';
-import Column from '../../components/column/column';
+import Column from './components/column/column';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
   getColumnData,

@@ -9,24 +9,24 @@ import {
 import { TJob } from '@/types/types';
 import Image from 'next/image';
 import { FormEvent, useEffect, useState } from 'react';
-import iconNewTab from '../../../public/icon-opentab.svg';
-import { Button } from '../ui/button/button';
-import { Input } from '../ui/input/input';
-import { LINKEDIN_JOBS } from "@/constants";
+import iconNewTab from '../../../../../public/icon-opentab.svg';
+import { Button } from '../../../../components/ui/button/button';
+import { Input } from '../../../../components/ui/input/input';
+import { LINKEDIN_JOBS } from '@/constants';
 import { handleAddNewJobToColumn } from '@/store/slices/columnSlice';
 
 type JobExtendedProps = {
   job: TJob;
   closeModal: () => void;
   isNew?: boolean;
-  status?: string;
+  columnId: string;
 };
 
 export function JobExtended({
   job,
   closeModal,
   isNew = false,
-  status,
+  columnId,
 }: JobExtendedProps) {
   const dispatch = useAppDispatch();
   const [jobId, setJobId] = useState<string>(job.id);
@@ -52,11 +52,10 @@ export function JobExtended({
         salary,
         location,
       };
-      postJob(jobInfo, status).then((res) => {
+      postJob(jobInfo).then((res) => {
         if (res.id) {
           dispatch(handleAddNewJobToColumn(res));
           dispatch(addNewJob(res));
-          console.log('ALL GOOD!, JOB ADDED');
           closeModal();
         } else {
           console.log('Error while adding a job');
@@ -71,15 +70,12 @@ export function JobExtended({
         salary,
         location,
         id: jobId,
-        status: status!,
       };
       updateJob(jobInfo).then((res) => {
-        console.log('res: ', res);
         if (res.id) {
           dispatch(addNewJob(res));
           setIsParsed(false);
           setIsUdated(true);
-          console.log('ALL GOOD!, JOB UPDATED');
         } else {
           console.log('Error while updating a job');
         }
@@ -97,7 +93,7 @@ export function JobExtended({
 
   const handleParsing = () => {
     if (isNewJob && url.startsWith(LINKEDIN_JOBS)) {
-      handleLinkedInParsing(url, status).then((res) => {
+      handleLinkedInParsing(url, columnId).then((res) => {
         setUrl(res.url);
         setPosition(res.position);
         setCompany(res.company);

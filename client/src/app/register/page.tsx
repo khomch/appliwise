@@ -43,6 +43,13 @@ export default function Register() {
         onSubmit={handleSubmit}
       >
         <Input
+          inputName="Email"
+          value={email}
+          type="email"
+          placeholder="Enter your email"
+          setValue={setEmail}
+        />
+        <Input
           inputName="First name"
           value={firstName}
           type="text"
@@ -55,13 +62,6 @@ export default function Register() {
           type="text"
           placeholder="Enter your last name"
           setValue={setLastName}
-        />
-        <Input
-          inputName="Email"
-          value={email}
-          type="email"
-          placeholder="Enter your email"
-          setValue={setEmail}
         />
         <Input
           inputName="Password"

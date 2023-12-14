@@ -7,9 +7,9 @@ import {
   SetStateAction,
   useState,
 } from 'react';
-import { Button } from '../ui/button/button';
-import { Input } from '../ui/input/input';
-import { Select } from '../ui/select/select';
+import { Button } from '../../../../components/ui/button/button';
+import { Input } from '../../../../components/ui/input/input';
+import { Select } from '../../../../components/ui/select/select';
 import { STATUS_OPTIONS } from "@/constants";
 import { useAppDispatch } from '@/hooks/hooks';
 import { updateJobState } from '@/store/slices/jobSlice';

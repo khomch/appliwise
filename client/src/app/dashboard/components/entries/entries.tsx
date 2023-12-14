@@ -1,9 +1,9 @@
 import { TEntry, TJob } from '@/types/types';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
-import iconNewTab from '../../../public/icon-opentab.svg';
+import iconNewTab from '../../../../../public/icon-opentab.svg';
 import { Entry } from '../entry/entry';
-import { Button } from '../ui/button/button';
+import { Button } from '../../../../components/ui/button/button';
 
 type EntriesProps = {
   entries: TEntry[];

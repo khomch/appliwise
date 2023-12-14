@@ -1,7 +1,7 @@
 import { Droppable } from '@hello-pangea/dnd';
-import { TJob } from '../../types/types';
+import { TJob } from '../../../../types/types';
 import Job from '../job/job';
-import { Button } from '../ui/button/button';
+import { Button } from '../../../../components/ui/button/button';
 import { useRouter } from 'next/navigation';
 
 type ColumnProps = {
@@ -13,7 +13,7 @@ type ColumnProps = {
 function Column({ jobsInColumn, title, id }: ColumnProps) {
   const router = useRouter();
   const handleAddNewJobClick = () => {
-    router.push(`/job/add?columnId=${id}`);
+    router.push(`/dashboard/job/add?columnId=${id}`);
   };
 
   return (
@@ -47,13 +47,7 @@ function Column({ jobsInColumn, title, id }: ColumnProps) {
               ? jobsInColumn.map(
                   (job: TJob, index: number) =>
                     job && (
-                      <Job
-                        key={job.id}
-                        job={job}
-                        id={job.id}
-                        index={index}
-                        status={status}
-                      />
+                      <Job key={job.id} job={job} id={job.id} index={index} />
                     )
                 )
               : ''}

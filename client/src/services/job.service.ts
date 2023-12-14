@@ -5,7 +5,11 @@ export async function fetchJobs() {
   try {
     const res = await fetch(BASE_URL + '/job', {
       method: 'GET',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
     });
     const jobs = await res.json();
     return jobs;
@@ -16,7 +20,13 @@ export async function fetchJobs() {
 
 export async function fetchOneJob(id: string) {
   try {
-    const res = await fetch(`${BASE_URL}/job/${id}`, { headers: addHeaders() });
+    const res = await fetch(`${BASE_URL}/job/${id}`, {
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
     const jobs = await res.json();
     return jobs;
   } catch (error) {
@@ -28,7 +38,11 @@ export async function deleteJob(id: string) {
   try {
     const res = await fetch(BASE_URL + '/job', {
       method: 'DELETE',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify({ id }),
     });
 
@@ -42,7 +56,11 @@ export async function fetchColumns() {
   try {
     const res = await fetch(BASE_URL + '/column', {
       method: 'GET',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
     });
     const columns = await res.json();
     return columns;
@@ -55,7 +73,11 @@ export async function updateColumn(columnId: string, orderOfIds: string[]) {
   try {
     const res = await fetch(BASE_URL + '/column/one', {
       method: 'PUT',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify({
         id: columnId,
         orderOfIds: orderOfIds,
@@ -79,7 +101,11 @@ export async function sendUpdateTwoColumns(data: TUpdateTwoColumns) {
   try {
     const res = await fetch(BASE_URL + '/column/two', {
       method: 'PUT',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify(data),
     });
     const jobs = await res.json();
@@ -93,7 +119,11 @@ export async function addJob(link: string) {
   try {
     const res = await fetch(BASE_URL + '/column/job', {
       method: 'POST',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify({ url: link }),
     });
     const job = await res.json();
@@ -107,7 +137,11 @@ export async function toggleFavJob(id: string): Promise<TJob | undefined> {
   try {
     const res = await fetch(BASE_URL + '/job/fav', {
       method: 'PUT',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify({ id: id }),
     });
     const job = await res.json();
@@ -121,7 +155,11 @@ export async function fetchEntries(id: string) {
   try {
     const res = await fetch(`${BASE_URL}/entry/${id}`, {
       method: 'GET',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
     });
     const entries = await res.json();
     return entries;
@@ -133,7 +171,11 @@ export async function postEntry(entryInfo: Record<string, string>) {
   try {
     const res = await fetch(BASE_URL + '/entry', {
       method: 'POST',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify({
         title: entryInfo.title,
         notes: entryInfo.notes,
@@ -152,7 +194,11 @@ export async function updateEntry(entryInfo: Record<string, string>) {
   try {
     const res = await fetch(BASE_URL + '/entry', {
       method: 'PUT',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify({
         id: entryInfo.id,
         title: entryInfo.title,
@@ -171,7 +217,11 @@ export async function deleteEntry(id: string) {
   try {
     const res = await fetch(BASE_URL + '/entry', {
       method: 'DELETE',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify({ id: id }),
     });
 
@@ -182,11 +232,15 @@ export async function deleteEntry(id: string) {
 }
 
 export async function handleLinkedInParsing(url: string, columnId: string) {
+  console.log('columnId: ', columnId);
   try {
     const res = await fetch(BASE_URL + '/job/parse', {
       method: 'POST',
       mode: 'cors',
-      headers: addHeaders(),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify({ url, columnId }),
     });
     const newJob = await res.json();
@@ -203,7 +257,11 @@ export async function postJob(
   try {
     const res = await fetch(BASE_URL + '/job', {
       method: 'POST',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify({ jobInfo, status }),
     });
     const newJob = await res.json();
@@ -217,7 +275,11 @@ export async function updateJob(jobInfo: Record<string, string>) {
   try {
     const res = await fetch(BASE_URL + '/job', {
       method: 'PUT',
-      headers: addHeaders(),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify(jobInfo),
     });
     const updatedJob = await res.json();

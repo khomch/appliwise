@@ -1,6 +1,6 @@
 'use client';
 
-import { JobExtended } from '@/components/job-extended/job-extended';
+import { JobExtended } from '@/app/dashboard/components/job-extended/job-extended';
 import Modal from '@/components/modal/modal';
 import { fetchOneJob } from '@/services/job.service';
 import { TJob } from '@/types/types';
@@ -13,7 +13,7 @@ export default function DetailsModal() {
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const status = searchParams.get('status') || 'backlog';
+  const columnId = searchParams.get('columnId');
 
   useEffect(() => {
     if (typeof params.slug === 'string') {
@@ -31,11 +31,13 @@ export default function DetailsModal() {
   return (
     jobToRender && (
       <Modal onClose={handleClose}>
-        <JobExtended
-          job={jobToRender}
-          closeModal={handleClose}
-          status={status}
-        />
+        {columnId && (
+          <JobExtended
+            job={jobToRender}
+            closeModal={handleClose}
+            columnId={columnId}
+          />
+        )}
       </Modal>
     )
   );

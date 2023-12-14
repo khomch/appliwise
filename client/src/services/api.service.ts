@@ -1,7 +1,6 @@
 export async function isUserLogged() {
   try {
     const response = await fetch('/api/auth/user');
-    console.log('response: ', response);
     if (!response.ok) {
       return { user: null, error: 'Not authorized' };
     }

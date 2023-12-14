@@ -1,6 +1,6 @@
 'use client';
 
-import { JobExtended } from '@/components/job-extended/job-extended';
+import { JobExtended } from '@/app/dashboard/components/job-extended/job-extended';
 import Modal from '@/components/modal/modal';
 import { TJob } from '@/types/types';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -20,7 +20,7 @@ export default function AddJob() {
   };
 
   const searchParams = useSearchParams();
-  const status = searchParams.get('status') || 'backlog';
+  const columnId = searchParams.get('columnId');
   const router = useRouter();
 
   function handleClose() {
@@ -29,12 +29,14 @@ export default function AddJob() {
 
   return (
     <Modal onClose={handleClose}>
-      <JobExtended
-        job={jobToRender}
-        closeModal={handleClose}
-        isNew={true}
-        status={status}
-      />
+      {columnId && (
+        <JobExtended
+          job={jobToRender}
+          closeModal={handleClose}
+          isNew={true}
+          columnId={columnId}
+        />
+      )}
     </Modal>
   );
 }

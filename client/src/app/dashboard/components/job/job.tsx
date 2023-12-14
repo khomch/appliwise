@@ -1,24 +1,23 @@
 import { useAppDispatch } from '@/hooks/hooks';
 import { setFavourite } from '@/store/slices/jobSlice';
-import { STATUS_OPTIONS } from "@/constants";
+import { STATUS_OPTIONS } from '@/constants';
 import { Draggable } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import iconNoImage from '../../../public/icon-noimage.svg';
-import { toggleFavJob } from '../../services/job.service';
-import { TJob } from '../../types/types';
+import iconNoImage from '../../../../../public/icon-noimage.svg';
+import { toggleFavJob } from '../../../../services/job.service';
+import { TJob } from '../../../../types/types';
 
 type JobProps = {
   job: TJob;
   id: string;
   index: number;
-  status: string;
 };
 
 function Job(props: JobProps) {
   const dispatch = useAppDispatch();
-  const { job, id, index, status } = props;
+  const { job, id, index } = props;
 
   const archived =
     job.lastStatus === 'archive' ||
@@ -33,7 +32,7 @@ function Job(props: JobProps) {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/job/entries/${job.id}`);
+    router.push(`/dashboard/job/entries/${job.id}`);
   };
 
   const handleFavClick = async () => {
@@ -90,7 +89,7 @@ function Job(props: JobProps) {
                 </div>
                 <div className="flex w-full gap-2 justify-end items-center">
                   <Link
-                    href={`/job/details/${job.id}?status=${status}`}
+                    href={`/dashboard/job/details/${job.id}?columnId=${job.columnId}`}
                     className="hidden group-hover:block"
                   >
                     <svg

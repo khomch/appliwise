@@ -59,7 +59,10 @@ export function Button({
         hover:shadow-lg
         ${dashed && `border-0 outline-dashed  outline-appcardinactive`}
         ${customStyle}
-        ${disabled && 'bg-appcardinactive border text-apptsecondary hover:shadow-none cursor-default'}
+        ${
+          disabled &&
+          ' border text-apptsecondary hover:shadow-none cursor-default bg-slate-300'
+        }
       `}
       onClick={onClick}
       disabled={disabled}

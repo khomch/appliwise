@@ -1,6 +1,6 @@
 'use client';
 
-import { Entries } from '@/components/entries/entries';
+import { Entries } from '@/app/dashboard/components/entries/entries';
 import Modal from '@/components/modal/modal';
 import { fetchEntries, fetchOneJob } from '@/services/job.service';
 import { TEntry, TJob } from '@/types/types';

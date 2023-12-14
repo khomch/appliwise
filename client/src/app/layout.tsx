@@ -12,17 +12,13 @@ export const metadata: Metadata = {
   description: 'Job application tracker',
 };
 
-export default async function RootLayout(props: {
-  children: React.ReactNode;
-  jobinfo: React.ReactNode;
-}) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="flex flex-col center bg-appbg">
         <ReduxProvider>
           <Navbar />
           <main>{props.children}</main>
-          {props.jobinfo}
         </ReduxProvider>
       </body>
     </html>
