@@ -1,5 +1,5 @@
-import { fetchColumns, fetchJobs } from '../services/api';
-import { TColumn, TColumns, TJob, TJobs } from './types';
+import { fetchColumns, fetchJobs } from '../services/job.service';
+import { TColumn, TColumns, TJob, TJobs } from '../types/types';
 
 export const getInitialData = async (): Promise<[TJobs, TColumns]> => {
   const jobsArr = await fetchJobs();

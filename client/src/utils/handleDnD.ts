@@ -1,4 +1,4 @@
-import { TColumn, TColumns } from '@/utils/types';
+import { TColumn, TColumns, TJob } from '@/types/types';
 import { DraggableLocation, DropResult } from '@hello-pangea/dnd';
 
 export const getDropParams = (
@@ -49,16 +49,18 @@ export const dndBetweenColumns = (
 ): [TColumn, TColumn] => {
   const startJobIds = Array.from(start.orderOfIds);
   startJobIds.splice(source.index, 1);
-  const updatedStart = {
+  const jobToAdd: TJob = start.jobs.find((job) => job.id === draggableId)!;
+  const updatedStart: TColumn = {
     ...start,
+    jobs: start.jobs.filter((job) => job.id !== draggableId) as TJob[],
     orderOfIds: startJobIds,
   };
-
   const finishJobIds = Array.from(finish.orderOfIds);
   finishJobIds.splice(destination.index, 0, draggableId);
-  const updatedFinish = {
+  const updatedFinish: TColumn = {
     ...finish,
     orderOfIds: finishJobIds,
+    jobs: [...finish.jobs, jobToAdd],
   };
   return [updatedStart, updatedFinish];
 };
