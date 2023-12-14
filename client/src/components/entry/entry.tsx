@@ -1,4 +1,4 @@
-import { deleteEntry, postEntry, updateEntry } from '@/services/api';
+import { deleteEntry, postEntry, updateEntry } from '@/services/job.service';
 import { TEntry } from '@/types/types';
 import {
   Dispatch,
@@ -10,7 +10,7 @@ import {
 import { Button } from '../ui/button/button';
 import { Input } from '../ui/input/input';
 import { Select } from '../ui/select/select';
-import { STATUS_OPTIONS } from '@/utils/constants';
+import { STATUS_OPTIONS } from "@/constants";
 import { useAppDispatch } from '@/hooks/hooks';
 import { updateJobState } from '@/store/slices/jobSlice';
 

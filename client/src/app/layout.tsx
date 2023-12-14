@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import Navbar from '../components/navbar/navbar';
 import ReduxProvider from './ReduxProvider';
 import './globals.css';
-import Navbar from '../components/navbar/navbar';
-import AuthProvider from '@/components/auth-provider/auth-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
   description: 'Job application tracker',
 };
 
-export default function RootLayout(props: {
+export default async function RootLayout(props: {
   children: React.ReactNode;
   jobinfo: React.ReactNode;
 }) {
@@ -21,9 +20,9 @@ export default function RootLayout(props: {
     <html lang="en">
       <body className="flex flex-col center bg-appbg">
         <ReduxProvider>
-            <Navbar />
-            <main>{props.children}</main>
-            {props.jobinfo}
+          <Navbar />
+          <main>{props.children}</main>
+          {props.jobinfo}
         </ReduxProvider>
       </body>
     </html>

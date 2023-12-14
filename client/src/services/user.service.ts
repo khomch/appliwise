@@ -43,9 +43,9 @@ export const loginUser = async (user: TUserLogin) => {
     });
     const responseData = await response.json();
     if (!response.ok) {
-      throw new Error(responseData.errorMsg);
+      return null;
     }
-    localStorage.setItem('accessToken', responseData.token);
+    // localStorage.setItem('accessToken', responseData.token);
     return responseData;
   } catch (err) {
     return err;
@@ -57,7 +57,10 @@ export const getUserProfile = async () => {
     const userProfile = await fetch(`${BASE_URL}/user/profile`, {
       method: 'GET',
       mode: 'cors',
-      headers: addHeaders(),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
     });
 
     if (userProfile.ok) {
@@ -66,6 +69,16 @@ export const getUserProfile = async () => {
     } else {
       return { status: 400, error: 'Error getting userProfile' };
     }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+    });
   } catch (error) {
     console.error(error);
   }

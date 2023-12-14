@@ -1,3 +1,6 @@
+export const COOKIE_NAME = 'AppliwiseJWT';
+export const COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
+
 export const LINKEDIN_JOBS = 'https://www.linkedin.com/jobs/';
 
 export const STATUS_OPTIONS = [

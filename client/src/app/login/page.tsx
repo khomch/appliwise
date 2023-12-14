@@ -19,10 +19,22 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const response = await loginUser({ email, password });
-    if (response.token) {
+    // const response = await loginUser({ email, password });
+    // if (response.token) {
+    // dispatch(fetchUserDetails());
+    //   router.push('/dashboard');
+    // }
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+      await response.json();
       dispatch(fetchUserDetails());
       router.push('/dashboard');
+    } catch (error) {
+      console.log('error: ', error);
     }
   };
 

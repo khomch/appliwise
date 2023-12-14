@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post('/user/register', userController.register);
 router.post('/user/login', userController.login);
+router.get('/user/profile', auth, userController.profile);
 
 router.get('/column', auth, columnController.getColumns);
 router.post('/column', auth, columnController.create);

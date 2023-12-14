@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { prisma } from '../models';
 import { Request, Response } from 'express';
 import userModel from '../models/user.model';
+import { RequestWithUser } from '../middlewares/auth';
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY || 'test';
 
@@ -63,11 +64,34 @@ const userController = {
       if (!correctCredentials) {
         return res.status(401).send({ errorMsg: 'Invalid credentials' });
       } else {
-        const accessToken = jwt.sign({ id: user.id }, PRIVATE_KEY);
         res.status(200).send({
-          token: accessToken,
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
         });
       }
+    } catch (err) {
+      res.status(500);
+      res.send(err);
+      throw new Error('Error while createUser');
+    }
+  },
+  profile: async (req: RequestWithUser, res: Response) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: req.id },
+      });
+
+      if (!user) {
+        return res.status(401).send({ errorMsg: 'User does not exist' });
+      }
+      res.status(200).send({
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      });
     } catch (err) {
       res.status(500);
       res.send(err);

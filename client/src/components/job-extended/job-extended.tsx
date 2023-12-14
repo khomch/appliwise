@@ -5,14 +5,14 @@ import {
   handleLinkedInParsing,
   postJob,
   updateJob,
-} from '@/services/api';
+} from '@/services/job.service';
 import { TJob } from '@/types/types';
 import Image from 'next/image';
 import { FormEvent, useEffect, useState } from 'react';
 import iconNewTab from '../../../public/icon-opentab.svg';
 import { Button } from '../ui/button/button';
 import { Input } from '../ui/input/input';
-import { LINKEDIN_JOBS } from '@/utils/constants';
+import { LINKEDIN_JOBS } from "@/constants";
 import { handleAddNewJobToColumn } from '@/store/slices/columnSlice';
 
 type JobExtendedProps = {

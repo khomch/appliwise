@@ -5,6 +5,7 @@ import { fetchUserDetails } from '@/store/slices/userSlice';
 import { useEffect } from 'react';
 import type { InferGetStaticPropsType, GetStaticProps } from 'next';
 import { fetchBoards } from '@/services/board.service';
+import { getStaticProps } from 'next/dist/build/templates/pages';
 
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -16,15 +17,6 @@ type Repo = {
   stargazers_count: number;
 };
 
-export const getStaticProps = (async (context) => {
-  const res = await fetchBoards();
-  console.log('res: ', res);
-  const repo = res?.data;
-  console.log('repo: ', repo);
-  return { props: { repo } };
-}) satisfies GetStaticProps<{
-  repo: any;
-}>;
 
 const allowedPaths = ['/', '/login', '/register'];
 

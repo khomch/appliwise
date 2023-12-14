@@ -1,12 +1,12 @@
 import { useAppDispatch } from '@/hooks/hooks';
 import { setFavourite } from '@/store/slices/jobSlice';
-import { STATUS_OPTIONS } from '@/utils/constants';
+import { STATUS_OPTIONS } from "@/constants";
 import { Draggable } from '@hello-pangea/dnd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import iconNoImage from '../../../public/icon-noimage.svg';
-import { toggleFavJob } from '../../services/api';
+import { toggleFavJob } from '../../services/job.service';
 import { TJob } from '../../types/types';
 
 type JobProps = {

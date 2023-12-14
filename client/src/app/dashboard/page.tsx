@@ -1,5 +1,5 @@
 'use client';
-import { LINKEDIN_JOBS } from '@/utils/constants';
+import { LINKEDIN_JOBS } from "@/constants";
 import type { DropResult } from '@hello-pangea/dnd';
 import { DragDropContext } from '@hello-pangea/dnd';
 import { usePathname } from 'next/navigation';
@@ -8,7 +8,7 @@ import {
   handleLinkedInParsing,
   sendUpdateTwoColumns,
   updateColumn,
-} from '../../services/api';
+} from '../../services/job.service';
 import {
   dndBetweenColumns,
   dndInsideColumn,
@@ -33,7 +33,6 @@ export default function Dashboard() {
   const { jobs } = useAppSelector((state) => state.job);
   const { columns, defaultColumnId } = useAppSelector((state) => state.column);
   const { boards } = useAppSelector((state) => state.board);
-  // console.log('columns: ', columns);
 
   const [urlToParse, setUrlToParse] = useState<string>('');
 

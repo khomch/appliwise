@@ -2,7 +2,7 @@
 
 import { Entries } from '@/components/entries/entries';
 import Modal from '@/components/modal/modal';
-import { fetchEntries, fetchOneJob } from '@/services/api';
+import { fetchEntries, fetchOneJob } from '@/services/job.service';
 import { TEntry, TJob } from '@/types/types';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';

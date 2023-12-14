@@ -1,4 +1,4 @@
-import { fetchColumns } from '@/services/api';
+import { fetchColumns } from '@/services/job.service';
 import { TColumn, TColumns, TJob } from '@/types/types';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
