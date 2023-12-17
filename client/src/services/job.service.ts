@@ -97,7 +97,7 @@ type TUpdateTwoColumns = {
   columnToOrderOfIds: string[];
 };
 
-export async function sendUpdateTwoColumns(data: TUpdateTwoColumns) {
+export async function updateTwoColumnsReq(data: TUpdateTwoColumns) {
   try {
     const res = await fetch(BASE_URL + '/column/two', {
       method: 'PUT',
@@ -180,7 +180,7 @@ export async function postEntry(entryInfo: Record<string, string>) {
         title: entryInfo.title,
         notes: entryInfo.notes,
         status: entryInfo.status,
-        itemId: entryInfo.itemId,
+        jobId: entryInfo.jobId,
       }),
     });
     const newEntry = await res.json();
@@ -204,7 +204,7 @@ export async function updateEntry(entryInfo: Record<string, string>) {
         title: entryInfo.title,
         notes: entryInfo.notes,
         status: entryInfo.status,
-        itemId: entryInfo.itemId,
+        jobId: entryInfo.jobId,
       }),
     });
     const updatedEntry = await res.json();

@@ -65,6 +65,7 @@ export function Entries({ entries, job, setEntries }: EntriesProps) {
               jobId={job.id}
               setEntries={setEntries}
               setNewEntry={setNewEntry}
+              columnId={job.columnId}
             />
           )}
         </div>
@@ -76,6 +77,7 @@ export function Entries({ entries, job, setEntries }: EntriesProps) {
               jobId={job.id}
               setEntries={setEntries}
               setNewEntry={setNewEntry}
+              columnId={job.columnId}
             />
           ))}
         </div>

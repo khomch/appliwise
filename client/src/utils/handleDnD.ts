@@ -61,6 +61,7 @@ export const dndBetweenColumns = (
     ...finish,
     orderOfIds: finishJobIds,
     jobs: [...finish.jobs, jobToAdd],
+    jobsObj: { ...finish.jobsObj, [jobToAdd.id]: jobToAdd },
   };
   return [updatedStart, updatedFinish];
 };

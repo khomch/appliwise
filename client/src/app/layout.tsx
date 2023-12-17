@@ -18,7 +18,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       <body className="flex flex-col center bg-appbg">
         <ReduxProvider>
           <Navbar />
-          <main>{props.children}</main>
+          {props.children}
         </ReduxProvider>
       </body>
     </html>

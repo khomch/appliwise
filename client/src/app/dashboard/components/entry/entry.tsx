@@ -10,18 +10,25 @@ import {
 import { Button } from '../../../../components/ui/button/button';
 import { Input } from '../../../../components/ui/input/input';
 import { Select } from '../../../../components/ui/select/select';
-import { STATUS_OPTIONS } from "@/constants";
+import { STATUS_OPTIONS } from '@/constants';
 import { useAppDispatch } from '@/hooks/hooks';
-import { updateJobState } from '@/store/slices/jobSlice';
+import { updateJobState } from '@/store/slices/columnSlice';
 
 type EntryProps = {
   entry: TEntry;
   jobId: string;
+  columnId: string;
   setEntries: Dispatch<SetStateAction<TEntry[] | null>>;
   setNewEntry: Dispatch<SetStateAction<TEntry | null>>;
 };
 
-export function Entry({ entry, jobId, setEntries, setNewEntry }: EntryProps) {
+export function Entry({
+  entry,
+  jobId,
+  columnId,
+  setEntries,
+  setNewEntry,
+}: EntryProps) {
   const dispatch = useAppDispatch();
   const [title, setTitle] = useState<string>(entry.title);
   const [created, setCreated] = useState<string>(entry.createdAt.slice(0, -8));
@@ -39,34 +46,34 @@ export function Entry({ entry, jobId, setEntries, setNewEntry }: EntryProps) {
         title: title,
         notes: notes,
         status: status,
-        itemId: jobId,
+        jobId,
       };
-      postEntry(entryInfo).then((data) => {
-        if (data.id) {
-          toggleDisabled(event);
-          setEntries((prev = []) => prev && [...prev, data]);
-          setNewEntry(null);
-          setIsSaved(true);
-        } else {
-          // TODO: handleError
-        }
-      });
+      postEntry(entryInfo)
+        .then((data) => {
+          if (data.id) {
+            toggleDisabled(event);
+            setEntries((prev = []) => prev && [...prev, data]);
+            setNewEntry(null);
+            setIsSaved(true);
+          }
+        })
+        .catch((err) => console.log(err));
     } else {
       const entryInfo = {
         id: entry.id,
         title: title,
         notes: notes,
         status: status,
-        itemId: jobId,
+        jobId,
       };
-      updateEntry(entryInfo).then((data) => {
-        if (data.id) {
-          toggleDisabled(event);
-          setIsSaved(true);
-        } else {
-          // TODO: handleError
-        }
-      });
+      updateEntry(entryInfo)
+        .then((data) => {
+          if (data.id) {
+            toggleDisabled(event);
+            setIsSaved(true);
+          }
+        })
+        .catch((err) => console.log(err));
     }
   };
 
@@ -84,25 +91,32 @@ export function Entry({ entry, jobId, setEntries, setNewEntry }: EntryProps) {
   };
   const handleDelete = (event: FormEvent) => {
     event.preventDefault();
-    deleteEntry(entry.id).then((data) => {
-      if (data?.ok) {
-        setEntries((prev: any) => {
-          const indexOfDeleted = prev?.map((x: any) => x.id).indexOf(entry.id);
-          const itemsBefore = prev.slice(0, indexOfDeleted);
-          const itemsAfter = prev.slice(indexOfDeleted + 1);
-          const newArr = [...itemsBefore, ...itemsAfter];
-          return newArr;
-        });
-      } else {
-        // TODO: handleError
-      }
-    });
+    deleteEntry(entry.id)
+      .then((data) => {
+        if (data?.ok) {
+          setEntries((prev: any) => {
+            const indexOfDeleted = prev
+              ?.map((x: any) => x.id)
+              .indexOf(entry.id);
+            const itemsBefore = prev.slice(0, indexOfDeleted);
+            const itemsAfter = prev.slice(indexOfDeleted + 1);
+            const newArr = [...itemsBefore, ...itemsAfter];
+            return newArr;
+          });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleSelectStatus = (event: any) => {
     setStatus(event.target.value);
     dispatch(
-      updateJobState({ jobId, key: 'lastStatus', value: event.target.value })
+      updateJobState({
+        jobId,
+        columnId,
+        key: 'lastStatus',
+        value: event.target.value,
+      })
     );
   };
 

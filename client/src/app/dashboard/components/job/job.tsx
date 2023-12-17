@@ -1,5 +1,4 @@
 import { useAppDispatch } from '@/hooks/hooks';
-import { setFavourite } from '@/store/slices/jobSlice';
 import { STATUS_OPTIONS } from '@/constants';
 import { Draggable } from '@hello-pangea/dnd';
 import Image from 'next/image';
@@ -8,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import iconNoImage from '../../../../../public/icon-noimage.svg';
 import { toggleFavJob } from '../../../../services/job.service';
 import { TJob } from '../../../../types/types';
+import { setFavourite } from '@/store/slices/columnSlice';
 
 type JobProps = {
   job: TJob;
@@ -38,7 +38,7 @@ function Job(props: JobProps) {
   const handleFavClick = async () => {
     const newState = await toggleFavJob(job.id);
     if (newState !== undefined) {
-      dispatch(setFavourite({ id: job.id, newState }));
+      dispatch(setFavourite({ id: job.id, newState, columnId: job.columnId }));
     }
   };
 
