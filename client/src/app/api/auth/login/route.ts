@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       }
     );
   }
-  const secret = process.env.JWT_SECRET || '';
+  const secret = process.env.JWT_SECRET || 'secret';
   const token = sign(
     {
       id: user.id,
