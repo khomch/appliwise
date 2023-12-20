@@ -6,7 +6,7 @@ export interface RequestWithUser extends Request {
   id?: string;
 }
 
-const PRIVATE_KEY = process.env.JWT_SECRET || 'test';
+const PRIVATE_KEY = process.env.JWT_SECRET || 'secret';
 
 export async function auth(
   req: RequestWithUser,

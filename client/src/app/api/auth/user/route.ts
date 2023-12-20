@@ -16,7 +16,7 @@ export async function GET(): Promise<void | Response> {
       }
     );
   }
-  const secret = process.env.JWT_SECRET || '';
+  const secret = process.env.JWT_SECRET || 'secret';
   try {
     verify(token.value, secret);
     const response = {
