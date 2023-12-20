@@ -27,7 +27,8 @@ export const dndInsideColumn = (
   source: DraggableLocation,
   destination: DraggableLocation,
   draggableId: string
-): TColumn => {
+  ): TColumn => {
+  console.log('draggableId: ', draggableId);
   const newJobIds = Array.from(start.orderOfIds);
   newJobIds.splice(source.index, 1);
   newJobIds.splice(destination.index, 0, draggableId);
@@ -61,6 +62,7 @@ export const dndBetweenColumns = (
     ...finish,
     orderOfIds: finishJobIds,
     jobs: [...finish.jobs, jobToAdd],
+    jobsObj: { ...finish.jobsObj, [jobToAdd.id]: jobToAdd },
   };
   return [updatedStart, updatedFinish];
 };

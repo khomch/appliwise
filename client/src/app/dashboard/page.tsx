@@ -1,36 +1,34 @@
 'use client';
-import { LINKEDIN_JOBS } from "@/constants";
+import { LINKEDIN_JOBS } from '@/constants';
+import { getBoardData } from '@/store/slices/boardSlice';
+import { TColumn } from '@/types/types';
 import type { DropResult } from '@hello-pangea/dnd';
 import { DragDropContext } from '@hello-pangea/dnd';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
   handleLinkedInParsing,
-  sendUpdateTwoColumns,
+  updateTwoColumnsReq,
   updateColumn,
 } from '../../services/job.service';
+import {
+  addNewJob,
+  handleAddNewJobToColumn,
+  setColumns,
+  updateOneColumn,
+  updateTwoColumns,
+} from '../../store/slices/columnSlice';
 import {
   dndBetweenColumns,
   dndInsideColumn,
   getDropParams,
 } from '../../utils/handleDnD';
 import Column from './components/column/column';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import {
-  getColumnData,
-  handleAddNewJobToColumn,
-  setColumns,
-  updateOneColumn,
-  updateTwoColumns,
-} from '../../store/slices/columnSlice';
-import { addNewJob, getJobData, setJobs } from '../../store/slices/jobSlice';
-import { getBoardData } from '@/store/slices/boardSlice';
-import { TColumn, TJob, TJobs } from '@/types/types';
 
 export default function Dashboard() {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
-  const { jobs } = useAppSelector((state) => state.job);
   const { columns, defaultColumnId } = useAppSelector((state) => state.column);
   const { boards } = useAppSelector((state) => state.board);
 
@@ -39,8 +37,6 @@ export default function Dashboard() {
   useEffect(() => {
     dispatch(getBoardData());
     boards && dispatch(setColumns(boards[0].columns));
-    // dispatch(getJobData());
-    // dispatch(getColumnData());
   }, []);
 
   useEffect(() => {
@@ -70,9 +66,8 @@ export default function Dashboard() {
     if (pathname === '/dashboard' && urlToParse.startsWith(LINKEDIN_JOBS)) {
       defaultColumnId &&
         handleLinkedInParsing(urlToParse, defaultColumnId).then((res) => {
-          console.log('res: ', res);
           dispatch(handleAddNewJobToColumn(res));
-          // dispatch(addNewJob(res));
+          dispatch(addNewJob(res));
         });
     }
   }, [urlToParse]);
@@ -112,8 +107,7 @@ export default function Dashboard() {
       jobId: draggableId,
       columnToOrderOfIds: updatedFinish.orderOfIds,
     };
-    console.log('updateTwoColumnsData: ', updateTwoColumnsData);
-    sendUpdateTwoColumns(updateTwoColumnsData);
+    updateTwoColumnsReq(updateTwoColumnsData);
     dispatch(updateTwoColumns({ updatedStart, updatedFinish }));
   };
 
@@ -123,16 +117,10 @@ export default function Dashboard() {
         <DragDropContext onDragEnd={onDragEnd}>
           {columns &&
             columns &&
-            jobs &&
             Object.keys(columns).length > 0 &&
             Object.values(columns).map((column: TColumn) => {
-              const jobsObject: TJobs = {};
-              column.jobs &&
-                column.jobs.forEach((job: TJob) => {
-                  jobsObject[job.id] = job;
-                });
               const jobsInUsersOrder = column.orderOfIds.map(
-                (jobId: string) => jobsObject[jobId]
+                (jobId: string) => column.jobsObj[jobId]
               );
               return (
                 <Column

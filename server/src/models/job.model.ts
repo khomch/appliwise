@@ -42,11 +42,17 @@ const jobModel = {
           },
         },
       });
+      await prisma.entry.deleteMany({
+        where: {
+          jobId: id,
+        },
+      });
       const deletedJob = await prisma.job.delete({
         where: {
           id: id,
         },
       });
+
       return deletedJob;
     } catch (err) {
       console.log('err getOne:>> ', err);

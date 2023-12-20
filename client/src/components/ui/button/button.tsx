@@ -39,8 +39,8 @@ export function Button({
         }
         ${style === 'fill' && variant === 'danger' && 'bg-appdanger text-white'}
         ${size === 'm' && 'max-w-[312px]'}
-        ${size === 's' && 'w-[88px]'}
         ${size === 'xl' && 'max-w-[800px]'}
+        ${size === 's' && 'w-[88px]'}
         ${
           style === 'border' &&
           variant === 'primary' &&
