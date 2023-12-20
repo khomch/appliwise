@@ -10,7 +10,6 @@ const SERVER_PORT = process.env.SERVER_PORT || 3000;
 const corsOptions = {
   origin: process.env.CLIENT_URL || 'http://localhost:3001',
   credentials: true,
-  
 };
 
 app.use(cors(corsOptions));
@@ -18,7 +17,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript Express!');
+  res.send({
+    message: "Hello, World!",
+  });
 });
 
 app.use(router);

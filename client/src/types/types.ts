@@ -34,6 +34,7 @@ export type TColumn = {
   items: [];
   jobs: TJob[];
   jobsObj: TJobs;
+  index: number;
 };
 
 export type TColumns = {

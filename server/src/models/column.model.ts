@@ -81,7 +81,7 @@ const columnModel = {
             id: columnId,
           },
           data: {
-            orderOfIds: column.orderOfIds.filter((id) => id !== jobId),
+            orderOfIds: column.orderOfIds.filter((id: string) => id !== jobId),
           },
           include: {
             jobs: true,
