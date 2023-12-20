@@ -5,10 +5,10 @@ import router from './router';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const SERVER_PORT = process.env.SERVER_PORT || 3000;
 
 const corsOptions = {
-  origin: 'http://localhost:3001',
+  origin: process.env.CLIENT_URL || 'http://localhost:3001',
   credentials: true,
 };
 
@@ -22,6 +22,6 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use(router);
 
-app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
+app.listen(SERVER_PORT, () => {
+  console.log(`🚀 Server running at ${SERVER_PORT}`);
 });
