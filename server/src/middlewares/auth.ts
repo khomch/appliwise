@@ -7,6 +7,8 @@ export interface RequestWithUser extends Request {
 }
 
 const PRIVATE_KEY = process.env.JWT_SECRET || 'secret';
+console.log('PRIVATE_KEY: ', PRIVATE_KEY);
+console.log('HELLO');
 
 export async function auth(
   req: RequestWithUser,

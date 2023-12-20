@@ -6,7 +6,8 @@ export async function POST(request: Request) {
     httpOnly: true,
     maxAge: -1,
     path: '/',
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
+    // secure: process.env.NODE_ENV === 'production',
   });
   const response = {
     message: 'Logged out',

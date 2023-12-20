@@ -35,7 +35,8 @@ export async function POST(request: Request) {
     httpOnly: true,
     maxAge: COOKIE_MAX_AGE,
     path: '/',
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
+    // secure: process.env.NODE_ENV === 'production',
   });
   const response = {
     message: 'Authenticated',
