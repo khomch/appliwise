@@ -36,9 +36,11 @@ export const columnSlice = createSlice({
           });
           const newColumnData = { ...column, jobsObj: jobsObject };
           colsObj[column.id] = newColumnData;
+          
+          
         });
-      state.defaultColumnId = columnsArr[0].id;
-      state.columns = colsObj;
+        state.defaultColumnId = columnsArr[0].id;
+        state.columns = colsObj;
     },
     updateOneColumn: (state, { payload }) => {
       const updatedColumn: TColumn = payload;
@@ -61,7 +63,7 @@ export const columnSlice = createSlice({
         ...state.columns,
         [newJob.columnId]: {
           ...targetColumn,
-          orderOfIds: [...targetColumn.orderOfIds, newJob.id],
+          orderOfIds: [newJob.id, ...targetColumn.orderOfIds],
           jobs: [...targetColumn.jobs, newJob],
         },
       };

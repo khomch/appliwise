@@ -38,11 +38,9 @@ export function Entries({ entries, job, setEntries }: EntriesProps) {
             alt="open in new tab"
             className=" hover:cursor-pointer"
             width={20}
-            height={20}
           />
         </a>
       </div>
-      {/* </Link> */}
       {!newEntry && (
         <Button
           value="Add entry"

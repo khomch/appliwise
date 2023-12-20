@@ -50,13 +50,18 @@ const columnModel = {
   },
   addToColumn: async (jobId: string, columnId: string) => {
     try {
+      const colBeforeUpdate = await prisma.column.findUnique({
+        where: {
+          id: columnId,
+        },
+      });
       const column = await prisma.column.update({
         where: {
           id: columnId,
         },
         data: {
           orderOfIds: {
-            push: jobId,
+            set: [jobId, ...(colBeforeUpdate?.orderOfIds ?? [])],
           },
         },
       });

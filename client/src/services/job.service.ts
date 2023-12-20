@@ -232,7 +232,6 @@ export async function deleteEntry(id: string) {
 }
 
 export async function handleLinkedInParsing(url: string, columnId: string) {
-  console.log('columnId: ', columnId);
   try {
     const res = await fetch(BASE_URL + '/job/parse', {
       method: 'POST',
