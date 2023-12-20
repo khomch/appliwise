@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { fetchUserDetails } from '@/store/slices/userSlice';
+import { Button } from '../ui/button/button';
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -21,50 +22,81 @@ const Navbar = () => {
   ];
 
   return (
-    <>
-      <div className="w-full h-20 bg-white border-b border-appborder">
-        <div className="flex h-full justify-center w-full">
-          <div className="w-full max-w-[1320px] flex items-center justify-between h-full mx-4">
-            <div className="flex items-center">
-              <h2 className="text-apptprimary text-xl font-medium">
-                <Link href={'/'}>Appliwise</Link>
-              </h2>
-              {!isUserLoading && user && user.id && (
-                <ul className="list-none mx-16 flex gap-4">
-                  {links.map(({ path, label }) => (
-                    <Link key={path} href={path}>
-                      <div
-                        className={`text-m ${
-                          pathname === path
-                            ? 'py-2 border-b-2 border-appprimary text-appprimary'
-                            : 'py-2 border-b-2 border-transparent text-apptprimary hover:border-b-2 hover:border-appborder'
-                        }`}
-                      >
-                        {label}
-                      </div>
-                    </Link>
-                  ))}
-                </ul>
-              )}
-            </div>
-            {!isUserLoading && (
-              <>
+    <header className="shadow mb-2 min-h-[80px] bg-white border-b border-appborder items-center">
+      <div className="relative flex max-w-[1320px] flex-col overflow-hidden px-4 md:mx-auto md:flex-row md:items-center">
+        <h2 className="flex h-[80px] text-apptprimary text-xl font-medium items-center">
+          <Link href={'/'}>Appliwise</Link>
+        </h2>
+        <input type="checkbox" className="peer hidden" id="navbar-open" />
+        <label
+          className="absolute top-7 right-7 cursor-pointer md:hidden"
+          htmlFor="navbar-open"
+        >
+          <span className="sr-only">Toggle Navigation</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </label>
+        {!isUserLoading && (
+          <nav
+            aria-label="Header Navigation"
+            className="peer-checked:mt-8 peer-checked:max-h-56 flex max-h-0 w-full flex-col items-center justify-between overflow-hidden transition-all md:ml-24 md:max-h-full md:flex-row md:items-start"
+          >
+            <ul className="flex flex-col items-center mb-10 md:mb-0 space-y-2 md:ml-auto md:flex-row md:space-y-0 bg-white">
+              {user &&
+                user.id &&
+                links.map(({ path, label }) => (
+                  <Link key={path} href={path}>
+                    <li
+                      className={`text-m ${
+                        pathname === path
+                          ? 'py-2 border-b-2 border-appprimary text-appprimary md:mr-12 mb-2 md:mb-0'
+                          : 'py-2 border-b-2 border-transparent md:mr-12 text-apptprimary hover:border-b-2 hover:border-appborder mb-2 md:mb-0'
+                      }`}
+                    >
+                      {label}
+                    </li>
+                  </Link>
+                ))}
+              <li className="text-gray-600 hover:text-blue-600 w-20">
                 {user && user.id ? (
-                  <div className="flex gap-2 py-2 border-b-2 border-transparent">
-                    <Link href={'/profile'}>Profile</Link>
-                  </div>
+                  <Link href="/profile">
+                    <Button
+                      variant="primary"
+                      style={'border'}
+                      value={'Profile'}
+                      type="button"
+                      size="s"
+                    />
+                  </Link>
                 ) : (
-                  <div className="flex gap-2 py-2 border-b-2 border-transparent">
-                    <Link href={'/login'}>Login</Link>
-                    <Link href={'/register'}>Register</Link>
-                  </div>
+                  <Link href="/login">
+                    <Button
+                      variant="primary"
+                      style={'border'}
+                      value={'Login'}
+                      type="button"
+                      size="s"
+                    />
+                  </Link>
                 )}
-              </>
-            )}
-          </div>
-        </div>
+              </li>
+            </ul>
+          </nav>
+        )}
       </div>
-    </>
+    </header>
   );
 };
 

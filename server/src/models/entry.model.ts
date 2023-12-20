@@ -10,7 +10,6 @@ const entryModel = {
           notes: entryInfo.notes,
           jobId: entryInfo.jobId,
           status: entryInfo.status,
-          
         },
       });
       if (newEntry) {

@@ -1,5 +1,4 @@
 import { useAppDispatch } from '@/hooks/hooks';
-import { addNewJob, deleteJobFromState } from '@/store/slices/jobSlice';
 import {
   deleteJob,
   handleLinkedInParsing,
@@ -13,7 +12,11 @@ import iconNewTab from '../../../../../public/icon-opentab.svg';
 import { Button } from '../../../../components/ui/button/button';
 import { Input } from '../../../../components/ui/input/input';
 import { LINKEDIN_JOBS } from '@/constants';
-import { handleAddNewJobToColumn } from '@/store/slices/columnSlice';
+import {
+  addNewJob,
+  deleteJobFromState,
+  handleAddNewJobToColumn,
+} from '@/store/slices/columnSlice';
 
 type JobExtendedProps = {
   job: TJob;
@@ -116,7 +119,8 @@ export function JobExtended({
   const handleDelete = (event: FormEvent) => {
     event.preventDefault();
     deleteJob(job.id).then((res) => {
-      if (res?.ok) dispatch(deleteJobFromState(job.id));
+      if (res?.ok)
+        dispatch(deleteJobFromState({ id: job.id, columnId: job.columnId }));
     });
     closeModal();
   };

@@ -39,7 +39,7 @@ function Column({ jobsInColumn, title, id }: ColumnProps) {
             </div>
           </div>
           <ul
-            className={`flex flex-col `}
+            className={`flex flex-col`}
             ref={provided.innerRef}
             {...provided.droppableProps}
           >

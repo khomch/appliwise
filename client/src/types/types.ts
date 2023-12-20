@@ -33,6 +33,7 @@ export type TColumn = {
   orderOfIds: string[];
   items: [];
   jobs: TJob[];
+  jobsObj: TJobs;
 };
 
 export type TColumns = {
