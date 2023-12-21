@@ -37,8 +37,8 @@ export async function POST(request: Request) {
     path: '/',
     sameSite: 'none',
     secure: true,
+    domain: "appliwise-server.fly.dev",
     // secure: process.env.NODE_ENV === 'production',
-    // domain: "appliwise-server.fly.dev",
   });
   const response = {
     message: 'Authenticated',
