@@ -36,6 +36,8 @@ export async function POST(request: Request) {
     maxAge: COOKIE_MAX_AGE,
     path: '/',
     secure: false,
+    sameSite: false,
+    domain: "https://appliwise-server.fly.dev"
     // secure: process.env.NODE_ENV === 'production',
   });
   const response = {
