@@ -6,8 +6,9 @@ export async function POST(request: Request) {
     httpOnly: true,
     maxAge: -1,
     path: '/',
-    sameSite: false,
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none',
+    secure: true,
+    // secure: process.env.NODE_ENV === 'production',
     // domain: "appliwise-server.fly.dev",
   });
   const response = {
