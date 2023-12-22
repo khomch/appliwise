@@ -48,7 +48,7 @@ const Navbar = () => {
             />
           </svg>
         </label>
-        {!isUserLoading && (
+        {
           <nav
             aria-label="Header Navigation"
             className="peer-checked:mt-8 peer-checked:max-h-56 flex max-h-0 w-full flex-col items-center justify-between overflow-hidden transition-all md:ml-24 md:max-h-full md:flex-row md:items-start"
@@ -94,7 +94,7 @@ const Navbar = () => {
               </li>
             </ul>
           </nav>
-        )}
+        }
       </div>
     </header>
   );
