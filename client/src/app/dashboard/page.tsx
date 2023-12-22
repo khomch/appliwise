@@ -113,7 +113,7 @@ export default function Dashboard() {
 
   return (
     <main className="flex w-full justify-center items-center align-middle">
-      <section className="flex min-h-screen justify-between max-w-[1320px] self-center w-full">
+      <section className="flex min-h-screen justify-between max-w-[1320px] self-center w-full overflow-auto">
         <DragDropContext onDragEnd={onDragEnd}>
           {columns &&
             columns &&

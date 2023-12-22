@@ -47,7 +47,7 @@ function Job(props: JobProps) {
       {(provided, snapshot) => (
         <li
           ref={provided.innerRef}
-          className={`w-[296px] p-4 border border-appborder shadow-sm rounded-lg my-1 bg-appbg list-none hover:shadow-md group ${
+          className={`w-[296px] min-h-[80px] p-4 border border-appborder shadow-sm rounded-lg my-1 bg-appbg list-none hover:shadow-md group ${
             snapshot.isDragging && 'border-appprimary'
           } ${archived && ' bg-appcolbg'}`}
           {...provided.dragHandleProps}
