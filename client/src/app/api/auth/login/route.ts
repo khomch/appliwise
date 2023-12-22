@@ -36,9 +36,8 @@ export async function POST(request: Request) {
     maxAge: COOKIE_MAX_AGE,
     path: '/',
     sameSite: 'none',
-    secure: true,
-    // domain: ".appliwise.pro",
-    // secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === 'production',
+    domain: process.env.NODE_ENV === 'production' ? ".appliwise.pro" : 'localhost',
   });
   const response = {
     message: 'Authenticated',
