@@ -251,7 +251,7 @@ export async function handleLinkedInParsing(url: string, columnId: string) {
 
 export async function postJob(
   jobInfo: Record<string, string>,
-  status?: string
+  columnId?: string
 ) {
   try {
     const res = await fetch(BASE_URL + '/job', {
@@ -261,7 +261,7 @@ export async function postJob(
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify({ jobInfo, status }),
+      body: JSON.stringify({ jobInfo, columnId }),
     });
     const newJob = await res.json();
     return newJob;
@@ -270,7 +270,10 @@ export async function postJob(
   }
 }
 
-export async function updateJob(jobInfo: Record<string, string>) {
+export async function updateJob(
+  jobInfo: Record<string, string>,
+  columnId?: string
+) {
   try {
     const res = await fetch(BASE_URL + '/job', {
       method: 'PUT',
@@ -279,7 +282,7 @@ export async function updateJob(jobInfo: Record<string, string>) {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify(jobInfo),
+      body: JSON.stringify({ jobInfo, columnId }),
     });
     const updatedJob = await res.json();
     return updatedJob;

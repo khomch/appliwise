@@ -55,7 +55,7 @@ export function JobExtended({
         salary,
         location,
       };
-      postJob(jobInfo).then((res) => {
+      postJob(jobInfo, columnId).then((res) => {
         if (res.id) {
           dispatch(handleAddNewJobToColumn(res));
           dispatch(addNewJob(res));
@@ -74,7 +74,7 @@ export function JobExtended({
         location,
         id: jobId,
       };
-      updateJob(jobInfo).then((res) => {
+      updateJob(jobInfo, columnId).then((res) => {
         if (res.id) {
           dispatch(addNewJob(res));
           setIsParsed(false);

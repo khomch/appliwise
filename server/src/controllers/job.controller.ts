@@ -34,7 +34,7 @@ const jobController = {
       res.status(201);
       const result = await jobModel.createOne({
         ...req.body.jobInfo,
-        status: req.body.status,
+        columnId: req.body.columnId,
       });
 
       res.json(result);
