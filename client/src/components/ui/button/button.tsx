@@ -1,4 +1,5 @@
 import { FormEvent, MouseEventHandler } from 'react';
+import Loader from '../loader/loader';
 interface ButtonPropsOriginal
   extends React.ComponentPropsWithoutRef<'button'> {}
 
@@ -7,6 +8,7 @@ type ButtonProps = ButtonPropsOriginal & {
   style?: 'border' | 'fill';
   variant: 'primary' | 'secondary' | 'danger';
   customStyle?: string;
+  isLoading?: boolean;
   dashed?: boolean;
 };
 
@@ -19,6 +21,7 @@ export function Button({
   disabled,
   customStyle,
   dashed = false,
+  isLoading = false,
   onClick,
   ...props
 }: ButtonProps) {
@@ -68,7 +71,13 @@ export function Button({
       disabled={disabled}
       {...props}
     >
-      {value}
+      {isLoading ? (
+        <div className='flex justify-center'>
+          <Loader size="s" />
+        </div>
+      ) : (
+        value
+      )}
     </button>
   );
 }

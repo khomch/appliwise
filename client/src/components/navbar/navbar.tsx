@@ -70,7 +70,7 @@ const Navbar = () => {
                   </Link>
                 ))}
               <li className="text-gray-600 hover:text-blue-600 w-20">
-                {user && user.id ? (
+                {user && user.id && (
                   <Link href="/profile">
                     <Button
                       variant="primary"
@@ -80,17 +80,27 @@ const Navbar = () => {
                       size="s"
                     />
                   </Link>
-                ) : (
-                  <Link href="/login">
+                )}
+                {!user &&
+                  (isUserLoading ? (
                     <Button
                       variant="primary"
                       style={'border'}
-                      value={'Login'}
+                      isLoading={true}
                       type="button"
                       size="s"
                     />
-                  </Link>
-                )}
+                  ) : (
+                    <Link href="/login">
+                      <Button
+                        variant="primary"
+                        style={'border'}
+                        value={'Login'}
+                        type="button"
+                        size="s"
+                      />
+                    </Link>
+                  ))}
               </li>
             </ul>
           </nav>
