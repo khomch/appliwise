@@ -44,17 +44,30 @@ export default function Statistics() {
 
   return (
     <section className="flex flex-col max-full items-center">
-      <h2 className="text-center">STATISTICS: WIP</h2>
-      <p>Applications: {stats.total}</p>
-      {stats &&
-        stats.columnsStat &&
-        Object.entries(stats.columnsStat).map(([title, qty], index) => {
-          return (
-            <p key={index}>
-              {title}: {qty}
-            </p>
-          );
-        })}
+      <h1 className="my-4 font-semibold text-xl">STATISTICS: WIP</h1>
+      <h2 className="my-4 font-semibold text-lg">
+        Applications: {stats.total}
+      </h2>
+      <table className="table-auto w-96">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stats &&
+            stats.columnsStat &&
+            Object.entries(stats.columnsStat).map(([title, qty], index) => {
+              return (
+                <tr>
+                  <td>{title}</td>
+                  <td className="text-center">{qty}</td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
     </section>
   );
 }
