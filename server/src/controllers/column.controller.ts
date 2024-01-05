@@ -4,15 +4,15 @@ import { RequestWithUser } from '../middlewares/auth';
 import jobModel from '../models/job.model';
 
 const columnController = {
-  getColumns: async (req: Request, res: Response) => {
+  getColumns: async (req: RequestWithUser, res: Response) => {
     try {
-      const allColumns = await columnModel.getAll();
+      const allColumns = req.id && (await columnModel.getAll(req.id));
       res.status(200);
       res.json(allColumns);
     } catch (err) {
       res.status(500);
       res.send(err);
-      throw new Error('Error while posting');
+      throw new Error('Error getting columns');
     }
   },
 
@@ -25,7 +25,7 @@ const columnController = {
     } catch (err) {
       res.status(500);
       res.send(err);
-      throw new Error('Error while posting');
+      throw new Error('Error while creating columns');
     }
   },
 
@@ -37,7 +37,7 @@ const columnController = {
     } catch (err) {
       res.status(500);
       res.send(err);
-      throw new Error('Error while posting');
+      throw new Error('Error while adding to column');
     }
   },
 

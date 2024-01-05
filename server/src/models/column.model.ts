@@ -7,9 +7,15 @@ type TColumnInput = {
 };
 
 const columnModel = {
-  getAll: async () => {
+  getAll: async (usedId: string) => {
     try {
-      const columns = await prisma.column.findMany();
+      const columns = await prisma.column.findMany({
+        where: {
+          Board: {
+            userId: usedId,
+          },
+        },
+      });
       return columns;
     } catch (err) {
       console.log('err getAll:>> ', err);

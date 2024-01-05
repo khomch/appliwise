@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     maxAge: -1,
     path: '/',
     sameSite: 'none',
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,
     domain:
       process.env.NODE_ENV === 'production' ? '.appliwise.pro' : 'localhost',
   });
