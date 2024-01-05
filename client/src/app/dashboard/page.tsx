@@ -69,6 +69,7 @@ export default function Dashboard() {
           dispatch(handleAddNewJobToColumn(res));
           dispatch(addNewJob(res));
         });
+      setUrlToParse('');
     }
   }, [urlToParse]);
 
