@@ -60,7 +60,7 @@ export default function Statistics() {
             stats.columnsStat &&
             Object.entries(stats.columnsStat).map(([title, qty], index) => {
               return (
-                <tr>
+                <tr key={index}>
                   <td>{title}</td>
                   <td className="text-center">{qty}</td>
                 </tr>
